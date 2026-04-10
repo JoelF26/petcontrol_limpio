@@ -109,7 +109,7 @@ class BienvenidaPantalla extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color: AppColores.textoPrincipal,
+                        color: AppColores.negro,
                       ),
                     ),
                   ),

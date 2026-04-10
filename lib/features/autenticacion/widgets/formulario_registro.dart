@@ -429,7 +429,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
           child: ElevatedButton(
             onPressed: widget.cargando ? null : _registrarse,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColores.primario,
+              backgroundColor: AppColores.secundarioOscuro,
               foregroundColor: Colors.black,
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -449,6 +449,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.5,
+                      color: AppColores.blanco
                     ),
                   ),
           ),
@@ -459,9 +460,9 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
           child: const Text(
             'Ya tengo cuenta',
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: AppColores.acentoAzulTexto,
+              color: AppColores.negro,
             ),
           ),
         ),

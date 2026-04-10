@@ -39,10 +39,6 @@ class _FormularioLoginState extends State<FormularioLogin> {
   String? _errorCorreo;
   String? _errorContrasena;
 
-  // Sección: colores locales de diseño
-  // Se conservan tonos originales del formulario.
-  static const Color _verdeDiseno = Color.fromRGBO(55, 190, 103, 1);
-
   // Sección: limpieza de recursos
   // Libera controladores al destruir el widget.
   @override
@@ -248,7 +244,7 @@ class _FormularioLoginState extends State<FormularioLogin> {
           child: ElevatedButton(
             onPressed: widget.cargando ? null : _iniciarSesion,
             style: ElevatedButton.styleFrom(
-              backgroundColor: _verdeDiseno,
+              backgroundColor: AppColores.secundarioOscuro,
               foregroundColor: Colors.black,
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -265,22 +261,33 @@ class _FormularioLoginState extends State<FormularioLogin> {
                 : const Text(
                     'INICIAR SESIÓN',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.5,
+                      color: AppColores.blanco
                     ),
                   ),
           ),
         ),
         const SizedBox(height: 24),
+        // Sección: acción secundaria de registro
+        // Fuerza estilo transparente para que solo se muestre el texto sin fondo.
         TextButton(
           onPressed: widget.cargando ? null : widget.onIrARegistro,
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            padding: EdgeInsets.zero,
+            minimumSize: const Size(0, 0),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
           child: const Text(
             'Registrate',
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: AppColores.acentoAzulTexto,
+              color: AppColores.negro,
             ),
           ),
         ),

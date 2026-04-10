@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/widgets/boton_atras.dart';
 import 'package:petcontrol_limpio/features/autenticacion/widgets/formulario_login.dart';
 import 'package:petcontrol_limpio/models/usuario.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
@@ -23,10 +24,6 @@ class _LoginPantallaState extends State<LoginPantalla> {
   // Servicio de auth y bandera para bloquear acciones durante la petición.
   final AuthService _authService = AuthService();
   bool _cargando = false;
-
-  // Sección: colores locales de diseño
-  // Se conservan los tonos de tu diseño original de login.
-  static const Color _verdeDiseno = Color.fromRGBO(55, 190, 103, 1);
 
   // Sección: acción principal de login
   // Ejecuta login real con Firebase y redirige según rol.
@@ -114,9 +111,9 @@ class _LoginPantallaState extends State<LoginPantalla> {
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: [
-                    AppColores.primarioOscuro,
-                    AppColores.primarioOscuro,
-                    _verdeDiseno,
+                    AppColores.secundarioOscuro,
+                    AppColores.secundarioOscuro,
+                    AppColores.secundario,
                   ],
                   stops: [0.0, 0.001, 1.0],
                 ),
@@ -146,9 +143,9 @@ class _LoginPantallaState extends State<LoginPantalla> {
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   colors: [
-                    AppColores.primarioOscuro,
-                    AppColores.primarioOscuro,
-                    _verdeDiseno,
+                    AppColores.secundarioOscuro,
+                    AppColores.secundarioOscuro,
+                    AppColores.secundario,
                   ],
                   stops: [0.0, 0.001, 1.0],
                 ),
@@ -180,34 +177,11 @@ class _LoginPantallaState extends State<LoginPantalla> {
 
           // Sección: botón atrás
           // Botón flotante superior para volver a la pantalla anterior.
-          const _BotonAtrasLogin(),
+          const BotonAtras(
+            rutaFallback: Rutas.bienvenida,
+            colorIcono: AppColores.blanco,
+          ),
         ],
-      ),
-    );
-  }
-}
-
-// Sección: widget auxiliar de botón atrás
-// Evita dependencia externa y mantiene el comportamiento esperado de retorno.
-class _BotonAtrasLogin extends StatelessWidget {
-  const _BotonAtrasLogin();
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8, top: 4),
-        child: IconButton(
-          onPressed: () {
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            } else {
-              Navigator.pushReplacementNamed(context, Rutas.bienvenida);
-            }
-          },
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          color: AppColores.blanco,
-        ),
       ),
     );
   }

@@ -16,4 +16,16 @@ class FirestoreService {
   CollectionReference<Map<String, dynamic>> get usuariosRef {
     return _firestore.collection(ColeccionesFirestore.usuarios);
   }
+
+  // Sección: referencia de mascotas
+  // Expone la colección mascotas tipada para consultas de cliente.
+  CollectionReference<Map<String, dynamic>> get mascotasRef {
+    return _firestore.collection(ColeccionesFirestore.mascotas);
+  }
+
+  // Sección: referencia de citas
+  // Expone la colección citas tipada para consultas del módulo de agenda.
+  CollectionReference<Map<String, dynamic>> get citasRef {
+    return _firestore.collection(ColeccionesFirestore.citas);
+  }
 }
