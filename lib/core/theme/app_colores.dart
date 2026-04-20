@@ -27,6 +27,10 @@ class AppColores {
   static const Color acentoAzulTexto = Color(0xFF3DAFD2);
   static const Color error = Color(0xFFB42318);
 
+  // Sección: compatibilidad de vistas heredadas
+  // Mantiene nombres usados por pantallas antiguas para no cambiar diseño.
+  static const Color verdepacientes = Color(0xFF4FAF75);
+
   // Sección: colores semánticos para UI
   // Variables orientadas a uso directo en tema/componentes.
   static const Color fondo = blanco;

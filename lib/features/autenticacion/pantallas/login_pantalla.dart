@@ -26,7 +26,7 @@ class _LoginPantallaState extends State<LoginPantalla> {
   bool _cargando = false;
 
   // Sección: acción principal de login
-  // Ejecuta login real con Firebase y redirige según rol.
+  // Ejecuta login real con persistencia local y redirige según rol.
   Future<void> _iniciarSesion({
     required String correo,
     required String contrasena,
@@ -186,3 +186,4 @@ class _LoginPantallaState extends State<LoginPantalla> {
     );
   }
 }
+

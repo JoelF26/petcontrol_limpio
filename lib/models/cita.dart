@@ -1,14 +1,15 @@
 // Sección: imports
-// Se importa Timestamp para convertir fechas de Firestore al modelo de dominio.
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Se importa utilería JSON para serialización del modelo.
+import 'dart:convert';
 
 // Sección: modelo de cita
-// Representa una cita del cliente con los campos visibles en el home.
+// Representa una cita veterinaria persistida en JSON local.
 class Cita {
   const Cita({
     required this.idCita,
     required this.idUsuario,
     required this.idMascota,
+    required this.idMedico,
     required this.nombreMascota,
     required this.especieMascota,
     required this.motivo,
@@ -17,12 +18,14 @@ class Cita {
     required this.fechaHora,
     required this.fechaTexto,
     required this.horaTexto,
+    required this.fechaCreacion,
     required this.createdAt,
   });
 
   final String idCita;
   final String idUsuario;
   final String idMascota;
+  final String idMedico;
   final String nombreMascota;
   final String especieMascota;
   final String motivo;
@@ -31,66 +34,8 @@ class Cita {
   final DateTime? fechaHora;
   final String fechaTexto;
   final String horaTexto;
+  final String fechaCreacion;
   final DateTime? createdAt;
-
-  // Sección: fábrica desde Firestore
-  // Lee el documento y soporta variaciones de nombres de campos.
-  factory Cita.fromMap(
-    Map<String, dynamic> map, {
-    required String idDocumento,
-  }) {
-    final fechaTexto = _resolverString(
-      map,
-      llaves: const <String>['fecha_cita', 'fecha', 'dia'],
-    );
-    final horaTexto = _resolverString(
-      map,
-      llaves: const <String>['hora_cita', 'hora'],
-    );
-    final fechaHoraDirecta = _resolverFecha(
-      map,
-      llaves: const <String>['fecha_hora', 'fechaHora', 'fecha_cita_hora'],
-    );
-
-    return Cita(
-      idCita: idDocumento,
-      idUsuario: _resolverString(
-        map,
-        llaves: const <String>['id_usuario', 'usuario_id', 'uid_usuario'],
-      ),
-      idMascota: _resolverString(
-        map,
-        llaves: const <String>['id_mascota', 'mascota_id'],
-      ),
-      nombreMascota: _resolverString(
-        map,
-        llaves: const <String>['nombre_mascota', 'mascota_nombre', 'mascota'],
-      ),
-      especieMascota: _resolverString(
-        map,
-        llaves: const <String>['especie_mascota', 'especie'],
-      ),
-      motivo: _resolverString(
-        map,
-        llaves: const <String>['motivo', 'tipo_cita', 'descripcion'],
-      ),
-      descripcion: _resolverString(
-        map,
-        llaves: const <String>['descripcion', 'detalle', 'notas'],
-      ),
-      estado: _resolverString(
-        map,
-        llaves: const <String>['estado'],
-      ),
-      fechaHora: fechaHoraDirecta ?? _combinarFechaHora(fechaTexto, horaTexto),
-      fechaTexto: fechaTexto,
-      horaTexto: horaTexto,
-      createdAt: _resolverFecha(
-        map,
-        llaves: const <String>['created_at', 'fecha_creacion'],
-      ),
-    );
-  }
 
   // Sección: propiedades amigables para UI
   // Preparan texto consistente para los widgets del home.
@@ -161,6 +106,143 @@ class Cita {
     return normalizado == 'pendiente' || normalizado == 'proxima';
   }
 
+  // Sección: serialización a mapa
+  // Convierte la entidad al esquema de almacenamiento local.
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id_cita': idCita,
+      'id_usuario': idUsuario,
+      'id_mascota': idMascota,
+      'id_medico': idMedico,
+      'nombre_mascota': nombreMascota,
+      'especie_mascota': especieMascota,
+      'motivo': motivo,
+      'descripcion': descripcion,
+      'estado': estado,
+      'fecha_hora': fechaHora?.toIso8601String() ?? '',
+      'fecha_cita': fechaTexto,
+      'hora_cita': horaTexto,
+      'fecha_creacion': fechaCreacion,
+      'created_at': createdAt?.toIso8601String() ?? '',
+    };
+  }
+
+  // Sección: serialización a texto JSON
+  // Genera una cadena JSON para persistencia o depuración.
+  String toJson() {
+    return jsonEncode(toMap());
+  }
+
+  // Sección: deserialización desde mapa
+  // Lee el registro y soporta variaciones de nombres de campos.
+  factory Cita.fromMap(Map<String, dynamic> map) {
+    final fechaTexto = _resolverString(
+      map,
+      llaves: const <String>['fecha_cita', 'fecha', 'dia'],
+    );
+    final horaTexto = _resolverString(
+      map,
+      llaves: const <String>['hora_cita', 'hora'],
+    );
+    final fechaHoraDirecta = _resolverFecha(
+      map,
+      llaves: const <String>['fecha_hora', 'fechaHora', 'fecha_cita_hora'],
+    );
+
+    return Cita(
+      idCita: _resolverString(map, llaves: const <String>['id_cita', 'id']),
+      idUsuario: _resolverString(
+        map,
+        llaves: const <String>['id_usuario', 'usuario_id', 'uid_usuario'],
+      ),
+      idMascota: _resolverString(
+        map,
+        llaves: const <String>['id_mascota', 'mascota_id'],
+      ),
+      idMedico: _resolverString(
+        map,
+        llaves: const <String>['id_medico', 'medico_id'],
+      ),
+      nombreMascota: _resolverString(
+        map,
+        llaves: const <String>['nombre_mascota', 'mascota_nombre', 'mascota'],
+      ),
+      especieMascota: _resolverString(
+        map,
+        llaves: const <String>['especie_mascota', 'especie'],
+      ),
+      motivo: _resolverString(
+        map,
+        llaves: const <String>['motivo', 'tipo_cita', 'descripcion'],
+      ),
+      descripcion: _resolverString(
+        map,
+        llaves: const <String>['descripcion', 'detalle', 'notas'],
+      ),
+      estado: _resolverString(
+        map,
+        llaves: const <String>['estado'],
+      ),
+      fechaHora: fechaHoraDirecta ?? _combinarFechaHora(fechaTexto, horaTexto),
+      fechaTexto: fechaTexto,
+      horaTexto: horaTexto,
+      fechaCreacion: _resolverString(
+        map,
+        llaves: const <String>['fecha_creacion', 'fecha_registro'],
+      ),
+      createdAt: _resolverFecha(
+        map,
+        llaves: const <String>['created_at', 'fecha_creacion'],
+      ),
+    );
+  }
+
+  // Sección: deserialización desde texto JSON
+  // Convierte una cadena JSON en entidad tipada.
+  factory Cita.fromJson(String source) {
+    final decoded = jsonDecode(source);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('JSON de cita inválido.');
+    }
+    return Cita.fromMap(decoded);
+  }
+
+  // Sección: copia inmutable
+  // Permite actualizar campos específicos sin mutar la instancia original.
+  Cita copyWith({
+    String? idCita,
+    String? idUsuario,
+    String? idMascota,
+    String? idMedico,
+    String? nombreMascota,
+    String? especieMascota,
+    String? motivo,
+    String? descripcion,
+    String? estado,
+    DateTime? fechaHora,
+    String? fechaTexto,
+    String? horaTexto,
+    String? fechaCreacion,
+    DateTime? createdAt,
+  }) {
+    return Cita(
+      idCita: idCita ?? this.idCita,
+      idUsuario: idUsuario ?? this.idUsuario,
+      idMascota: idMascota ?? this.idMascota,
+      idMedico: idMedico ?? this.idMedico,
+      nombreMascota: nombreMascota ?? this.nombreMascota,
+      especieMascota: especieMascota ?? this.especieMascota,
+      motivo: motivo ?? this.motivo,
+      descripcion: descripcion ?? this.descripcion,
+      estado: estado ?? this.estado,
+      fechaHora: fechaHora ?? this.fechaHora,
+      fechaTexto: fechaTexto ?? this.fechaTexto,
+      horaTexto: horaTexto ?? this.horaTexto,
+      fechaCreacion: fechaCreacion ?? this.fechaCreacion,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
   // Sección: helpers de parsing
   // Normalizan lectura de strings y fechas con tolerancia a distintos formatos.
   static String _resolverString(
@@ -172,6 +254,9 @@ class Cita {
       if (valor is String && valor.trim().isNotEmpty) {
         return valor.trim();
       }
+      if (valor != null && valor.toString().trim().isNotEmpty) {
+        return valor.toString().trim();
+      }
     }
     return '';
   }
@@ -182,9 +267,6 @@ class Cita {
   }) {
     for (final llave in llaves) {
       final valor = map[llave];
-      if (valor is Timestamp) {
-        return valor.toDate();
-      }
       if (valor is DateTime) {
         return valor;
       }
@@ -193,6 +275,9 @@ class Cita {
         if (directa != null) {
           return directa;
         }
+      }
+      if (valor is int) {
+        return DateTime.fromMillisecondsSinceEpoch(valor);
       }
     }
     return null;

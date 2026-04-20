@@ -1,5 +1,5 @@
 // Sección: imports
-// Se importan Material, colores, modelo Cita y servicio para actualizar Firestore.
+// Se importan Material, colores, modelo Cita y servicio para actualizar JSON local.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/models/cita.dart';
@@ -308,7 +308,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   }
 
   // Sección: guardado de cambios
-  // Persiste los datos editados en Firestore y cierra con resultado exitoso.
+  // Persiste los datos editados en JSON local y cierra con resultado exitoso.
   Future<void> _guardarCambios() async {
     if (_guardando) {
       return;
@@ -907,3 +907,4 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
     );
   }
 }
+

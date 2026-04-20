@@ -25,7 +25,7 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
   bool _cargando = false;
 
   // Sección: acción principal de registro
-  // Crea usuario en Firebase Auth y perfil en Firestore.
+  // Crea usuario en autenticación local y perfil en JSON local.
   Future<void> _registrar(DatosFormularioRegistro datos) async {
     if (_cargando) {
       return;
@@ -185,3 +185,4 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
     );
   }
 }
+

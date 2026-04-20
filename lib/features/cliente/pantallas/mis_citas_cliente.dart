@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/detalle_cita_cliente_popup.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta creacion cita.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta_creacion_cita.dart';
 import 'package:petcontrol_limpio/models/cita.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
 import 'package:petcontrol_limpio/services/cita_service.dart';
@@ -19,7 +19,7 @@ class MisCitasCliente extends StatefulWidget {
 }
 
 // Sección: estado de Mis Citas
-// Gestiona consultas a Firestore, métricas dinámicas y apertura del formulario de cita.
+// Gestiona consultas a JSON local, métricas dinámicas y apertura del formulario de cita.
 class _MisCitasClienteState extends State<MisCitasCliente> {
   // Sección: servicios de backend
   // Se reutilizan para obtener usuario actual, citas y conteo de mascotas.
@@ -43,7 +43,7 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
   }
 
   // Sección: carga de datos de backend
-  // Consulta citas y métricas del usuario autenticado desde Firestore.
+  // Consulta citas y métricas del usuario autenticado desde JSON local.
   Future<void> _cargarDatos() async {
     try {
       final usuario = await _authService.obtenerUsuarioActual();
@@ -93,13 +93,9 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
   }
 
   // Sección: id de usuario para consultas
-  // Prioriza id del perfil y usa uid de Firebase Auth como respaldo.
+  // Prioriza id del perfil y usa uid de autenticación local como respaldo.
   String _resolverIdUsuario(String? idPerfil) {
-    final idLimpio = (idPerfil ?? '').trim();
-    if (idLimpio.isNotEmpty) {
-      return idLimpio;
-    }
-    return (_authService.usuarioFirebaseActual?.uid ?? '').trim();
+    return (idPerfil ?? '').trim();
   }
 
   // Sección: nombre visible del cliente
@@ -109,35 +105,7 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
     if (nombreLimpio.isNotEmpty) {
       return nombreLimpio;
     }
-
-    final correo = (_authService.usuarioFirebaseActual?.email ?? '').trim();
-    if (correo.isEmpty) {
-      return 'Cliente';
-    }
-
-    final alias = correo
-        .split('@')
-        .first
-        .replaceAll(RegExp(r'[._-]+'), ' ')
-        .trim();
-    if (alias.isEmpty) {
-      return 'Cliente';
-    }
-
-    return _capitalizarAlias(alias);
-  }
-
-  // Sección: capitalización de alias
-  // Convierte texto de correo en un nombre legible para subtítulos.
-  String _capitalizarAlias(String texto) {
-    return texto
-        .split(RegExp(r'\s+'))
-        .where((parte) => parte.isNotEmpty)
-        .map(
-          (parte) =>
-              '${parte.substring(0, 1).toUpperCase()}${parte.substring(1).toLowerCase()}',
-        )
-        .join(' ');
+    return 'Cliente';
   }
 
   // Sección: resumen de citas próximas
@@ -833,3 +801,7 @@ class _ChipDato extends StatelessWidget {
     );
   }
 }
+
+
+
+

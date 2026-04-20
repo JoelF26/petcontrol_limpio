@@ -45,7 +45,7 @@ class _DetalleMascotaClientePopup extends StatefulWidget {
 }
 
 // Sección: estado del popup de detalle
-// Gestiona el modo edición y el guardado de cambios en Firestore.
+// Gestiona el modo edición y el guardado de cambios en JSON local.
 class _DetalleMascotaClientePopupState extends State<_DetalleMascotaClientePopup> {
   // Sección: dependencias y formularios
   // Se preparan para validar y persistir los campos de la mascota.
@@ -115,7 +115,7 @@ class _DetalleMascotaClientePopupState extends State<_DetalleMascotaClientePopup
   }
 
   // Sección: parseo de edad
-  // Extrae un entero desde texto para guardar en Firestore.
+  // Extrae un entero desde texto para guardar en JSON local.
   int? _parsearEdad(String texto) {
     final match = RegExp(r'\d+').firstMatch(texto);
     if (match == null) {
@@ -153,7 +153,7 @@ class _DetalleMascotaClientePopupState extends State<_DetalleMascotaClientePopup
   }
 
   // Sección: guardado de cambios
-  // Actualiza Firestore y cierra el popup devolviendo true si guardó.
+  // Actualiza JSON local y cierra el popup devolviendo true si guardó.
   Future<void> _guardarCambios() async {
     if (_guardando) {
       return;
@@ -498,3 +498,4 @@ class _DetalleMascotaClientePopupState extends State<_DetalleMascotaClientePopup
     );
   }
 }
+

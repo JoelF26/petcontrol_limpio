@@ -35,7 +35,7 @@ class HomeClienteProximasCitasCard extends StatelessWidget {
   }
 
   // Sección: contenido dinámico
-  // Muestra mensaje vacío o máximo de citas cargadas desde Firestore.
+  // Muestra mensaje vacío o máximo de citas cargadas desde JSON local.
   Widget _contenido() {
     if (proximasCitas.isEmpty) {
       return const HomeClienteMensajeVacio(
@@ -204,3 +204,4 @@ class HomeClienteProximasCitasCard extends StatelessWidget {
     );
   }
 }
+

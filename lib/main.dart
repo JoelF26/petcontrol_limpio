@@ -1,30 +1,21 @@
 // Sección: imports
-// Se importan Firebase y la configuración base para arrancar la app.
-import 'package:firebase_core/firebase_core.dart';
+// Se importan Flutter, app principal, configuración de URL y servicio de persistencia local.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/app.dart';
-import 'package:petcontrol_limpio/firebase_options.dart';
+import 'package:petcontrol_limpio/core/routes/url_strategy.dart';
+import 'package:petcontrol_limpio/services/storage/local_json_storage_service.dart';
 
 // Sección: punto de entrada
-// Inicializa Firebase y luego renderiza la aplicación principal.
+// Inicializa estrategia de URL en web, persistencia local y luego renderiza la app.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await _inicializarFirebase();
+  configurarEstrategiaUrl();
+  await _inicializarPersistenciaLocal();
   runApp(const PetControlApp());
 }
 
-// Sección: inicialización segura de Firebase
-// En Android/iOS/Web inicializa normalmente; en plataformas no configuradas
-// permite seguir cargando la UI para pruebas de frontend.
-Future<void> _inicializarFirebase() async {
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } on UnsupportedError {
-    debugPrint(
-      'Firebase no está configurado para esta plataforma. '
-      'La app continuará para visualizar la interfaz.',
-    );
-  }
+// Sección: inicialización de persistencia local
+// Garantiza que la base local esté disponible antes de abrir pantallas.
+Future<void> _inicializarPersistenciaLocal() async {
+  await LocalJsonStorageService().inicializar();
 }

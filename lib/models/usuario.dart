@@ -1,10 +1,11 @@
 // Sección: imports
-// Se importa Timestamp para mapear fechas desde/hacia Firestore.
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Se importa utilería JSON y constantes de rol para reglas de dominio.
+import 'dart:convert';
+
 import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
 
 // Sección: modelo de usuario
-// Representa el documento de la colección usuarios en Firestore.
+// Representa el registro de usuario persistido en JSON local.
 class Usuario {
   const Usuario({
     required this.idUsuario,
@@ -26,14 +27,14 @@ class Usuario {
   final String contrasena;
   final String rol;
   final String fechaCreacion;
-  final Timestamp createdAt;
+  final String createdAt;
 
   // Sección: regla de conveniencia
-  // Permite saber rápidamente si el usuario es administrador.
+  // Permite validar rápidamente si el usuario corresponde a administrador.
   bool get esAdmin => rol == RolesUsuario.admin;
 
-  // Sección: serialización a Firestore
-  // Convierte la entidad Usuario al mapa esperado por la base de datos.
+  // Sección: serialización a mapa
+  // Convierte la entidad al formato persistido en JSON local.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id_usuario': idUsuario,
@@ -48,24 +49,44 @@ class Usuario {
     };
   }
 
-  // Sección: deserialización desde Firestore
-  // Construye una entidad Usuario leyendo un mapa del documento.
+  // Sección: serialización a texto JSON
+  // Genera una representación textual para persistencia o debug.
+  String toJson() {
+    return jsonEncode(toMap());
+  }
+
+  // Sección: deserialización desde mapa
+  // Construye la entidad leyendo un mapa con claves del dominio.
   factory Usuario.fromMap(Map<String, dynamic> map) {
     return Usuario(
-      idUsuario: (map['id_usuario'] as String?) ?? '',
-      nombreCompleto: (map['nombre_completo'] as String?) ?? '',
-      numeroDocumento: (map['numero_documento'] as String?) ?? '',
-      telefono: (map['telefono'] as String?) ?? '',
-      correo: (map['correo'] as String?) ?? '',
-      contrasena: (map['contrasena'] as String?) ?? '',
-      rol: (map['rol'] as String?) ?? RolesUsuario.cliente,
-      fechaCreacion: (map['fecha_creacion'] as String?) ?? '',
-      createdAt: _resolverTimestamp(map['created_at']),
+      idUsuario: _leerString(map, 'id_usuario'),
+      nombreCompleto: _leerString(map, 'nombre_completo'),
+      numeroDocumento: _leerString(map, 'numero_documento'),
+      telefono: _leerString(map, 'telefono'),
+      correo: _leerString(map, 'correo').toLowerCase(),
+      contrasena: _leerString(map, 'contrasena'),
+      rol: _leerString(map, 'rol', fallback: RolesUsuario.cliente),
+      fechaCreacion: _leerString(map, 'fecha_creacion'),
+      createdAt: _leerString(
+        map,
+        'created_at',
+        fallback: DateTime.now().toIso8601String(),
+      ),
     );
   }
 
+  // Sección: deserialización desde texto JSON
+  // Convierte una cadena JSON al modelo tipado de usuario.
+  factory Usuario.fromJson(String source) {
+    final decoded = jsonDecode(source);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('JSON de usuario inválido.');
+    }
+    return Usuario.fromMap(decoded);
+  }
+
   // Sección: copia inmutable
-  // Permite clonar el usuario cambiando solo campos específicos.
+  // Permite clonar la entidad cambiando solo campos puntuales.
   Usuario copyWith({
     String? idUsuario,
     String? nombreCompleto,
@@ -75,7 +96,7 @@ class Usuario {
     String? contrasena,
     String? rol,
     String? fechaCreacion,
-    Timestamp? createdAt,
+    String? createdAt,
   }) {
     return Usuario(
       idUsuario: idUsuario ?? this.idUsuario,
@@ -90,15 +111,17 @@ class Usuario {
     );
   }
 
-  // Sección: helper de fecha
-  // Normaliza el valor de created_at para siempre manejar Timestamp.
-  static Timestamp _resolverTimestamp(Object? rawValue) {
-    if (rawValue is Timestamp) {
-      return rawValue;
+  // Sección: helper de lectura segura
+  // Normaliza cualquier valor a string para evitar cast inseguros.
+  static String _leerString(
+    Map<String, dynamic> map,
+    String key, {
+    String fallback = '',
+  }) {
+    final valor = map[key];
+    if (valor == null) {
+      return fallback;
     }
-    if (rawValue is DateTime) {
-      return Timestamp.fromDate(rawValue);
-    }
-    return Timestamp.now();
+    return valor.toString();
   }
 }

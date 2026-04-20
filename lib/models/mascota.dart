@@ -1,9 +1,9 @@
 // Sección: imports
-// Se importa Timestamp para normalizar fechas de registro desde Firestore.
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Se importa utilería JSON para serialización del modelo.
+import 'dart:convert';
 
 // Sección: modelo de mascota
-// Representa una mascota del cliente con los campos necesarios para el home.
+// Representa una mascota del cliente con campos persistidos en JSON local.
 class Mascota {
   const Mascota({
     required this.idMascota,
@@ -11,8 +11,10 @@ class Mascota {
     required this.nombre,
     required this.especie,
     required this.raza,
+    required this.sexo,
     required this.edadAnios,
     required this.pesoKg,
+    required this.fechaCreacion,
     required this.createdAt,
   });
 
@@ -21,48 +23,11 @@ class Mascota {
   final String nombre;
   final String especie;
   final String raza;
+  final String sexo;
   final int? edadAnios;
   final double? pesoKg;
+  final String fechaCreacion;
   final DateTime? createdAt;
-
-  // Sección: fábrica desde Firestore
-  // Resuelve variantes comunes de claves para evitar fallos por diferencias de esquema.
-  factory Mascota.fromMap(
-    Map<String, dynamic> map, {
-    required String idDocumento,
-  }) {
-    return Mascota(
-      idMascota: idDocumento,
-      idUsuario: _resolverString(
-        map,
-        llaves: const <String>['id_usuario', 'uid_usuario', 'usuario_id'],
-      ),
-      nombre: _resolverString(
-        map,
-        llaves: const <String>['nombre', 'nombre_mascota'],
-      ),
-      especie: _resolverString(
-        map,
-        llaves: const <String>['especie', 'tipo_mascota'],
-      ),
-      raza: _resolverString(
-        map,
-        llaves: const <String>['raza'],
-      ),
-      edadAnios: _resolverEntero(
-        map,
-        llaves: const <String>['edad_anios', 'edad', 'anios', 'anos'],
-      ),
-      pesoKg: _resolverDouble(
-        map,
-        llaves: const <String>['peso_kg', 'peso', 'pesoKg'],
-      ),
-      createdAt: _resolverFecha(
-        map,
-        llaves: const <String>['created_at', 'fecha_creacion', 'fecha_registro'],
-      ),
-    );
-  }
 
   // Sección: valores amigables de UI
   // Exponen texto consistente para renderizar la tarjeta sin lógica extra en el widget.
@@ -102,11 +67,117 @@ class Mascota {
   // Sección: valor de ordenamiento
   // Permite ordenar mascotas de más reciente a más antigua.
   DateTime get fechaOrden {
-    return createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+    if (createdAt != null) {
+      return createdAt!;
+    }
+    final desdeFechaCreacion = DateTime.tryParse(fechaCreacion.trim());
+    return desdeFechaCreacion ?? DateTime.fromMillisecondsSinceEpoch(0);
+  }
+
+  // Sección: serialización a mapa
+  // Convierte la entidad al esquema usado en archivos JSON.
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id_mascota': idMascota,
+      'id_usuario': idUsuario,
+      'nombre': nombre,
+      'especie': especie,
+      'raza': raza,
+      'sexo': sexo,
+      'edad_anios': edadAnios,
+      'peso_kg': pesoKg,
+      'fecha_creacion': fechaCreacion,
+      'created_at': createdAt?.toIso8601String() ?? '',
+    };
+  }
+
+  // Sección: serialización a texto JSON
+  // Genera una cadena JSON para persistencia o depuración.
+  String toJson() {
+    return jsonEncode(toMap());
+  }
+
+  // Sección: deserialización desde mapa
+  // Construye la entidad leyendo el mapa persistido.
+  factory Mascota.fromMap(Map<String, dynamic> map) {
+    return Mascota(
+      idMascota: _resolverString(
+        map,
+        llaves: const <String>['id_mascota', 'id', 'mascota_id'],
+      ),
+      idUsuario: _resolverString(
+        map,
+        llaves: const <String>['id_usuario', 'uid_usuario', 'usuario_id'],
+      ),
+      nombre: _resolverString(
+        map,
+        llaves: const <String>['nombre', 'nombre_mascota'],
+      ),
+      especie: _resolverString(
+        map,
+        llaves: const <String>['especie', 'tipo_mascota'],
+      ),
+      raza: _resolverString(map, llaves: const <String>['raza']),
+      sexo: _resolverString(map, llaves: const <String>['sexo']),
+      edadAnios: _resolverEntero(
+        map,
+        llaves: const <String>['edad_anios', 'edad', 'anios', 'anos'],
+      ),
+      pesoKg: _resolverDouble(
+        map,
+        llaves: const <String>['peso_kg', 'peso', 'pesoKg'],
+      ),
+      fechaCreacion: _resolverString(
+        map,
+        llaves: const <String>['fecha_creacion', 'fecha_registro'],
+      ),
+      createdAt: _resolverFecha(
+        map,
+        llaves: const <String>['created_at', 'fecha_creacion', 'fecha_registro'],
+      ),
+    );
+  }
+
+  // Sección: deserialización desde texto JSON
+  // Convierte una cadena JSON en la entidad tipada.
+  factory Mascota.fromJson(String source) {
+    final decoded = jsonDecode(source);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('JSON de mascota inválido.');
+    }
+    return Mascota.fromMap(decoded);
+  }
+
+  // Sección: copia inmutable
+  // Permite modificar campos puntuales sin mutar la instancia original.
+  Mascota copyWith({
+    String? idMascota,
+    String? idUsuario,
+    String? nombre,
+    String? especie,
+    String? raza,
+    String? sexo,
+    int? edadAnios,
+    double? pesoKg,
+    String? fechaCreacion,
+    DateTime? createdAt,
+  }) {
+    return Mascota(
+      idMascota: idMascota ?? this.idMascota,
+      idUsuario: idUsuario ?? this.idUsuario,
+      nombre: nombre ?? this.nombre,
+      especie: especie ?? this.especie,
+      raza: raza ?? this.raza,
+      sexo: sexo ?? this.sexo,
+      edadAnios: edadAnios ?? this.edadAnios,
+      pesoKg: pesoKg ?? this.pesoKg,
+      fechaCreacion: fechaCreacion ?? this.fechaCreacion,
+      createdAt: createdAt ?? this.createdAt,
+    );
   }
 
   // Sección: helpers de lectura de mapa
-  // Normalizan extracción de valores con tolerancia a tipos de datos variados.
+  // Normalizan extracción de valores con tolerancia a tipos variados.
   static String _resolverString(
     Map<String, dynamic> map, {
     required List<String> llaves,
@@ -115,6 +186,9 @@ class Mascota {
       final valor = map[llave];
       if (valor is String && valor.trim().isNotEmpty) {
         return valor.trim();
+      }
+      if (valor != null && valor.toString().trim().isNotEmpty) {
+        return valor.toString().trim();
       }
     }
     return '';
@@ -173,9 +247,6 @@ class Mascota {
   }) {
     for (final llave in llaves) {
       final valor = map[llave];
-      if (valor is Timestamp) {
-        return valor.toDate();
-      }
       if (valor is DateTime) {
         return valor;
       }
@@ -184,6 +255,9 @@ class Mascota {
         if (fecha != null) {
           return fecha;
         }
+      }
+      if (valor is int) {
+        return DateTime.fromMillisecondsSinceEpoch(valor);
       }
     }
     return null;

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/detalle_mascota_cliente_popup.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta creacion paciente.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta_creacion_paciente.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
@@ -18,7 +18,7 @@ class MisMascotasCliente extends StatefulWidget {
 }
 
 // Sección: estado de Mis Mascotas
-// Gestiona carga desde Firestore y apertura del formulario de registro.
+// Gestiona carga desde JSON local y apertura del formulario de registro.
 class _MisMascotasClienteState extends State<MisMascotasCliente> {
   // Sección: servicios de backend
   // Permiten resolver usuario autenticado y consultar la colección mascotas.
@@ -40,7 +40,7 @@ class _MisMascotasClienteState extends State<MisMascotasCliente> {
   }
 
   // Sección: carga de datos desde backend
-  // Consulta Firestore para traer todas las mascotas del usuario logueado.
+  // Consulta JSON local para traer todas las mascotas del usuario logueado.
   Future<void> _cargarDatos() async {
     try {
       final usuario = await _authService.obtenerUsuarioActual();
@@ -81,13 +81,9 @@ class _MisMascotasClienteState extends State<MisMascotasCliente> {
   }
 
   // Sección: id de usuario para consultas
-  // Prioriza id del perfil y usa uid de Firebase Auth como respaldo.
+  // Prioriza id del perfil y usa uid de autenticación local como respaldo.
   String _resolverIdUsuario(String? idPerfil) {
-    final idLimpio = (idPerfil ?? '').trim();
-    if (idLimpio.isNotEmpty) {
-      return idLimpio;
-    }
-    return (_authService.usuarioFirebaseActual?.uid ?? '').trim();
+    return (idPerfil ?? '').trim();
   }
 
   // Sección: nombre visible del cliente
@@ -97,35 +93,7 @@ class _MisMascotasClienteState extends State<MisMascotasCliente> {
     if (nombreLimpio.isNotEmpty) {
       return nombreLimpio;
     }
-
-    final correo = (_authService.usuarioFirebaseActual?.email ?? '').trim();
-    if (correo.isEmpty) {
-      return 'Cliente';
-    }
-
-    final alias = correo
-        .split('@')
-        .first
-        .replaceAll(RegExp(r'[._-]+'), ' ')
-        .trim();
-    if (alias.isEmpty) {
-      return 'Cliente';
-    }
-
-    return _capitalizarAlias(alias);
-  }
-
-  // Sección: helper de texto para alias
-  // Convierte alias de correo en nombre con formato legible.
-  String _capitalizarAlias(String texto) {
-    return texto
-        .split(RegExp(r'\s+'))
-        .where((parte) => parte.isNotEmpty)
-        .map(
-          (parte) =>
-              '${parte.substring(0, 1).toUpperCase()}${parte.substring(1).toLowerCase()}',
-        )
-        .join(' ');
+    return 'Cliente';
   }
 
   // Sección: apertura de formulario de mascota
@@ -571,3 +539,7 @@ class _TarjetaMascotaListado extends StatelessWidget {
     );
   }
 }
+
+
+
+

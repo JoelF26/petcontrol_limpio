@@ -11,8 +11,8 @@ import 'package:petcontrol_limpio/features/cliente/widgets/detalle_cita_cliente_
 import 'package:petcontrol_limpio/features/cliente/widgets/detalle_mascota_cliente_popup.dart';
 import 'package:petcontrol_limpio/features/cliente/pantallas/mis_citas_cliente.dart';
 import 'package:petcontrol_limpio/features/cliente/pantallas/mis_mascotas_cliente.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta creacion cita.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta creacion paciente.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta_creacion_cita.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta_creacion_paciente.dart';
 import 'package:petcontrol_limpio/models/cita.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
@@ -60,7 +60,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
   }
 
   // Sección: carga inicial del home
-  // Resuelve datos de sesión y consulta Firestore para llenar resúmenes.
+  // Resuelve datos de sesión y consulta JSON local para llenar resúmenes.
   Future<void> _cargarDatosIniciales() async {
     try {
       final usuario = await _authService.obtenerUsuarioActual();
@@ -117,11 +117,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
   // Sección: resolución de id de usuario
   // Prioriza id del perfil y usa uid de Auth como respaldo para las consultas.
   String _resolverIdUsuario(String? idPerfil) {
-    final idLimpio = (idPerfil ?? '').trim();
-    if (idLimpio.isNotEmpty) {
-      return idLimpio;
-    }
-    return (_authService.usuarioFirebaseActual?.uid ?? '').trim();
+    return (idPerfil ?? '').trim();
   }
 
   // Sección: resolución de nombre visible
@@ -131,31 +127,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
     if (nombreLimpio.isNotEmpty) {
       return nombreLimpio;
     }
-
-    final correo = (_authService.usuarioFirebaseActual?.email ?? '').trim();
-    if (correo.isEmpty) {
-      return 'Cliente';
-    }
-
-    final alias = correo.split('@').first.replaceAll(RegExp(r'[._-]+'), ' ').trim();
-    if (alias.isEmpty) {
-      return 'Cliente';
-    }
-
-    return _capitalizarAlias(alias);
-  }
-
-  // Sección: helper de texto para alias
-  // Convierte alias de correo en un nombre legible para la cabecera.
-  String _capitalizarAlias(String texto) {
-    return texto
-        .split(RegExp(r'\s+'))
-        .where((palabra) => palabra.isNotEmpty)
-        .map(
-          (palabra) =>
-              '${palabra.substring(0, 1).toUpperCase()}${palabra.substring(1).toLowerCase()}',
-        )
-        .join(' ');
+    return 'Cliente';
   }
 
   // Sección: cálculo de inicial
@@ -560,3 +532,6 @@ class _CurvaHomeClienteClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
+
+
+

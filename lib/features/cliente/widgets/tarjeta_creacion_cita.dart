@@ -1,17 +1,15 @@
 // Sección: imports
-// Se importan Firebase, utilidades de fecha y servicios de dominio del proyecto.
-import 'package:cloud_firestore/cloud_firestore.dart';
+// Se importan utilidades visuales y servicios de dominio del proyecto.
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:petcontrol_limpio/core/constants/colecciones.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
-import 'package:petcontrol_limpio/services/firestore_service.dart';
+import 'package:petcontrol_limpio/services/cita_service.dart';
+import 'package:petcontrol_limpio/services/personal_medico_service.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
 
 // Sección: tarjeta de creación de cita
-// Renderiza el formulario popup para registrar citas del cliente en Firestore.
+// Renderiza el formulario popup para registrar citas del cliente en JSON local.
 class TarjetaCreacionCita extends StatefulWidget {
   const TarjetaCreacionCita({
     super.key,
@@ -36,10 +34,11 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   final TextEditingController _descripcionController = TextEditingController();
 
   // Sección: servicios backend
-  // Encapsulan acceso a sesión, mascotas y colección citas de Firestore.
+  // Encapsulan acceso a sesión, mascotas, médicos y persistencia de citas.
   final AuthService _authService = AuthService();
   final MascotaService _mascotaService = MascotaService();
-  final FirestoreService _firestoreService = FirestoreService();
+  final CitaService _citaService = CitaService();
+  final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
 
   // Sección: estado de carga y guardado
   // Controla loaders del popup para evitar acciones duplicadas.
@@ -136,14 +135,17 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   }
 
   // Sección: consulta de personal médico
-  // Lee la colección personal_medico y normaliza id/nombre para el dropdown.
+  // Lee personal médico activo y normaliza id/nombre para el dropdown.
   Future<List<_MedicoItem>> _obtenerMedicosDisponibles() async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection(ColeccionesFirestore.personalMedico)
-        .get();
-
-    final medicos = snapshot.docs
-        .map((doc) => _MedicoItem.fromMap(doc.id, doc.data()))
+    final medicosActivos = await _personalMedicoService.obtenerMedicosActivos();
+    final medicos = medicosActivos
+        .map(
+          (medico) => _MedicoItem(
+            id: medico.idMedico,
+            nombre: medico.nombreCompleto,
+            especialidad: medico.especialidad,
+          ),
+        )
         .where((medico) => medico.id.isNotEmpty && medico.nombre.isNotEmpty)
         .toList(growable: false);
 
@@ -153,13 +155,9 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   }
 
   // Sección: resolver id de usuario para consultas
-  // Prioriza id del perfil y usa uid Firebase como respaldo.
+  // Usa id del perfil persistido en sesión local.
   String _resolverIdUsuario(String? idPerfil) {
-    final idLimpio = (idPerfil ?? '').trim();
-    if (idLimpio.isNotEmpty) {
-      return idLimpio;
-    }
-    return (_authService.usuarioFirebaseActual?.uid ?? '').trim();
+    return (idPerfil ?? '').trim();
   }
 
   // Sección: búsqueda local de mascota por id
@@ -325,7 +323,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
     );
   }
 
-  // Sección: guardado de cita en Firestore
+  // Sección: guardado de cita en JSON local
   // Crea id único, asocia usuario/mascota/médico y persiste la cita.
   Future<void> _registrarCita() async {
     final esValido = _formKey.currentState?.validate() == true;
@@ -360,30 +358,14 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
     });
 
     try {
-      final ahora = DateTime.now();
-      final docRef = _firestoreService.citasRef.doc();
-      final idCita = docRef.id;
-
-      final data = <String, dynamic>{
-        'id_cita': idCita,
-        'id_usuario': _idUsuarioActual,
-        'id_mascota': mascota.idMascota,
-        'id_medico': (_idMedicoSeleccionado ?? '').trim().isEmpty
-            ? null
-            : _idMedicoSeleccionado,
-        'nombre_mascota': mascota.nombreVisible,
-        'especie_mascota': mascota.especieVisible,
-        'motivo': motivo,
-        'descripcion': _descripcionController.text.trim(),
-        'estado': 'proxima',
-        'fecha_hora': Timestamp.fromDate(fechaHora),
-        'fecha_cita': DateFormat('yyyy-MM-dd').format(fechaHora),
-        'hora_cita': DateFormat('HH:mm').format(fechaHora),
-        'fecha_creacion': DateFormat('yyyy-MM-dd').format(ahora),
-        'created_at': Timestamp.fromDate(ahora),
-      };
-
-      await docRef.set(data);
+      await _citaService.crearCitaCliente(
+        idUsuario: _idUsuarioActual,
+        mascota: mascota,
+        motivo: motivo,
+        descripcion: _descripcionController.text.trim(),
+        fechaHora: fechaHora,
+        idMedico: _idMedicoSeleccionado,
+      );
 
       if (!mounted) {
         return;
@@ -697,7 +679,7 @@ class _EtiquetaCampo extends StatelessWidget {
 }
 
 // Sección: modelo local de médico para dropdown
-// Simplifica mapeo flexible de documentos de personal_medico.
+// Simplifica renderizado de personal médico en el formulario.
 class _MedicoItem {
   const _MedicoItem({
     required this.id,
@@ -718,45 +700,6 @@ class _MedicoItem {
     }
     return '$nombre - $especialidadLimpia';
     }
-
-  // Sección: fábrica robusta desde Firestore
-  // Acepta variantes de campos para evitar fallos por esquema heterogéneo.
-  factory _MedicoItem.fromMap(String idDocumento, Map<String, dynamic> map) {
-    final id = _resolverString(map, const <String>[
-      'id_medico',
-      'id_personal',
-      'id_usuario',
-    ]);
-    final nombre = _resolverString(map, const <String>[
-      'nombre_completo',
-      'nombre',
-      'nombres',
-    ]);
-    final especialidad = _resolverString(map, const <String>[
-      'especialidad',
-      'area',
-      'especializacion',
-    ]);
-
-    return _MedicoItem(
-      id: id.isEmpty ? idDocumento : id,
-      nombre: nombre,
-      especialidad: especialidad,
-    );
-  }
-
-  // Sección: helper de strings por prioridad
-  // Recorre varias llaves posibles y devuelve la primera válida.
-  static String _resolverString(
-    Map<String, dynamic> map,
-    List<String> llaves,
-  ) {
-    for (final llave in llaves) {
-      final valor = map[llave];
-      if (valor is String && valor.trim().isNotEmpty) {
-        return valor.trim();
-      }
-    }
-    return '';
-  }
 }
+
+

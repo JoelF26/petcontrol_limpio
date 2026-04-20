@@ -1,12 +1,12 @@
 // Sección: imports
-// Se importan servicios de sesión y mascotas para registrar en Firestore.
+// Se importan servicios de sesión y mascotas para registrar en JSON local.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
 
 // Sección: tarjeta de registro de mascota
-// Renderiza el formulario popup y guarda la mascota con id único en Firestore.
+// Renderiza el formulario popup y guarda la mascota con id único en JSON local.
 class TarjetaCreacionPaciente extends StatefulWidget {
   const TarjetaCreacionPaciente({
     super.key,
@@ -102,13 +102,9 @@ class _TarjetaCreacionPacienteState extends State<TarjetaCreacionPaciente> {
   }
 
   // Sección: resolución de id de usuario
-  // Prioriza id del perfil y usa uid de Firebase Auth como respaldo.
+  // Usa id del perfil persistido en sesión local.
   String _resolverIdUsuario(String? idPerfil) {
-    final idLimpio = (idPerfil ?? '').trim();
-    if (idLimpio.isNotEmpty) {
-      return idLimpio;
-    }
-    return (_authService.usuarioFirebaseActual?.uid ?? '').trim();
+    return (idPerfil ?? '').trim();
   }
 
   // Sección: parseo de edad
@@ -150,7 +146,7 @@ class _TarjetaCreacionPacienteState extends State<TarjetaCreacionPaciente> {
   }
 
   // Sección: registro de mascota
-  // Valida, transforma datos y crea documento en Firestore.
+  // Valida, transforma datos y crea documento en JSON local.
   Future<void> _registrarMascota() async {
     final formularioValido = _formKey.currentState?.validate() == true;
     final sexoValido = _sexoSeleccionado != null;
@@ -428,3 +424,4 @@ class _EtiquetaCampo extends StatelessWidget {
     );
   }
 }
+
