@@ -1,38 +1,273 @@
-// Sección: imports
-// Se importa Material para declarar la paleta central de la app.
+// Section: imports
+// Material is required for Color definitions.
 import 'package:flutter/material.dart';
 
-// Sección: paleta unificada
-// Se agrupan colores por propósito para evitar duplicación de variables.
+// Section: unified palette
+// Colors are centralized to avoid duplicated literals across the app.
 class AppColores {
   AppColores._();
 
-  // Sección: colores de marca
-  // Tonos principales para identidad visual y acciones primarias.
-  static const Color primario = Color(0xFF36A75C);
-  static const Color primarioOscuro = Color(0xFF275B37);
-  static const Color secundario = Color(0xFF3DA4C5);
-  static const Color secundarioOscuro = Color(0xFF153743);
+  // Section: deterministic base layer (one token per ARGB)
+  // Naming convention: baseAARRGGBB.
+  static const Color base00000000 = Color(0x00000000);
+  static const Color base1A183325 = Color(0x1A183325);
+  static const Color base1FFFFFFF = Color(0x1FFFFFFF);
+  static const Color base220E1C2F = Color(0x220E1C2F);
+  static const Color base220E2A17 = Color(0x220E2A17);
+  static const Color base22FFFFFF = Color(0x22FFFFFF);
+  static const Color base260D1A2A = Color(0x260D1A2A);
+  static const Color base2FFFFFFF = Color(0x2FFFFFFF);
+  static const Color base330E1C2F = Color(0x330E1C2F);
+  static const Color base40000000 = Color(0x40000000);
+  static const Color base44FFFFFF = Color(0x44FFFFFF);
+  static const Color base54FFFFFF = Color(0x54FFFFFF);
+  static const Color base55FFFFFF = Color(0x55FFFFFF);
+  static const Color base61000000 = Color(0x61000000);
+  static const Color base88FFFFFF = Color(0x88FFFFFF);
+  static const Color base8A000000 = Color(0x8A000000);
+  static const Color baseD9E6F1FF = Color(0xD9E6F1FF);
+  static const Color baseDBF4FFF7 = Color(0xDBF4FFF7);
+  static const Color baseFF000000 = Color(0xFF000000);
+  static const Color baseFF0E8D63 = Color(0xFF0E8D63);
+  static const Color baseFF0F3457 = Color(0xFF0F3457);
+  static const Color baseFF112F4F = Color(0xFF112F4F);
+  static const Color baseFF143B2A = Color(0xFF143B2A);
+  static const Color baseFF143B5F = Color(0xFF143B5F);
+  static const Color baseFF153743 = Color(0xFF153743);
+  static const Color baseFF153A5F = Color(0xFF153A5F);
+  static const Color baseFF1A6549 = Color(0xFF1A6549);
+  static const Color baseFF1A6C90 = Color(0xFF1A6C90);
+  static const Color baseFF1A95F7 = Color(0xFF1A95F7);
+  static const Color baseFF1B664A = Color(0xFF1B664A);
+  static const Color baseFF1C252E = Color(0xFF1C252E);
+  static const Color baseFF1D4E3E = Color(0xFF1D4E3E);
+  static const Color baseFF1E293B = Color(0xFF1E293B);
+  static const Color baseFF1E2A36 = Color(0xFF1E2A36);
+  static const Color baseFF1E3027 = Color(0xFF1E3027);
+  static const Color baseFF1E3D63 = Color(0xFF1E3D63);
+  static const Color baseFF1E6246 = Color(0xFF1E6246);
+  static const Color baseFF1F2730 = Color(0xFF1F2730);
+  static const Color baseFF1F2937 = Color(0xFF1F2937);
+  static const Color baseFF1F2A35 = Color(0xFF1F2A35);
+  static const Color baseFF1F2B3B = Color(0xFF1F2B3B);
+  static const Color baseFF1F2D3A = Color(0xFF1F2D3A);
+  static const Color baseFF1F3028 = Color(0xFF1F3028);
+  static const Color baseFF1F3045 = Color(0xFF1F3045);
+  static const Color baseFF1F3328 = Color(0xFF1F3328);
+  static const Color baseFF1F352B = Color(0xFF1F352B);
+  static const Color baseFF1F6C4C = Color(0xFF1F6C4C);
+  static const Color baseFF20302A = Color(0xFF20302A);
+  static const Color baseFF203E6D = Color(0xFF203E6D);
+  static const Color baseFF21342A = Color(0xFF21342A);
+  static const Color baseFF213D6A = Color(0xFF213D6A);
+  static const Color baseFF22352B = Color(0xFF22352B);
+  static const Color baseFF22362C = Color(0xFF22362C);
+  static const Color baseFF223633 = Color(0xFF223633);
+  static const Color baseFF233F69 = Color(0xFF233F69);
+  static const Color baseFF233F6C = Color(0xFF233F6C);
+  static const Color baseFF245A37 = Color(0xFF245A37);
+  static const Color baseFF27563A = Color(0xFF27563A);
+  static const Color baseFF275B37 = Color(0xFF275B37);
+  static const Color baseFF295B3B = Color(0xFF295B3B);
+  static const Color baseFF2A3E35 = Color(0xFF2A3E35);
+  static const Color baseFF2A3F34 = Color(0xFF2A3F34);
+  static const Color baseFF2A6A4F = Color(0xFF2A6A4F);
+  static const Color baseFF2A6F4D = Color(0xFF2A6F4D);
+  static const Color baseFF2B2B2B = Color(0xFF2B2B2B);
+  static const Color baseFF2D3D3B = Color(0xFF2D3D3B);
+  static const Color baseFF2D5C8C = Color(0xFF2D5C8C);
+  static const Color baseFF2D695A = Color(0xFF2D695A);
+  static const Color baseFF2D7C62 = Color(0xFF2D7C62);
+  static const Color baseFF2D8A6C = Color(0xFF2D8A6C);
+  static const Color baseFF2E3331 = Color(0xFF2E3331);
+  static const Color baseFF2E5683 = Color(0xFF2E5683);
+  static const Color baseFF2E5C8A = Color(0xFF2E5C8A);
+  static const Color baseFF2E816B = Color(0xFF2E816B);
+  static const Color baseFF2E8769 = Color(0xFF2E8769);
+  static const Color baseFF2E8A4F = Color(0xFF2E8A4F);
+  static const Color baseFF2F2F2F = Color(0xFF2F2F2F);
+  static const Color baseFF2F7452 = Color(0xFF2F7452);
+  static const Color baseFF2F7D68 = Color(0xFF2F7D68);
+  static const Color baseFF2FA74D = Color(0xFF2FA74D);
+  static const Color baseFF315449 = Color(0xFF315449);
+  static const Color baseFF315D8A = Color(0xFF315D8A);
+  static const Color baseFF3290B4 = Color(0xFF3290B4);
+  static const Color baseFF334155 = Color(0xFF334155);
+  static const Color baseFF34434A = Color(0xFF34434A);
+  static const Color baseFF358E51 = Color(0xFF358E51);
+  static const Color baseFF359253 = Color(0xFF359253);
+  static const Color baseFF36A75C = Color(0xFF36A75C);
+  static const Color baseFF38A34B = Color(0xFF38A34B);
+  static const Color baseFF3A7157 = Color(0xFF3A7157);
+  static const Color baseFF3C4A47 = Color(0xFF3C4A47);
+  static const Color baseFF3C6651 = Color(0xFF3C6651);
+  static const Color baseFF3D3D3D = Color(0xFF3D3D3D);
+  static const Color baseFF3DA4C5 = Color(0xFF3DA4C5);
+  static const Color baseFF3DAFD2 = Color(0xFF3DAFD2);
+  static const Color baseFF3E454D = Color(0xFF3E454D);
+  static const Color baseFF3F7A52 = Color(0xFF3F7A52);
+  static const Color baseFF416955 = Color(0xFF416955);
+  static const Color baseFF4A5B58 = Color(0xFF4A5B58);
+  static const Color baseFF4B5563 = Color(0xFF4B5563);
+  static const Color baseFF4B5F55 = Color(0xFF4B5F55);
+  static const Color baseFF4D685C = Color(0xFF4D685C);
+  static const Color baseFF4D6A89 = Color(0xFF4D6A89);
+  static const Color baseFF4E5A62 = Color(0xFF4E5A62);
+  static const Color baseFF4E6F60 = Color(0xFF4E6F60);
+  static const Color baseFF4F4F4F = Color(0xFF4F4F4F);
+  static const Color baseFF4FAF75 = Color(0xFF4FAF75);
+  static const Color baseFF516377 = Color(0xFF516377);
+  static const Color baseFF566273 = Color(0xFF566273);
+  static const Color baseFF58616B = Color(0xFF58616B);
+  static const Color baseFF586572 = Color(0xFF586572);
+  static const Color baseFF586778 = Color(0xFF586778);
+  static const Color baseFF587066 = Color(0xFF587066);
+  static const Color baseFF5A616A = Color(0xFF5A616A);
+  static const Color baseFF5A6A62 = Color(0xFF5A6A62);
+  static const Color baseFF5A6B61 = Color(0xFF5A6B61);
+  static const Color baseFF5A6B63 = Color(0xFF5A6B63);
+  static const Color baseFF5ABF9A = Color(0xFF5ABF9A);
+  static const Color baseFF5B7187 = Color(0xFF5B7187);
+  static const Color baseFF5B7B66 = Color(0xFF5B7B66);
+  static const Color baseFF5E6A68 = Color(0xFF5E6A68);
+  static const Color baseFF5E756A = Color(0xFF5E756A);
+  static const Color baseFF5F6772 = Color(0xFF5F6772);
+  static const Color baseFF5F7066 = Color(0xFF5F7066);
+  static const Color baseFF607067 = Color(0xFF607067);
+  static const Color baseFF60786C = Color(0xFF60786C);
+  static const Color baseFF616A71 = Color(0xFF616A71);
+  static const Color baseFF617468 = Color(0xFF617468);
+  static const Color baseFF61766D = Color(0xFF61766D);
+  static const Color baseFF627269 = Color(0xFF627269);
+  static const Color baseFF637268 = Color(0xFF637268);
+  static const Color baseFF64748B = Color(0xFF64748B);
+  static const Color baseFF66717C = Color(0xFF66717C);
+  static const Color baseFF667896 = Color(0xFF667896);
+  static const Color baseFF66796F = Color(0xFF66796F);
+  static const Color baseFF66806F = Color(0xFF66806F);
+  static const Color baseFF6A7674 = Color(0xFF6A7674);
+  static const Color baseFF6A7D72 = Color(0xFF6A7D72);
+  static const Color baseFF6A7E98 = Color(0xFF6A7E98);
+  static const Color baseFF6A8674 = Color(0xFF6A8674);
+  static const Color baseFF6B737E = Color(0xFF6B737E);
+  static const Color baseFF6B7684 = Color(0xFF6B7684);
+  static const Color baseFF6BA26E = Color(0xFF6BA26E);
+  static const Color baseFF6E7A78 = Color(0xFF6E7A78);
+  static const Color baseFF6EBC89 = Color(0xFF6EBC89);
+  static const Color baseFF72BE8D = Color(0xFF72BE8D);
+  static const Color baseFF73C08F = Color(0xFF73C08F);
+  static const Color baseFF788390 = Color(0xFF788390);
+  static const Color baseFF7A7E83 = Color(0xFF7A7E83);
+  static const Color baseFF7A8088 = Color(0xFF7A8088);
+  static const Color baseFF7F3A3A = Color(0xFF7F3A3A);
+  static const Color baseFF8A6A40 = Color(0xFF8A6A40);
+  static const Color baseFF8AA391 = Color(0xFF8AA391);
+  static const Color baseFF8BA49A = Color(0xFF8BA49A);
+  static const Color baseFF93A2B2 = Color(0xFF93A2B2);
+  static const Color baseFF9D3B3B = Color(0xFF9D3B3B);
+  static const Color baseFFA4ABB3 = Color(0xFFA4ABB3);
+  static const Color baseFFB42318 = Color(0xFFB42318);
+  static const Color baseFFB53939 = Color(0xFFB53939);
+  static const Color baseFFB8C8DC = Color(0xFFB8C8DC);
+  static const Color baseFFB9BDC1 = Color(0xFFB9BDC1);
+  static const Color baseFFC0D2C8 = Color(0xFFC0D2C8);
+  static const Color baseFFC6D6CD = Color(0xFFC6D6CD);
+  static const Color baseFFC6D7CE = Color(0xFFC6D7CE);
+  static const Color baseFFC6DACC = Color(0xFFC6DACC);
+  static const Color baseFFC7D8CE = Color(0xFFC7D8CE);
+  static const Color baseFFC8D2DC = Color(0xFFC8D2DC);
+  static const Color baseFFC9D8E7 = Color(0xFFC9D8E7);
+  static const Color baseFFCAD8D4 = Color(0xFFCAD8D4);
+  static const Color baseFFCAD9D0 = Color(0xFFCAD9D0);
+  static const Color baseFFCDD4D1 = Color(0xFFCDD4D1);
+  static const Color baseFFCFE5DD = Color(0xFFCFE5DD);
+  static const Color baseFFD4E0D2 = Color(0xFFD4E0D2);
+  static const Color baseFFD4E9DE = Color(0xFFD4E9DE);
+  static const Color baseFFD5E9DA = Color(0xFFD5E9DA);
+  static const Color baseFFD6E1F0 = Color(0xFFD6E1F0);
+  static const Color baseFFD6E4F2 = Color(0xFFD6E4F2);
+  static const Color baseFFD6E8DE = Color(0xFFD6E8DE);
+  static const Color baseFFD7E4F5 = Color(0xFFD7E4F5);
+  static const Color baseFFD7E5DE = Color(0xFFD7E5DE);
+  static const Color baseFFD8DEE2 = Color(0xFFD8DEE2);
+  static const Color baseFFD8E4DE = Color(0xFFD8E4DE);
+  static const Color baseFFD8E7E1 = Color(0xFFD8E7E1);
+  static const Color baseFFD8E9DD = Color(0xFFD8E9DD);
+  static const Color baseFFD9D9D9 = Color(0xFFD9D9D9);
+  static const Color baseFFDAEFE4 = Color(0xFFDAEFE4);
+  static const Color baseFFDCDDDB = Color(0xFFDCDDDB);
+  static const Color baseFFDCDDDE = Color(0xFFDCDDDE);
+  static const Color baseFFDCE6F6 = Color(0xFFDCE6F6);
+  static const Color baseFFDCE8D9 = Color(0xFFDCE8D9);
+  static const Color baseFFDCE8FF = Color(0xFFDCE8FF);
+  static const Color baseFFDCE9FF = Color(0xFFDCE9FF);
+  static const Color baseFFDCEADF = Color(0xFFDCEADF);
+  static const Color baseFFDDE1E5 = Color(0xFFDDE1E5);
+  static const Color baseFFDDEDE5 = Color(0xFFDDEDE5);
+  static const Color baseFFDDF6E5 = Color(0xFFDDF6E5);
+  static const Color baseFFDEE5ED = Color(0xFFDEE5ED);
+  static const Color baseFFDFE8F5 = Color(0xFFDFE8F5);
+  static const Color baseFFE0E3E2 = Color(0xFFE0E3E2);
+  static const Color baseFFE3F1E7 = Color(0xFFE3F1E7);
+  static const Color baseFFE5E8E7 = Color(0xFFE5E8E7);
+  static const Color baseFFE5F4E9 = Color(0xFFE5F4E9);
+  static const Color baseFFE6F1EB = Color(0xFFE6F1EB);
+  static const Color baseFFE6F2EC = Color(0xFFE6F2EC);
+  static const Color baseFFE7ECF4 = Color(0xFFE7ECF4);
+  static const Color baseFFE7EDF6 = Color(0xFFE7EDF6);
+  static const Color baseFFE8E8E8 = Color(0xFFE8E8E8);
+  static const Color baseFFE8EBEA = Color(0xFFE8EBEA);
+  static const Color baseFFE8F2ED = Color(0xFFE8F2ED);
+  static const Color baseFFE8F3EB = Color(0xFFE8F3EB);
+  static const Color baseFFE8F8EE = Color(0xFFE8F8EE);
+  static const Color baseFFE9DBC7 = Color(0xFFE9DBC7);
+  static const Color baseFFE9E8E8 = Color(0xFFE9E8E8);
+  static const Color baseFFE9EAEB = Color(0xFFE9EAEB);
+  static const Color baseFFE9EDF4 = Color(0xFFE9EDF4);
+  static const Color baseFFE9F3EC = Color(0xFFE9F3EC);
+  static const Color baseFFEAF3EE = Color(0xFFEAF3EE);
+  static const Color baseFFEAF4EF = Color(0xFFEAF4EF);
+  static const Color baseFFECECEC = Color(0xFFECECEC);
+  static const Color baseFFEEF5F1 = Color(0xFFEEF5F1);
+  static const Color baseFFF0E7DA = Color(0xFFF0E7DA);
+  static const Color baseFFF0F4F9 = Color(0xFFF0F4F9);
+  static const Color baseFFF0F7F3 = Color(0xFFF0F7F3);
+  static const Color baseFFF1D1D1 = Color(0xFFF1D1D1);
+  static const Color baseFFF1F5F2 = Color(0xFFF1F5F2);
+  static const Color baseFFF2F5FA = Color(0xFFF2F5FA);
+  static const Color baseFFF2F6F4 = Color(0xFFF2F6F4);
+  static const Color baseFFF2F7F4 = Color(0xFFF2F7F4);
+  static const Color baseFFF2F8F3 = Color(0xFFF2F8F3);
+  static const Color baseFFF3E2E2 = Color(0xFFF3E2E2);
+  static const Color baseFFF44336 = Color(0xFFF44336);
+  static const Color baseFFF4F7FA = Color(0xFFF4F7FA);
+  static const Color baseFFF6F7F8 = Color(0xFFF6F7F8);
+  static const Color baseFFF7FFF9 = Color(0xFFF7FFF9);
+  static const Color baseFFF8FAFD = Color(0xFFF8FAFD);
+  static const Color baseFFF8FBF9 = Color(0xFFF8FBF9);
+  static const Color baseFFF8FCF9 = Color(0xFFF8FCF9);
+  static const Color baseFFF9FBFF = Color(0xFFF9FBFF);
+  static const Color baseFFFFFFFF = Color(0xFFFFFFFF);
 
-  // Sección: neutros base
-  // Colores generales de fondo, texto y bordes.
-  static const Color blanco = Color(0xFFFFFFFF);
-  static const Color negro = Color(0xFF000000);
-  static const Color grisSuave = Color(0xFFD9D9D9);
+  // Section: semantic aliases
+  static const Color primario = baseFF36A75C;
+  static const Color primarioOscuro = baseFF275B37;
+  static const Color secundario = baseFF3DA4C5;
+  static const Color secundarioOscuro = baseFF153743;
+  static const Color blanco = baseFFFFFFFF;
+  static const Color negro = baseFF000000;
+  static const Color transparente = base00000000;
+  static const Color grisSuave = baseFFD9D9D9;
+  static const Color negro38 = base61000000;
+  static const Color negro54 = base8A000000;
+  static const Color acentoVerde = baseFF359253;
+  static const Color acentoVerdeOscuro = baseFF358E51;
+  static const Color acentoAzulTexto = baseFF3DAFD2;
+  static const Color error = baseFFB42318;
+  static const Color rojoMaterial = baseFFF44336;
+  static const Color verdepacientes = baseFF4FAF75;
 
-  // Sección: colores de apoyo
-  // Acentos útiles para componentes puntuales y estados visuales.
-  static const Color acentoVerde = Color(0xFF359253);
-  static const Color acentoVerdeOscuro = Color(0xFF358E51);
-  static const Color acentoAzulTexto = Color(0xFF3DAFD2);
-  static const Color error = Color(0xFFB42318);
-
-  // Sección: compatibilidad de vistas heredadas
-  // Mantiene nombres usados por pantallas antiguas para no cambiar diseño.
-  static const Color verdepacientes = Color(0xFF4FAF75);
-
-  // Sección: colores semánticos para UI
-  // Variables orientadas a uso directo en tema/componentes.
+  // Section: semantic UI defaults
   static const Color fondo = blanco;
   static const Color superficie = blanco;
   static const Color textoPrincipal = secundarioOscuro;

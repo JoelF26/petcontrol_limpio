@@ -42,7 +42,7 @@ class LocalJsonStorageService {
           'nombre_completo': 'Maria',
           'numero_documento': '100000001',
           'telefono': '3000000001',
-          'correo': 'maria@gmail.com',
+          'correo': 'maria@vetcontrol.com',
           'contrasena': 'M123456',
           'rol': RolesUsuario.admin,
           'fecha_creacion': '2026-04-14',
@@ -99,6 +99,8 @@ class LocalJsonStorageService {
     var cambio = false;
 
     for (final usuarioBase in _usuariosBase) {
+      final idUsuarioBase =
+          (usuarioBase['id_usuario'] ?? '').toString().trim();
       final correo =
           (usuarioBase['correo'] ?? '').toString().trim().toLowerCase();
       if (correo.isEmpty) {
@@ -109,7 +111,11 @@ class LocalJsonStorageService {
         if (item is! Map) {
           return false;
         }
+        final idItem = (item['id_usuario'] ?? '').toString().trim();
         final correoItem = (item['correo'] ?? '').toString().trim().toLowerCase();
+        if (idUsuarioBase.isNotEmpty && idItem == idUsuarioBase) {
+          return true;
+        }
         return correoItem == correo;
       });
 

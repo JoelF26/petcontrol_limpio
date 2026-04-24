@@ -1,11 +1,12 @@
-﻿// Seccion: imports
+// Seccion: imports
 // Se importan modelo, funciones y widgets del home admin modular y dinamico.
 import 'package:flutter/material.dart';
+import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
 import 'package:petcontrol_limpio/features/admin/models/home_admin_view_data.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/admin_base_widgets.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/home_admin_content.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/home_admin_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/home/home_admin_content.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/home/home_admin_widgets.dart';
 
 // Seccion: pantalla home admin
 // Presenta el panel principal con datos reales del admin en sesion.
@@ -112,18 +113,20 @@ class _HomeAdminPantallaState extends State<HomeAdminPantalla> {
         dashboard?.proximasCitas ?? const <HomeAdminProximaCitaVista>[];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFECECEC),
+      backgroundColor: AppColores.baseFFECECEC,
       body: SafeArea(
         child: Stack(
           children: [
-            const Positioned.fill(child: ColoredBox(color: Color(0xFFECECEC))),
+            const Positioned.fill(
+              child: ColoredBox(color: AppColores.baseFFECECEC),
+            ),
             const Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.center,
-                    colors: [Color(0xFF2E8A4F), Color(0xFF2FA74D)],
+                    colors: [AppColores.baseFF2E8A4F, AppColores.baseFF2FA74D],
                   ),
                 ),
               ),
@@ -135,7 +138,7 @@ class _HomeAdminPantallaState extends State<HomeAdminPantalla> {
               child: ClipPath(
                 clipper: HomeAdminCurvaClipper(),
                 child: Container(
-                  color: const Color(0xFFECECEC),
+                  color: AppColores.baseFFECECEC,
                   height: alturaCurva,
                   width: double.infinity,
                 ),
@@ -157,7 +160,7 @@ class _HomeAdminPantallaState extends State<HomeAdminPantalla> {
                   const Text(
                     'Controla agenda, pacientes y equipo medico desde el panel principal.',
                     style: TextStyle(
-                      color: Color(0xFFDDF6E5),
+                      color: AppColores.baseFFDDF6E5,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
@@ -170,7 +173,7 @@ class _HomeAdminPantallaState extends State<HomeAdminPantalla> {
                         height: 26,
                         child: CircularProgressIndicator(
                           strokeWidth: 2.4,
-                          color: Colors.white,
+                          color: AppColores.blanco,
                         ),
                       ),
                     ),
@@ -189,7 +192,8 @@ class _HomeAdminPantallaState extends State<HomeAdminPantalla> {
                     titulo: 'Menu Principal',
                     icono: Icons.dashboard_customize_outlined,
                     child: HomeAdminMenuPrincipalGrid(
-                      onPacientes: () => _irModuloYRecargar(Rutas.adminPacientes),
+                      onPacientes: () =>
+                          _irModuloYRecargar(Rutas.adminPacientes),
                       onCitas: () => _irModuloYRecargar(Rutas.adminCitas),
                       onHistorial: () =>
                           _irModuloYRecargar(Rutas.adminHistorialCitas),
@@ -204,7 +208,10 @@ class _HomeAdminPantallaState extends State<HomeAdminPantalla> {
                     child: HomeAdminProximaCitaLista(
                       citas: proximasCitas,
                       onTap: (cita) {
-                        HomeAdminFunciones.abrirDetalleProximaCita(context, cita);
+                        HomeAdminFunciones.abrirDetalleProximaCita(
+                          context,
+                          cita,
+                        );
                       },
                     ),
                   ),

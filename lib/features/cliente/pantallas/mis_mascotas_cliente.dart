@@ -2,8 +2,8 @@
 // Se importan modelos, servicios y formulario para conectar la vista con backend.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/detalle_mascota_cliente_popup.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta_creacion_paciente.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
@@ -59,7 +59,9 @@ class _MisMascotasClienteState extends State<MisMascotasCliente> {
         return;
       }
 
-      final mascotas = await _mascotaService.obtenerMascotasPorUsuario(idUsuario);
+      final mascotas = await _mascotaService.obtenerMascotasPorUsuario(
+        idUsuario,
+      );
       if (!mounted) {
         return;
       }
@@ -105,7 +107,7 @@ class _MisMascotasClienteState extends State<MisMascotasCliente> {
 
     final creada = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.62),
+      barrierColor: AppColores.negro.withValues(alpha: 0.62),
       barrierDismissible: true,
       builder: (context) {
         final teclado = MediaQuery.of(context).viewInsets;
@@ -153,15 +155,15 @@ class _MisMascotasClienteState extends State<MisMascotasCliente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F5FA),
+      backgroundColor: AppColores.baseFFF2F5FA,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: SizedBox(
         width: 62,
         height: 62,
         child: FloatingActionButton(
           onPressed: _abrirRegistroMascota,
-          backgroundColor: const Color(0xFF153A5F),
-          foregroundColor: Colors.white,
+          backgroundColor: AppColores.baseFF153A5F,
+          foregroundColor: AppColores.blanco,
           child: const Icon(Icons.add, size: 34),
         ),
       ),
@@ -221,7 +223,7 @@ class _FondoMisMascotas extends StatelessWidget {
             ],
           ),
         ),
-        const Expanded(child: ColoredBox(color: Color(0xFFF2F5FA))),
+        const Expanded(child: ColoredBox(color: AppColores.baseFFF2F5FA)),
       ],
     );
   }
@@ -240,7 +242,7 @@ class _GradienteFondoMisMascotas extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF0F3457),
+            AppColores.baseFF0F3457,
             AppColores.secundarioOscuro,
             AppColores.secundario,
           ],
@@ -271,7 +273,7 @@ class _CirculoDecorativoMascotas extends StatelessWidget {
       width: diametro,
       height: diametro,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: opacidad),
+        color: AppColores.blanco.withValues(alpha: opacidad),
         shape: BoxShape.circle,
       ),
     );
@@ -290,16 +292,12 @@ class _EncabezadoMisMascotas extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            _BotonEncabezadoIcono(onTap: onVolver),
-          ],
-        ),
+        Row(children: [_BotonEncabezadoIcono(onTap: onVolver)]),
         const SizedBox(height: 12),
         const Text(
           'Mis mascotas',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColores.blanco,
             fontSize: 33,
             fontWeight: FontWeight.w900,
             height: 1,
@@ -309,7 +307,7 @@ class _EncabezadoMisMascotas extends StatelessWidget {
         const Text(
           'Consulta sus datos clinicos, vacunas y estado general en un solo lugar.',
           style: TextStyle(
-            color: Color(0xFFDCE9FF),
+            color: AppColores.baseFFDCE9FF,
             fontSize: 13,
             fontWeight: FontWeight.w500,
           ),
@@ -329,7 +327,7 @@ class _BotonEncabezadoIcono extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: AppColores.transparente,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(13),
@@ -337,13 +335,13 @@ class _BotonEncabezadoIcono extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: const Color(0x22FFFFFF),
+            color: AppColores.base22FFFFFF,
             borderRadius: BorderRadius.circular(13),
-            border: Border.all(color: const Color(0x55FFFFFF)),
+            border: Border.all(color: AppColores.base55FFFFFF),
           ),
           child: const Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
+            color: AppColores.blanco,
             size: 18,
           ),
         ),
@@ -373,9 +371,9 @@ class _PanelMisMascotas extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFD),
+        color: AppColores.baseFFF8FAFD,
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: const Color(0xFFB8C8DC), width: 1),
+        border: Border.all(color: AppColores.baseFFB8C8DC, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -383,7 +381,7 @@ class _PanelMisMascotas extends StatelessWidget {
           const Text(
             'Mis mascotas',
             style: TextStyle(
-              color: Color(0xFF233F6C),
+              color: AppColores.baseFF233F6C,
               fontSize: 56 / 2, // 28
               fontWeight: FontWeight.w700,
               height: 1,
@@ -393,7 +391,7 @@ class _PanelMisMascotas extends StatelessWidget {
           Text(
             resumenTexto,
             style: const TextStyle(
-              color: Color(0xFF667896),
+              color: AppColores.baseFF667896,
               fontSize: 42 / 3, // 14
               fontWeight: FontWeight.w500,
               height: 1.15,
@@ -438,14 +436,14 @@ class _EstadoVacioMascotas extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF0F4F9),
+        color: AppColores.baseFFF0F4F9,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFC9D8E7), width: 1),
+        border: Border.all(color: AppColores.baseFFC9D8E7, width: 1),
       ),
       child: const Text(
         'No tienes mascotas registradas.',
         style: TextStyle(
-          color: Color(0xFF5B7187),
+          color: AppColores.baseFF5B7187,
           fontSize: 13,
           fontWeight: FontWeight.w600,
         ),
@@ -457,10 +455,7 @@ class _EstadoVacioMascotas extends StatelessWidget {
 // Sección: tarjeta individual de mascota
 // Presenta nombre de mascota y especie en formato compacto como referencia.
 class _TarjetaMascotaListado extends StatelessWidget {
-  const _TarjetaMascotaListado({
-    required this.mascota,
-    required this.onTap,
-  });
+  const _TarjetaMascotaListado({required this.mascota, required this.onTap});
 
   final Mascota mascota;
   final VoidCallback onTap;
@@ -468,7 +463,7 @@ class _TarjetaMascotaListado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: AppColores.transparente,
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: onTap,
@@ -476,9 +471,9 @@ class _TarjetaMascotaListado extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
           decoration: BoxDecoration(
-            color: const Color(0xFFE9EDF4),
+            color: AppColores.baseFFE9EDF4,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFB8C8DC), width: 1),
+            border: Border.all(color: AppColores.baseFFB8C8DC, width: 1),
           ),
           child: Row(
             children: [
@@ -486,12 +481,12 @@ class _TarjetaMascotaListado extends StatelessWidget {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD6E1F0),
+                  color: AppColores.baseFFD6E1F0,
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: const Icon(
                   Icons.pets_rounded,
-                  color: Color(0xFF3290B4),
+                  color: AppColores.baseFF3290B4,
                   size: 34,
                 ),
               ),
@@ -502,7 +497,7 @@ class _TarjetaMascotaListado extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    color: Color(0xFF233F6C),
+                    color: AppColores.baseFF233F6C,
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
                     height: 1,
@@ -511,15 +506,18 @@ class _TarjetaMascotaListado extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 11,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD6E1F0),
+                  color: AppColores.baseFFD6E1F0,
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
                   mascota.especieVisible,
                   style: const TextStyle(
-                    color: Color(0xFF2E5C8A),
+                    color: AppColores.baseFF2E5C8A,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     height: 1,
@@ -529,7 +527,7 @@ class _TarjetaMascotaListado extends StatelessWidget {
               const SizedBox(width: 2),
               const Icon(
                 Icons.chevron_right_rounded,
-                color: Color(0xFF66796F),
+                color: AppColores.baseFF66796F,
                 size: 30,
               ),
             ],
@@ -539,7 +537,3 @@ class _TarjetaMascotaListado extends StatelessWidget {
     );
   }
 }
-
-
-
-

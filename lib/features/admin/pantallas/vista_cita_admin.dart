@@ -1,11 +1,12 @@
-﻿// Seccion: imports
+// Seccion: imports
 // Se importan servicios, funciones y widgets reutilizables de citas admin.
 import 'package:flutter/material.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/admin_base_widgets.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/detalle_cita_admin_popup.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/tarjeta_creacion_cita.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/vista_cita_admin_content.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/vista_cita_admin_widgets.dart';
+import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/citas/detalle_cita_admin_popup.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/citas/tarjeta_creacion_cita.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/citas/vista_cita_admin_content.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/citas/vista_cita_admin_widgets.dart';
 import 'package:petcontrol_limpio/models/cita.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
 import 'package:petcontrol_limpio/models/personal_medico.dart';
@@ -72,6 +73,13 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
         _medicosPorId = data.medicosPorId;
         _cargando = false;
       });
+    } on StateError catch (error) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message.toString())));
     } catch (_) {
       if (!mounted) {
         return;
@@ -86,7 +94,8 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
   // Seccion: bloques de agenda
   // Obtiene listas para hoy y proximas segun fecha de cita.
   List<Cita> get _citasHoy => VistaCitaAdminFunciones.citasHoy(_citas);
-  List<Cita> get _citasProximas => VistaCitaAdminFunciones.citasProximas(_citas);
+  List<Cita> get _citasProximas =>
+      VistaCitaAdminFunciones.citasProximas(_citas);
   int get _confirmadas => VistaCitaAdminFunciones.contarConfirmadas(_citas);
 
   // Seccion: registro de cita
@@ -96,14 +105,13 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
         VistaCitaAdminFunciones.construirUsuariosFormulario(_usuariosPorId);
     final mascotasFormulario =
         VistaCitaAdminFunciones.construirMascotasFormulario(_mascotas);
-    final medicosFormulario = VistaCitaAdminFunciones.construirMedicosFormulario(
-      _medicosPorId,
-    );
+    final medicosFormulario =
+        VistaCitaAdminFunciones.construirMedicosFormulario(_medicosPorId);
 
     await showGeneralDialog<void>(
       context: context,
       barrierLabel: 'registro_cita',
-      barrierColor: Colors.black38,
+      barrierColor: AppColores.negro38,
       barrierDismissible: true,
       transitionDuration: const Duration(milliseconds: 180),
       pageBuilder: (dialogContext, animation, secondaryAnimation) {
@@ -149,9 +157,13 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
 
   // Seccion: persistencia de cita
   // Valida mascota y guarda nueva cita en storage local.
-  Future<void> _registrarCitaDesdeDialogo({required CitaCreacionData data}) async {
-    final mascotaSeleccionada =
-        VistaCitaAdminFunciones.buscarMascotaPorId(_mascotas, data.idMascota);
+  Future<void> _registrarCitaDesdeDialogo({
+    required CitaCreacionData data,
+  }) async {
+    final mascotaSeleccionada = VistaCitaAdminFunciones.buscarMascotaPorId(
+      _mascotas,
+      data.idMascota,
+    );
 
     if (mascotaSeleccionada == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -193,7 +205,10 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
 
   // Seccion: detalle de cita
   // Abre popup editable y recarga la agenda cuando se guardan cambios.
-  Future<void> _abrirDetalleCita(Cita cita, {required String bloqueAgenda}) async {
+  Future<void> _abrirDetalleCita(
+    Cita cita, {
+    required String bloqueAgenda,
+  }) async {
     final actualizada = await mostrarDetalleCitaAdmin(
       context,
       cita: cita,
@@ -217,14 +232,14 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
     final citasProximas = _citasProximas;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF1F5F2),
+      backgroundColor: AppColores.baseFFF1F5F2,
       floatingActionButton: SizedBox(
         width: 62,
         height: 62,
         child: FloatingActionButton(
           onPressed: _abrirRegistroCita,
-          backgroundColor: const Color(0xFF1E6246),
-          foregroundColor: Colors.white,
+          backgroundColor: AppColores.baseFF1E6246,
+          foregroundColor: AppColores.blanco,
           child: const Icon(Icons.add, size: 34),
         ),
       ),
@@ -251,15 +266,15 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8FBF9),
+                      color: AppColores.baseFFF8FBF9,
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: const Color(0xFFC0D2C8),
+                        color: AppColores.baseFFC0D2C8,
                         width: 1,
                       ),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color(0x1A183325),
+                          color: AppColores.base1A183325,
                           blurRadius: 16,
                           offset: Offset(0, 6),
                         ),
@@ -271,7 +286,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
                         const Text(
                           'Agenda de citas',
                           style: TextStyle(
-                            color: Color(0xFF22362C),
+                            color: AppColores.baseFF22362C,
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
                           ),
@@ -280,7 +295,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
                         Text(
                           '${_citas.length} registros visibles',
                           style: const TextStyle(
-                            color: Color(0xFF617468),
+                            color: AppColores.baseFF617468,
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
@@ -290,7 +305,9 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
                           const Center(
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
-                              child: CircularProgressIndicator(strokeWidth: 2.3),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.3,
+                              ),
                             ),
                           )
                         else if (_errorCarga != null)
@@ -306,17 +323,21 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
                                 .map(VistaCitaAdminFunciones.mapearCitaVista)
                                 .toList(growable: false),
                             onTap: (citaVista) {
-                              final cita = VistaCitaAdminFunciones.buscarCitaPorId(
-                                _citas,
-                                citaVista.idCita,
-                              );
+                              final cita =
+                                  VistaCitaAdminFunciones.buscarCitaPorId(
+                                    _citas,
+                                    citaVista.idCita,
+                                  );
                               if (cita != null) {
                                 _abrirDetalleCita(cita, bloqueAgenda: 'Hoy');
                               }
                             },
                           ),
                           const SizedBox(height: 12),
-                          const Divider(color: Color(0xFFD8E4DE), thickness: 1),
+                          const Divider(
+                            color: AppColores.baseFFD8E4DE,
+                            thickness: 1,
+                          ),
                           const SizedBox(height: 12),
                           VistaCitaAdminSeccionAgenda(
                             titulo: 'Proximas citas',
@@ -325,12 +346,16 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
                                 .map(VistaCitaAdminFunciones.mapearCitaVista)
                                 .toList(growable: false),
                             onTap: (citaVista) {
-                              final cita = VistaCitaAdminFunciones.buscarCitaPorId(
-                                _citas,
-                                citaVista.idCita,
-                              );
+                              final cita =
+                                  VistaCitaAdminFunciones.buscarCitaPorId(
+                                    _citas,
+                                    citaVista.idCita,
+                                  );
                               if (cita != null) {
-                                _abrirDetalleCita(cita, bloqueAgenda: 'Proxima');
+                                _abrirDetalleCita(
+                                  cita,
+                                  bloqueAgenda: 'Proxima',
+                                );
                               }
                             },
                           ),
@@ -347,4 +372,3 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
     );
   }
 }
-

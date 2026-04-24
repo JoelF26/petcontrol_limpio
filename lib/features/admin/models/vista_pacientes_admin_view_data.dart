@@ -1,4 +1,4 @@
-﻿// Seccion: modelo visual de paciente admin
+// Seccion: modelo visual de paciente admin
 // Define los campos que consume la UI de tarjetas y detalle.
 class PacienteVistaAdmin {
   const PacienteVistaAdmin({

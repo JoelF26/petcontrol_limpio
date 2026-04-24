@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/core/widgets/boton_atras.dart';
-import 'package:petcontrol_limpio/features/autenticacion/widgets/formulario_login.dart';
+import 'package:petcontrol_limpio/features/autenticacion/widgets/login/formulario_login.dart';
+import 'package:petcontrol_limpio/features/autenticacion/widgets/shared/popup_configurar_contrasena_inicial.dart';
 import 'package:petcontrol_limpio/models/usuario.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
 
@@ -40,6 +41,45 @@ class _LoginPantallaState extends State<LoginPantalla> {
     });
 
     try {
+      final estadoAcceso = await _authService.evaluarAccesoPorCorreo(correo);
+
+      if (!mounted) {
+        return;
+      }
+
+      if (estadoAcceso.correoNoRegistrado) {
+        _mostrarMensaje('Correo o contraseña incorrectos.');
+        return;
+      }
+
+      if (estadoAcceso.requiereContrasenaInicial) {
+        final nuevaContrasena = await mostrarPopupConfigurarContrasenaInicial(
+          context,
+          correo: correo.trim().toLowerCase(),
+        );
+
+        if (!mounted || nuevaContrasena == null) {
+          return;
+        }
+
+        final usuario = await _authService.configurarContrasenaInicialYEntrar(
+          correo: correo,
+          nuevaContrasena: nuevaContrasena,
+        );
+
+        if (!mounted) {
+          return;
+        }
+
+        _navegarPorRol(usuario);
+        return;
+      }
+
+      if (contrasena.trim().isEmpty) {
+        _mostrarMensaje('Ingresa tu contraseña.');
+        return;
+      }
+
       final usuario = await _authService.iniciarSesion(
         correo: correo,
         contrasena: contrasena,
@@ -186,4 +226,3 @@ class _LoginPantallaState extends State<LoginPantalla> {
     );
   }
 }
-

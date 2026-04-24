@@ -1,4 +1,4 @@
-﻿// Seccion: opciones base del formulario
+// Seccion: opciones base del formulario
 // Mantiene listas de seleccion para especialidad, jornada y estado.
 const List<String> especialidadesMedicas = <String>[
   'Medicina general',
@@ -23,24 +23,15 @@ const List<String> especialidadesMedicas = <String>[
   'Otro',
 ];
 
-const List<String> jornadasMedicas = <String>[
-  'Manana',
-  'Tarde',
-  'Noche',
-];
+const List<String> jornadasMedicas = <String>['Manana', 'Tarde', 'Noche'];
 
-const List<String> estadosMedico = <String>[
-  'Activo',
-  'Vacaciones',
-  'Inactivo',
-];
+const List<String> estadosMedico = <String>['Activo', 'Vacaciones', 'Inactivo'];
 
 // Seccion: modelo de entrada del formulario
 // Representa el payload para registrar nuevo personal medico.
 class NuevoMedicoInput {
   const NuevoMedicoInput({
     required this.nombreCompleto,
-    required this.correo,
     required this.telefono,
     required this.documento,
     required this.especialidad,
@@ -49,7 +40,6 @@ class NuevoMedicoInput {
   });
 
   final String nombreCompleto;
-  final String correo;
   final String telefono;
   final String documento;
   final String especialidad;

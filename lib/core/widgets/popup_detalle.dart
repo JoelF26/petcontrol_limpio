@@ -1,6 +1,7 @@
 // Sección: imports
 // Se importa material para construir el popup reutilizable de detalle.
 import 'package:flutter/material.dart';
+import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 
 // Sección: campo de detalle
 // Representa una fila de etiqueta y valor dentro del popup.
@@ -18,7 +19,7 @@ class ConfigPopupDetalle {
     required this.titulo,
     this.subtitulo = '',
     this.icono = Icons.info_outline,
-    this.colorAcento = const Color(0xFF153743),
+    this.colorAcento = AppColores.secundarioOscuro,
     this.chips = const <String>[],
     this.campos = const <DetalleCampo>[],
   });
@@ -39,16 +40,16 @@ Future<void> mostrarPopupDetalle(
 ) async {
   await showDialog<void>(
     context: context,
-    barrierColor: Colors.black54,
+    barrierColor: AppColores.negro54,
     builder: (dialogContext) {
       return Dialog(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColores.transparente,
         insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFE0E3E2),
+            color: AppColores.baseFFE0E3E2,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFF2E3331), width: 1),
+            border: Border.all(color: AppColores.baseFF2E3331, width: 1),
           ),
           padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
           child: Column(
@@ -75,7 +76,7 @@ Future<void> mostrarPopupDetalle(
                         Text(
                           config.titulo,
                           style: const TextStyle(
-                            color: Color(0xFF1F2D3A),
+                            color: AppColores.baseFF1F2D3A,
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
                             height: 1.05,
@@ -86,7 +87,7 @@ Future<void> mostrarPopupDetalle(
                           Text(
                             config.subtitulo,
                             style: const TextStyle(
-                              color: Color(0xFF586778),
+                              color: AppColores.baseFF586778,
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                             ),
@@ -97,7 +98,10 @@ Future<void> mostrarPopupDetalle(
                   ),
                   IconButton(
                     onPressed: () => Navigator.of(dialogContext).pop(),
-                    icon: const Icon(Icons.close, color: Color(0xFF66717C)),
+                    icon: const Icon(
+                      Icons.close,
+                      color: AppColores.baseFF66717C,
+                    ),
                     visualDensity: VisualDensity.compact,
                   ),
                 ],
@@ -143,7 +147,7 @@ Future<void> mostrarPopupDetalle(
                       vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF6F7F8),
+                      color: AppColores.baseFFF6F7F8,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
@@ -152,7 +156,7 @@ Future<void> mostrarPopupDetalle(
                         Text(
                           campo.etiqueta,
                           style: const TextStyle(
-                            color: Color(0xFF788390),
+                            color: AppColores.baseFF788390,
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
@@ -161,7 +165,7 @@ Future<void> mostrarPopupDetalle(
                         Text(
                           campo.valor,
                           style: const TextStyle(
-                            color: Color(0xFF1C252E),
+                            color: AppColores.baseFF1C252E,
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),

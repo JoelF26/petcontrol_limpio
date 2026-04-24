@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/core/widgets/boton_atras.dart';
-import 'package:petcontrol_limpio/features/autenticacion/widgets/formulario_registro.dart';
+import 'package:petcontrol_limpio/features/autenticacion/widgets/registro/formulario_registro.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
 
 // Sección: pantalla de registro
@@ -185,4 +185,3 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
     );
   }
 }
-

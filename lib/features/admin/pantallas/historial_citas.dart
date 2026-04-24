@@ -1,11 +1,12 @@
-﻿// Seccion: imports
+// Seccion: imports
 // Se importan servicios, funciones de negocio y widgets visuales de historial.
 import 'package:flutter/material.dart';
+import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/core/widgets/popup_detalle.dart';
 import 'package:petcontrol_limpio/features/admin/models/historial_citas_view_data.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/admin_base_widgets.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/historial_citas_content.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/historial_citas_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/citas/historial_citas_content.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/citas/historial_citas_widgets.dart';
 import 'package:petcontrol_limpio/services/cita_service.dart';
 import 'package:petcontrol_limpio/services/personal_medico_service.dart';
 import 'package:petcontrol_limpio/services/usuario_service.dart';
@@ -106,7 +107,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: const Color(0xFFF2F6F4),
+      backgroundColor: AppColores.baseFFF2F6F4,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -131,7 +132,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
-                        color: Color(0xFF1F352B),
+                        color: AppColores.baseFF1F352B,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -212,8 +213,10 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                               Navigator.of(context).pop();
                             },
                             style: OutlinedButton.styleFrom(
-                              foregroundColor: const Color(0xFF2A3E35),
-                              side: const BorderSide(color: Color(0xFF8BA49A)),
+                              foregroundColor: AppColores.baseFF2A3E35,
+                              side: const BorderSide(
+                                color: AppColores.baseFF8BA49A,
+                              ),
                               minimumSize: const Size.fromHeight(44),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -234,8 +237,8 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                               Navigator.of(context).pop();
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF1E6246),
-                              foregroundColor: Colors.white,
+                              backgroundColor: AppColores.baseFF1E6246,
+                              foregroundColor: AppColores.blanco,
                               minimumSize: const Size.fromHeight(44),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -262,7 +265,9 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
   // Seccion: popup de detalle
   // Muestra el detalle completo de una cita del historial.
   void _abrirDetalleHistorial(HistorialCitaVista cita) {
-    final fechaFormateada = HistorialCitasFunciones.formatearFecha(cita.fechaHora);
+    final fechaFormateada = HistorialCitasFunciones.formatearFecha(
+      cita.fechaHora,
+    );
 
     mostrarPopupDetalle(
       context,
@@ -293,7 +298,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
     final historialFiltrado = _historialFiltrado;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF1F5F2),
+      backgroundColor: AppColores.baseFFF1F5F2,
       body: SafeArea(
         child: Stack(
           children: [
@@ -318,15 +323,15 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8FBF9),
+                      color: AppColores.baseFFF8FBF9,
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: const Color(0xFFC0D2C8),
+                        color: AppColores.baseFFC0D2C8,
                         width: 1,
                       ),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color(0x1A183325),
+                          color: AppColores.base1A183325,
                           blurRadius: 16,
                           offset: Offset(0, 6),
                         ),
@@ -338,7 +343,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                         const Text(
                           'Historial de citas',
                           style: TextStyle(
-                            color: Color(0xFF22362C),
+                            color: AppColores.baseFF22362C,
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
                           ),
@@ -347,7 +352,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                         Text(
                           '${historialFiltrado.length} registros para los filtros actuales',
                           style: const TextStyle(
-                            color: Color(0xFF617468),
+                            color: AppColores.baseFF617468,
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
@@ -373,7 +378,9 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                           const Center(
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
-                              child: CircularProgressIndicator(strokeWidth: 2.3),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.3,
+                              ),
                             ),
                           )
                         else if (_errorCarga != null)
@@ -391,15 +398,18 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                           ) ...[
                             HistorialTarjetaCita(
                               cita: historialFiltrado[i],
-                              fechaFormateada: HistorialCitasFunciones.formatearFecha(
-                                historialFiltrado[i].fechaHora,
-                              ),
-                              colorFondoEstado: HistorialCitasFunciones.colorFondoEstado(
-                                historialFiltrado[i].estado,
-                              ),
-                              colorTextoEstado: HistorialCitasFunciones.colorTextoEstado(
-                                historialFiltrado[i].estado,
-                              ),
+                              fechaFormateada:
+                                  HistorialCitasFunciones.formatearFecha(
+                                    historialFiltrado[i].fechaHora,
+                                  ),
+                              colorFondoEstado:
+                                  HistorialCitasFunciones.colorFondoEstado(
+                                    historialFiltrado[i].estado,
+                                  ),
+                              colorTextoEstado:
+                                  HistorialCitasFunciones.colorTextoEstado(
+                                    historialFiltrado[i].estado,
+                                  ),
                               iconoEstado: HistorialCitasFunciones.iconoEstado(
                                 historialFiltrado[i].estado,
                               ),

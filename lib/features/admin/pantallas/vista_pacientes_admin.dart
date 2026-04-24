@@ -1,13 +1,14 @@
-﻿// Seccion: imports
+// Seccion: imports
 // Se importan servicios, funciones y widgets de apoyo para la vista de pacientes admin.
 import 'package:flutter/material.dart';
+import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
 import 'package:petcontrol_limpio/features/admin/models/vista_pacientes_admin_view_data.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/admin_base_widgets.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/detalle_paciente_admin_popup.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/tarjeta_creacion_paciente.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/vista_pacientes_admin_content.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/vista_pacientes_admin_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/pacientes/detalle_paciente_admin_popup.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/pacientes/vista_pacientes_admin_content.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/pacientes/vista_pacientes_admin_widgets.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
 import 'package:petcontrol_limpio/services/usuario_service.dart';
 
@@ -103,19 +104,20 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
       return rol == RolesUsuario.cliente || rol == 'usuario';
     });
 
-    final usuariosRegistrados = usuariosFinales
-        .map(
-          (usuario) => UsuarioRegistroPaciente(
-            idUsuario: usuario.idUsuario,
-            nombreCompleto: usuario.nombreCompleto,
-          ),
-        )
-        .toList(growable: false)
-      ..sort(
-        (a, b) => a.nombreCompleto.toLowerCase().compareTo(
-          b.nombreCompleto.toLowerCase(),
-        ),
-      );
+    final usuariosRegistrados =
+        usuariosFinales
+            .map(
+              (usuario) => UsuarioRegistroPaciente(
+                idUsuario: usuario.idUsuario,
+                nombreCompleto: usuario.nombreCompleto,
+              ),
+            )
+            .toList(growable: false)
+          ..sort(
+            (a, b) => a.nombreCompleto.toLowerCase().compareTo(
+              b.nombreCompleto.toLowerCase(),
+            ),
+          );
 
     if (usuariosRegistrados.isEmpty) {
       if (!mounted) {
@@ -132,7 +134,7 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
     await showGeneralDialog<void>(
       context: context,
       barrierLabel: 'registro_paciente',
-      barrierColor: Colors.black38,
+      barrierColor: AppColores.negro38,
       barrierDismissible: true,
       transitionDuration: const Duration(milliseconds: 180),
       pageBuilder: (dialogContext, animation, secondaryAnimation) {
@@ -199,16 +201,16 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message)));
     } on StateError catch (error) {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.message.toString())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message.toString())));
     } catch (_) {
       if (!mounted) {
         return;
@@ -236,14 +238,14 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
     final pacientes = _pacientesFiltrados;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF1F5F2),
+      backgroundColor: AppColores.baseFFF1F5F2,
       floatingActionButton: SizedBox(
         width: 62,
         height: 62,
         child: FloatingActionButton(
           onPressed: _abrirRegistroPaciente,
-          backgroundColor: const Color(0xFF1E6246),
-          foregroundColor: Colors.white,
+          backgroundColor: AppColores.baseFF1E6246,
+          foregroundColor: AppColores.blanco,
           child: const Icon(Icons.add, size: 34),
         ),
       ),
@@ -269,15 +271,15 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8FBF9),
+                      color: AppColores.baseFFF8FBF9,
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: const Color(0xFFC0D2C8),
+                        color: AppColores.baseFFC0D2C8,
                         width: 1,
                       ),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color(0x1A183325),
+                          color: AppColores.base1A183325,
                           blurRadius: 16,
                           offset: Offset(0, 6),
                         ),
@@ -289,7 +291,7 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
                         const Text(
                           'Listado de pacientes',
                           style: TextStyle(
-                            color: Color(0xFF22362C),
+                            color: AppColores.baseFF22362C,
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
                           ),
@@ -298,7 +300,7 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
                         Text(
                           '${pacientes.length} registros visibles',
                           style: const TextStyle(
-                            color: Color(0xFF617468),
+                            color: AppColores.baseFF617468,
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
@@ -313,7 +315,9 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
                           const Center(
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
-                              child: CircularProgressIndicator(strokeWidth: 2.3),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.3,
+                              ),
                             ),
                           )
                         else if (_errorCarga != null)
@@ -330,9 +334,8 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
                           for (var i = 0; i < pacientes.length; i++) ...[
                             VistaPacientesAdminTarjeta(
                               paciente: pacientes[i],
-                              onTap: () => _abrirDetallePacientePreview(
-                                pacientes[i],
-                              ),
+                              onTap: () =>
+                                  _abrirDetallePacientePreview(pacientes[i]),
                             ),
                             if (i < pacientes.length - 1)
                               const SizedBox(height: 12),

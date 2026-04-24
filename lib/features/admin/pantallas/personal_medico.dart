@@ -1,11 +1,14 @@
-﻿// Seccion: imports
+// Seccion: imports
 // Se importan servicios, funciones y widgets para la vista de personal medico.
 import 'package:flutter/material.dart';
+import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/core/widgets/popup_detalle.dart';
+import 'package:petcontrol_limpio/features/admin/models/correo_medico_exceptions.dart';
 import 'package:petcontrol_limpio/features/admin/models/personal_medico_view_data.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/admin_base_widgets.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/personal_medico_content.dart';
-import 'package:petcontrol_limpio/features/admin/widgets/personal_medico_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/personal_medico/personal_medico_content.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/personal_medico/popup_alias_correo_medico.dart';
+import 'package:petcontrol_limpio/features/admin/widgets/personal_medico/personal_medico_widgets.dart';
 import 'package:petcontrol_limpio/services/personal_medico_service.dart';
 import 'package:petcontrol_limpio/services/usuario_service.dart';
 
@@ -124,7 +127,7 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
       context: context,
       barrierLabel: 'nuevo_medico',
       barrierDismissible: true,
-      barrierColor: Colors.black38,
+      barrierColor: AppColores.negro38,
       transitionDuration: const Duration(milliseconds: 180),
       pageBuilder: (dialogContext, animation, secondaryAnimation) {
         return SafeArea(
@@ -171,40 +174,65 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
   // Seccion: registro de medico
   // Persiste el medico y sincroniza su usuario con rol admin.
   Future<void> _registrarPersonalMedico(NuevoMedicoInput input) async {
-    try {
-      await PersonalMedicoFunciones.registrarPersonalMedico(
-        input: input,
-        personalActual: _personal,
-        personalMedicoService: _personalMedicoService,
-        usuarioService: _usuarioService,
-      );
+    String? aliasCorreo;
 
-      await _cargarPersonalMedico();
+    while (true) {
+      try {
+        await PersonalMedicoFunciones.registrarPersonalMedico(
+          input: input,
+          personalActual: _personal,
+          personalMedicoService: _personalMedicoService,
+          usuarioService: _usuarioService,
+          aliasCorreo: aliasCorreo,
+        );
+        break;
+      } on CorreoMedicoEnUsoException catch (error) {
+        if (!mounted) {
+          return;
+        }
 
-      if (!mounted) {
+        final aliasSeleccionado = await mostrarPopupAliasCorreoMedico(
+          context,
+          correoEnUso: error.correoEnUso,
+        );
+
+        if (aliasSeleccionado == null || aliasSeleccionado.trim().isEmpty) {
+          return;
+        }
+
+        aliasCorreo = aliasSeleccionado;
+      } on StateError catch (error) {
+        if (!mounted) {
+          return;
+        }
+
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(error.message.toString())));
+        return;
+      } catch (_) {
+        if (!mounted) {
+          return;
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No se pudo registrar el personal medico.'),
+          ),
+        );
         return;
       }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Personal medico registrado con rol admin.')),
-      );
-    } on StateError catch (error) {
-      if (!mounted) {
-        return;
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.message.toString())),
-      );
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No se pudo registrar el personal medico.')),
-      );
     }
+
+    await _cargarPersonalMedico();
+
+    if (!mounted) {
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Personal medico registrado con rol admin.')),
+    );
   }
 
   // Seccion: composicion de pantalla
@@ -214,14 +242,14 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
     final lista = _personalFiltrado;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF1F5F2),
+      backgroundColor: AppColores.baseFFF1F5F2,
       floatingActionButton: SizedBox(
         width: 62,
         height: 62,
         child: FloatingActionButton(
           onPressed: _abrirFormularioNuevoMedico,
-          backgroundColor: const Color(0xFF1E6246),
-          foregroundColor: Colors.white,
+          backgroundColor: AppColores.baseFF1E6246,
+          foregroundColor: AppColores.blanco,
           child: const Icon(Icons.add, size: 34),
         ),
       ),
@@ -265,15 +293,15 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF8FBF9),
+                      color: AppColores.baseFFF8FBF9,
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: const Color(0xFFC0D2C8),
+                        color: AppColores.baseFFC0D2C8,
                         width: 1,
                       ),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color(0x1A183325),
+                          color: AppColores.base1A183325,
                           blurRadius: 16,
                           offset: Offset(0, 6),
                         ),
@@ -285,7 +313,7 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
                         const Text(
                           'Equipo medico',
                           style: TextStyle(
-                            color: Color(0xFF22362C),
+                            color: AppColores.baseFF22362C,
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
                           ),
@@ -294,7 +322,7 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
                         Text(
                           '${lista.length} profesionales visibles',
                           style: const TextStyle(
-                            color: Color(0xFF617468),
+                            color: AppColores.baseFF617468,
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
@@ -309,7 +337,9 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
                           const Center(
                             child: Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
-                              child: CircularProgressIndicator(strokeWidth: 2.3),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.3,
+                              ),
                             ),
                           )
                         else if (_errorCarga != null)

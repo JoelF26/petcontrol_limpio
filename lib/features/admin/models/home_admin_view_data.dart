@@ -1,4 +1,4 @@
-﻿// Seccion: imports
+// Seccion: imports
 // Se importa material para usar IconData en modelos visuales.
 import 'package:flutter/material.dart';
 

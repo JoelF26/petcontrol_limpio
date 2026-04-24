@@ -2,8 +2,8 @@
 // Se importan modelos, servicios y tarjeta de creación para conectar la vista con backend.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/detalle_cita_cliente_popup.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta_creacion_cita.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/citas/tarjeta_creacion_cita.dart';
 import 'package:petcontrol_limpio/models/cita.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
 import 'package:petcontrol_limpio/services/cita_service.dart';
@@ -126,7 +126,7 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
 
     final creada = await showDialog<bool>(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.62),
+      barrierColor: AppColores.negro.withValues(alpha: 0.62),
       barrierDismissible: true,
       builder: (context) {
         final teclado = MediaQuery.of(context).viewInsets;
@@ -166,15 +166,15 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F5FA),
+      backgroundColor: AppColores.baseFFF2F5FA,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: SizedBox(
         width: 62,
         height: 62,
         child: FloatingActionButton(
           onPressed: _abrirCreacionCita,
-          backgroundColor: const Color(0xFF153A5F),
-          foregroundColor: Colors.white,
+          backgroundColor: AppColores.baseFF153A5F,
+          foregroundColor: AppColores.blanco,
           child: const Icon(Icons.add, size: 34),
         ),
       ),
@@ -240,7 +240,7 @@ class _FondoMisCitas extends StatelessWidget {
             ],
           ),
         ),
-        const Expanded(child: ColoredBox(color: Color(0xFFF2F5FA))),
+        const Expanded(child: ColoredBox(color: AppColores.baseFFF2F5FA)),
       ],
     );
   }
@@ -259,7 +259,7 @@ class _GradienteFondoMisCitas extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF112F4F),
+            AppColores.baseFF112F4F,
             AppColores.secundarioOscuro,
             AppColores.secundario,
           ],
@@ -287,7 +287,7 @@ class _CirculoDecorativo extends StatelessWidget {
       width: diametro,
       height: diametro,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: opacidad),
+        color: AppColores.blanco.withValues(alpha: opacidad),
         shape: BoxShape.circle,
       ),
     );
@@ -306,16 +306,12 @@ class _EncabezadoMisCitas extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            _BotonEncabezadoIcono(onTap: onVolver),
-          ],
-        ),
+        Row(children: [_BotonEncabezadoIcono(onTap: onVolver)]),
         const SizedBox(height: 12),
         const Text(
           'Mis citas',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColores.blanco,
             fontSize: 45,
             fontWeight: FontWeight.w900,
             height: 1,
@@ -325,7 +321,7 @@ class _EncabezadoMisCitas extends StatelessWidget {
         const Text(
           'Organiza tus citas veterinarias y revisa el detalle de\ncada atencion.',
           style: TextStyle(
-            color: Color(0xFFDCE9FF),
+            color: AppColores.baseFFDCE9FF,
             fontSize: 13,
             fontWeight: FontWeight.w500,
             height: 1.25,
@@ -346,7 +342,7 @@ class _BotonEncabezadoIcono extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: AppColores.transparente,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(13),
@@ -354,13 +350,13 @@ class _BotonEncabezadoIcono extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: const Color(0x22FFFFFF),
+            color: AppColores.base22FFFFFF,
             borderRadius: BorderRadius.circular(13),
-            border: Border.all(color: const Color(0x55FFFFFF)),
+            border: Border.all(color: AppColores.base55FFFFFF),
           ),
           child: const Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
+            color: AppColores.blanco,
             size: 18,
           ),
         ),
@@ -427,21 +423,21 @@ class _TarjetaResumen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
-          color: const Color(0x2FFFFFFF),
+          color: AppColores.base2FFFFFFF,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0x54FFFFFF)),
+          border: Border.all(color: AppColores.base54FFFFFF),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icono, color: Colors.white, size: 18),
+            Icon(icono, color: AppColores.blanco, size: 18),
             const SizedBox(height: 8),
             Text(
               valor,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColores.blanco,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
               ),
@@ -452,7 +448,7 @@ class _TarjetaResumen extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                color: Color(0xD9E6F1FF),
+                color: AppColores.baseD9E6F1FF,
                 fontSize: 11.5,
                 fontWeight: FontWeight.w600,
               ),
@@ -485,9 +481,9 @@ class _PanelAgendaPersonal extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFD),
+        color: AppColores.baseFFF8FAFD,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFB8C8DC), width: 1),
+        border: Border.all(color: AppColores.baseFFB8C8DC, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -495,7 +491,7 @@ class _PanelAgendaPersonal extends StatelessWidget {
           const Text(
             'Agenda personal',
             style: TextStyle(
-              color: Color(0xFF213D6A),
+              color: AppColores.baseFF213D6A,
               fontSize: 20,
               fontWeight: FontWeight.w700,
             ),
@@ -504,7 +500,7 @@ class _PanelAgendaPersonal extends StatelessWidget {
           Text(
             '${citas.length} ${citas.length == 1 ? 'cita registrada' : 'citas registradas'} a nombre de $nombreCliente',
             style: const TextStyle(
-              color: Color(0xFF6A7E98),
+              color: AppColores.baseFF6A7E98,
               fontSize: 13,
               fontWeight: FontWeight.w600,
             ),
@@ -548,14 +544,14 @@ class _EstadoVacioCitas extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF0F4F9),
+        color: AppColores.baseFFF0F4F9,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFC9D8E7), width: 1),
+        border: Border.all(color: AppColores.baseFFC9D8E7, width: 1),
       ),
       child: const Text(
         'No tienes citas registradas.',
         style: TextStyle(
-          color: Color(0xFF5B7187),
+          color: AppColores.baseFF5B7187,
           fontSize: 13,
           fontWeight: FontWeight.w600,
         ),
@@ -567,10 +563,7 @@ class _EstadoVacioCitas extends StatelessWidget {
 // Sección: tarjeta de cita individual
 // Replica el diseño solicitado: hora bajo icono, especie/fecha y motivo.
 class _TarjetaAgendaCita extends StatelessWidget {
-  const _TarjetaAgendaCita({
-    required this.cita,
-    required this.onTap,
-  });
+  const _TarjetaAgendaCita({required this.cita, required this.onTap});
 
   final Cita cita;
   final VoidCallback onTap;
@@ -581,7 +574,7 @@ class _TarjetaAgendaCita extends StatelessWidget {
     final horaVisible = _horaTextoCorta(cita);
 
     return Material(
-      color: Colors.transparent,
+      color: AppColores.transparente,
       child: InkWell(
         borderRadius: BorderRadius.circular(22),
         onTap: onTap,
@@ -589,9 +582,9 @@ class _TarjetaAgendaCita extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(9, 8, 9, 8),
           decoration: BoxDecoration(
-            color: const Color(0xFFE9EDF4),
+            color: AppColores.baseFFE9EDF4,
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: const Color(0xFFB8C8DC), width: 1),
+            border: Border.all(color: AppColores.baseFFB8C8DC, width: 1),
           ),
           child: Row(
             children: [
@@ -599,7 +592,7 @@ class _TarjetaAgendaCita extends StatelessWidget {
                 width: 72,
                 height: 78,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD6E4F2),
+                  color: AppColores.baseFFD6E4F2,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
@@ -607,14 +600,14 @@ class _TarjetaAgendaCita extends StatelessWidget {
                   children: [
                     const Icon(
                       Icons.calendar_month_outlined,
-                      color: Color(0xFF2D5C8C),
+                      color: AppColores.baseFF2D5C8C,
                       size: 24,
                     ),
                     const SizedBox(height: 3),
                     Text(
                       horaVisible,
                       style: const TextStyle(
-                        color: Color(0xFF2E5683),
+                        color: AppColores.baseFF2E5683,
                         fontSize: 16 / 1.1, // 14.54 aprox
                         fontWeight: FontWeight.w600,
                         height: 1,
@@ -633,7 +626,7 @@ class _TarjetaAgendaCita extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        color: Color(0xFF203E6D),
+                        color: AppColores.baseFF203E6D,
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         height: 1,
@@ -644,8 +637,8 @@ class _TarjetaAgendaCita extends StatelessWidget {
                       children: [
                         _ChipDato(
                           texto: cita.especieMascotaVisible,
-                          fondo: const Color(0xFFD7E4F5),
-                          colorTexto: const Color(0xFF315D8A),
+                          fondo: AppColores.baseFFD7E4F5,
+                          colorTexto: AppColores.baseFF315D8A,
                         ),
                         const SizedBox(width: 10),
                         Flexible(
@@ -653,8 +646,8 @@ class _TarjetaAgendaCita extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: _ChipDato(
                               texto: fechaChip,
-                              fondo: const Color(0xFFD7E4F5),
-                              colorTexto: const Color(0xFF315D8A),
+                              fondo: AppColores.baseFFD7E4F5,
+                              colorTexto: AppColores.baseFF315D8A,
                             ),
                           ),
                         ),
@@ -667,7 +660,7 @@ class _TarjetaAgendaCita extends StatelessWidget {
                         vertical: 5,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFDCE6F6),
+                        color: AppColores.baseFFDCE6F6,
                         borderRadius: BorderRadius.circular(11),
                       ),
                       child: Text(
@@ -675,7 +668,7 @@ class _TarjetaAgendaCita extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: Color(0xFF233F69),
+                          color: AppColores.baseFF233F69,
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           height: 1,
@@ -688,7 +681,7 @@ class _TarjetaAgendaCita extends StatelessWidget {
               const SizedBox(width: 4),
               const Icon(
                 Icons.chevron_right_rounded,
-                color: Color(0xFF61766D),
+                color: AppColores.baseFF61766D,
                 size: 34,
               ),
             ],
@@ -801,7 +794,3 @@ class _ChipDato extends StatelessWidget {
     );
   }
 }
-
-
-
-

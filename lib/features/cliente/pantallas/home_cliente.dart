@@ -3,16 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/home_cliente_mascotas_registradas_card.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/home_cliente_menu_flotante.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/home_cliente_proximas_citas_card.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/home_cliente_resumen_card.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/detalle_cita_cliente_popup.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/detalle_mascota_cliente_popup.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_mascotas_registradas_card.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_menu_flotante.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_proximas_citas_card.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_resumen_card.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart';
 import 'package:petcontrol_limpio/features/cliente/pantallas/mis_citas_cliente.dart';
 import 'package:petcontrol_limpio/features/cliente/pantallas/mis_mascotas_cliente.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta_creacion_cita.dart';
-import 'package:petcontrol_limpio/features/cliente/widgets/tarjeta_creacion_paciente.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/citas/tarjeta_creacion_cita.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart';
 import 'package:petcontrol_limpio/models/cita.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
@@ -30,8 +30,7 @@ class HomeClientePantalla extends StatefulWidget {
 
 // Sección: estado de pantalla principal
 // Se encarga de cargar datos del usuario autenticado para el header dinámico.
-class _HomeClientePantallaState extends State<HomeClientePantalla>
-{
+class _HomeClientePantallaState extends State<HomeClientePantalla> {
   // Sección: constantes visuales base
   // Se centralizan textos fijos y ajustes visuales para mantener el archivo compacto.
   static const String _subtituloHome =
@@ -75,9 +74,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
         final mascotasFuture = _mascotaService.obtenerMascotasPorUsuario(
           idUsuario,
         );
-        final citasFuture = _citaService.obtenerCitasPorUsuario(
-          idUsuario,
-        );
+        final citasFuture = _citaService.obtenerCitasPorUsuario(idUsuario);
 
         final mascotas = await mascotasFuture;
         totalMascotas = mascotas.length;
@@ -158,11 +155,9 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
     if (!mounted) {
       return;
     }
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => const MisCitasCliente(),
-      ),
-    );
+    await Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => const MisCitasCliente()));
     if (!mounted) {
       return;
     }
@@ -175,11 +170,9 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
     if (!mounted) {
       return;
     }
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => const MisMascotasCliente(),
-      ),
-    );
+    await Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => const MisMascotasCliente()));
     if (!mounted) {
       return;
     }
@@ -223,7 +216,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
       // Muestra la tarjeta centrada y oscurece el fondo mientras está abierta.
       creada = await showDialog<bool>(
         context: context,
-        barrierColor: Colors.black.withValues(alpha: 0.62),
+        barrierColor: AppColores.negro.withValues(alpha: 0.62),
         barrierDismissible: true,
         builder: (context) {
           final teclado = MediaQuery.of(context).viewInsets;
@@ -245,7 +238,9 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No se pudo abrir el formulario de mascota.')),
+        const SnackBar(
+          content: Text('No se pudo abrir el formulario de mascota.'),
+        ),
       );
       return;
     }
@@ -268,7 +263,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
       // Muestra la tarjeta centrada como diálogo y oscurece el fondo.
       creada = await showDialog<bool>(
         context: context,
-        barrierColor: Colors.black.withValues(alpha: 0.62),
+        barrierColor: AppColores.negro.withValues(alpha: 0.62),
         barrierDismissible: true,
         builder: (context) {
           final teclado = MediaQuery.of(context).viewInsets;
@@ -290,7 +285,9 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No se pudo abrir el formulario de cita.')),
+        const SnackBar(
+          content: Text('No se pudo abrir el formulario de cita.'),
+        ),
       );
       return;
     }
@@ -313,13 +310,15 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
     final alturaCurva = (size.height * 0.78).clamp(620.0, 900.0);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFECECEC),
+      backgroundColor: AppColores.baseFFECECEC,
       body: SafeArea(
         child: Stack(
           children: [
             // Sección: base de fondo
             // Capa inferior gris para conservar contraste con los paneles.
-            const Positioned.fill(child: ColoredBox(color: Color(0xFFECECEC))),
+            const Positioned.fill(
+              child: ColoredBox(color: AppColores.baseFFECECEC),
+            ),
 
             // Sección: degradado superior
             // Replica el encabezado azul del diseño de referencia.
@@ -348,7 +347,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
               child: ClipPath(
                 clipper: _CurvaHomeClienteClipper(),
                 child: Container(
-                  color: const Color(0xFFECECEC),
+                  color: AppColores.baseFFECECEC,
                   height: alturaCurva,
                   width: double.infinity,
                 ),
@@ -367,7 +366,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
                   const Text(
                     _subtituloHome,
                     style: TextStyle(
-                      color: Color(0xFFDCE8FF),
+                      color: AppColores.baseFFDCE8FF,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
@@ -453,11 +452,11 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
           children: [
             CircleAvatar(
               radius: 22,
-              backgroundColor: const Color(0x22FFFFFF),
+              backgroundColor: AppColores.base22FFFFFF,
               child: Text(
                 _inicialCliente,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColores.blanco,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -469,12 +468,15 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
               children: [
                 Text(
                   'Bienvenido',
-                  style: TextStyle(fontSize: 14, color: Color(0xFFDCE8FF)),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColores.baseFFDCE8FF,
+                  ),
                 ),
                 Text(
                   _nombreCliente,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColores.blanco,
                     fontSize: 26,
                     fontWeight: FontWeight.w800,
                     height: 1,
@@ -486,13 +488,13 @@ class _HomeClientePantallaState extends State<HomeClientePantalla>
         ),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0x22FFFFFF),
+            color: AppColores.base22FFFFFF,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0x55FFFFFF)),
+            border: Border.all(color: AppColores.base55FFFFFF),
           ),
           child: IconButton(
             onPressed: _irABienvenida,
-            icon: const Icon(Icons.logout, color: Colors.white),
+            icon: const Icon(Icons.logout, color: AppColores.blanco),
             tooltip: 'Salir',
           ),
         ),
@@ -532,6 +534,3 @@ class _CurvaHomeClienteClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
-
-
-

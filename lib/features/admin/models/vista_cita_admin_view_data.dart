@@ -1,4 +1,4 @@
-﻿// Seccion: modelo de datos cargados
+// Seccion: modelo de datos cargados
 // Agrupa la data necesaria para renderizar la vista de citas admin.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/models/cita.dart';

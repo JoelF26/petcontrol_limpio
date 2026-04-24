@@ -24,7 +24,10 @@ class BienvenidaPantalla extends StatelessWidget {
                       gradient: const LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [AppColores.secundarioOscuro, AppColores.secundario],
+                        colors: [
+                          AppColores.secundarioOscuro,
+                          AppColores.secundario,
+                        ],
                       ),
                     ),
                   ),
@@ -71,7 +74,7 @@ class BienvenidaPantalla extends StatelessWidget {
                     height: 52,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Rutas.login );
+                        Navigator.pushNamed(context, Rutas.login);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColores.grisSuave,
