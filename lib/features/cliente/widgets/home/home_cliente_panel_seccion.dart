@@ -60,6 +60,7 @@ class HomeClientePanelSeccion extends StatelessWidget {
                   ),
                 ),
               ),
+              // Botón: navega al listado completo de la sección.
               TextButton(
                 onPressed: onVerTodo,
                 style: TextButton.styleFrom(

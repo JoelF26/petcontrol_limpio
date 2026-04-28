@@ -10,11 +10,9 @@ import 'package:uuid/uuid.dart';
 // Sección: servicio de citas
 // Encapsula consultas y mutaciones de citas sobre persistencia JSON local.
 class CitaService {
-  CitaService({
-    LocalJsonStorageService? storageService,
-    Uuid? uuid,
-  }) : _storageService = storageService ?? LocalJsonStorageService(),
-       _uuid = uuid ?? const Uuid();
+  CitaService({LocalJsonStorageService? storageService, Uuid? uuid})
+    : _storageService = storageService ?? LocalJsonStorageService(),
+      _uuid = uuid ?? const Uuid();
 
   final LocalJsonStorageService _storageService;
   final Uuid _uuid;
@@ -177,7 +175,8 @@ class CitaService {
 
     final citas = await obtenerCitas();
     final indice = citas.indexWhere(
-      (item) => item.idCita == idCitaLimpio && item.idUsuario == idUsuarioLimpio,
+      (item) =>
+          item.idCita == idCitaLimpio && item.idUsuario == idUsuarioLimpio,
     );
     if (indice < 0) {
       throw StateError('No existe la cita a cancelar.');
@@ -256,6 +255,7 @@ class CitaService {
     required String motivo,
     required String descripcion,
     required DateTime fechaHora,
+    String? idMedico,
   }) async {
     final idCitaLimpio = idCita.trim();
     if (idCitaLimpio.isEmpty) {
@@ -274,7 +274,7 @@ class CitaService {
     }
 
     final actual = citas[indice];
-    final idMedicoLimpio = actual.idMedico.trim();
+    final idMedicoLimpio = (idMedico ?? actual.idMedico).trim();
     if (idMedicoLimpio.isNotEmpty) {
       final disponible = await estaMedicoDisponibleEnHorario(
         idMedico: idMedicoLimpio,
@@ -299,6 +299,7 @@ class CitaService {
 
     final editada = actual.copyWith(
       idMascota: idMascotaLimpio,
+      idMedico: idMedicoLimpio,
       nombreMascota: nombreMascota.trim(),
       especieMascota: especieMascota.trim(),
       motivo: motivo.trim(),
@@ -386,9 +387,7 @@ class CitaService {
   // Sección: persistencia interna
   // Guarda la lista completa de citas en storage local.
   Future<void> _guardarCitas(List<Cita> citas) async {
-    final registros = citas
-        .map((cita) => cita.toMap())
-        .toList(growable: false);
+    final registros = citas.map((cita) => cita.toMap()).toList(growable: false);
     await _storageService.guardarLista(EntidadesLocales.citas, registros);
   }
 
@@ -409,4 +408,3 @@ class CitaService {
         a.minute == b.minute;
   }
 }
-

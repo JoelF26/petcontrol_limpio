@@ -168,9 +168,6 @@ class PersonalMedicoFunciones {
 
     final ahora = DateTime.now();
     final idMedico = uuid.v4();
-    final contrasenaInicial = input.documento.trim().isEmpty
-        ? 'Admin123456'
-        : input.documento.trim();
 
     final personal = PersonalMedico(
       idMedico: idMedico,
@@ -197,7 +194,7 @@ class PersonalMedicoFunciones {
           numeroDocumento: input.documento.trim(),
           telefono: input.telefono.trim(),
           correo: correo,
-          contrasena: contrasenaInicial,
+          contrasena: '',
           rol: RolesUsuario.admin,
           fechaCreacion: DateFormat('yyyy-MM-dd').format(ahora),
           createdAt: ahora.toIso8601String(),

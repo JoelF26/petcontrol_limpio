@@ -59,6 +59,7 @@ class HomeClienteProximasCitasCard extends StatelessWidget {
   Widget _tarjetaCita(Cita cita) {
     return Material(
       color: AppColores.transparente,
+      // Botón/tarjeta: abre el detalle de la cita seleccionada.
       child: InkWell(
         borderRadius: BorderRadius.circular(22),
         onTap: () => onTapCita?.call(cita),

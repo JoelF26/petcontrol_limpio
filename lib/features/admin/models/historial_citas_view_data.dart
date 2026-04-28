@@ -1,35 +1,3 @@
-// Seccion: constantes de filtros para historial
-// Definen valores iniciales y opciones de filtro para la vista admin.
-const String estadoTodosHistorial = 'Todos';
-const String especieTodasHistorial = 'Todas';
-const String fechaTodoHistorial = 'Todo';
-
-const List<String> estadosFiltroHistorial = <String>[
-  estadoTodosHistorial,
-  'proxima',
-  'pendiente',
-  'confirmada',
-  'finalizada',
-  'cancelada',
-  'reprogramada',
-];
-
-const List<String> especiesFiltroHistorial = <String>[
-  especieTodasHistorial,
-  'Perro',
-  'Gato',
-  'Conejo',
-  'Ave',
-  'Sin especie',
-];
-
-const List<String> fechasFiltroHistorial = <String>[
-  fechaTodoHistorial,
-  'Ultimos 7 dias',
-  'Ultimos 30 dias',
-  'Ultimos 90 dias',
-];
-
 // Seccion: modelo visual de historial
 // Representa la informacion que consumen las tarjetas y el popup detalle.
 class HistorialCitaVista {

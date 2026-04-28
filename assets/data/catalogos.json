@@ -1,0 +1,81 @@
+{
+  "personal_medico": {
+    "especialidades": [
+      "Medicina general",
+      "Medicina interna",
+      "Pediatria veterinaria",
+      "Geriatria veterinaria",
+      "Dermatologia",
+      "Odontologia veterinaria",
+      "Rehabilitacion y fisioterapia",
+      "Urgencias y cuidados intensivos",
+      "Nutricion clinica",
+      "Animales exoticos",
+      "Cirugia",
+      "Otro"
+    ],
+    "jornadas": ["Manana", "Tarde", "Noche"],
+    "estados": ["Activo", "Vacaciones", "Inactivo"]
+  },
+  "citas": {
+    "motivos_cliente": [
+      "Vacunacion anual",
+      "Control general",
+      "Desparasitacion",
+      "Revision de piel",
+      "Corte de unas",
+      "Revision odontologica",
+      "Otro"
+    ],
+    "motivos_admin": [
+      "Control general",
+      "Vacunacion",
+      "Desparasitacion",
+      "Chequeo preventivo",
+      "Valoracion prequirurgica",
+      "Cirugia",
+      "Revision postoperatoria",
+      "Consulta dermatologica",
+      "Odontologia veterinaria",
+      "Examenes de laboratorio",
+      "Imagen diagnostica",
+      "Urgencia"
+    ],
+    "estados": [
+      "proxima",
+      "pendiente",
+      "confirmada",
+      "cancelada",
+      "reprogramada"
+    ],
+    "estados_creacion_admin": ["proxima"]
+  },
+  "mascotas": {
+    "sexos": ["Hembra", "Macho"]
+  },
+  "historial_citas": {
+    "estados_filtro": [
+      "Todos",
+      "proxima",
+      "pendiente",
+      "confirmada",
+      "finalizada",
+      "cancelada",
+      "reprogramada"
+    ],
+    "especies_filtro": [
+      "Todas",
+      "Perro",
+      "Gato",
+      "Conejo",
+      "Ave",
+      "Sin especie"
+    ],
+    "fechas_filtro": [
+      "Todo",
+      "Ultimos 7 dias",
+      "Ultimos 30 dias",
+      "Ultimos 90 dias"
+    ]
+  }
+}

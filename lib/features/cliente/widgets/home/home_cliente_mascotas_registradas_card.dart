@@ -59,6 +59,7 @@ class HomeClienteMascotasRegistradasCard extends StatelessWidget {
   Widget _tarjetaMascota(Mascota mascota) {
     return Material(
       color: AppColores.transparente,
+      // Botón/tarjeta: abre el detalle de la mascota seleccionada.
       child: InkWell(
         borderRadius: BorderRadius.circular(24),
         onTap: () => onTapMascota?.call(mascota),

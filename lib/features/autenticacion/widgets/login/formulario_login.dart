@@ -49,10 +49,10 @@ class _FormularioLoginState extends State<FormularioLogin> {
   }
 
   // Sección: envío de formulario
-  // Valida campos y ejecuta callback de login real.
+  // Valida correo y delega el flujo de contraseña al servicio de autenticación.
   Future<void> _iniciarSesion() async {
     final errorCorreo = _validarCorreo(_correoCtrl.text);
-    final errorContrasena = _validarContrasena(_contrasenaCtrl.text);
+    final errorContrasena = _validarContrasenaOpcional(_contrasenaCtrl.text);
 
     setState(() {
       _errorCorreo = errorCorreo;
@@ -84,11 +84,11 @@ class _FormularioLoginState extends State<FormularioLogin> {
     return null;
   }
 
-  // Sección: validación de contraseña
-  // Revisa campo obligatorio y longitud mínima.
-  String? _validarContrasena(String value) {
+  // Sección: validación de contraseña opcional
+  // Permite vacío para detectar cuentas que deben configurar clave inicial.
+  String? _validarContrasenaOpcional(String value) {
     if (value.isEmpty) {
-      return 'Ingresa tu contraseña';
+      return null;
     }
     if (value.length < 6) {
       return 'Mínimo 6 caracteres';
@@ -216,7 +216,7 @@ class _FormularioLoginState extends State<FormularioLogin> {
             onChanged: (value) {
               if (_errorContrasena != null) {
                 setState(() {
-                  _errorContrasena = _validarContrasena(value);
+                  _errorContrasena = _validarContrasenaOpcional(value);
                 });
               }
             },

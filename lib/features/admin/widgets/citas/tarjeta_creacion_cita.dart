@@ -2,23 +2,7 @@
 // Se importa material para construir el formulario visual de creación de citas admin.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-
-// Sección: catálogo base de motivos admin
-// Lista de motivos disponibles cuando la pantalla no inyecta una lista personalizada.
-const List<String> _motivosCitaAdminPorDefecto = <String>[
-  'Control general',
-  'Vacunacion',
-  'Desparasitacion',
-  'Chequeo preventivo',
-  'Valoracion prequirurgica',
-  'Cirugia',
-  'Revision postoperatoria',
-  'Consulta dermatologica',
-  'Odontologia veterinaria',
-  'Examenes de laboratorio',
-  'Imagen diagnostica',
-  'Urgencia',
-];
+import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
 
 // Sección: formato de fecha y hora
 // Convierte DateTime a texto legible para mostrar en el formulario.
@@ -117,8 +101,8 @@ class TarjetaCreacionCita extends StatefulWidget {
     this.mascotasRegistradas = const <MascotaRegistradaMock>[],
     this.usuariosRegistrados = const <UsuarioRegistradoMock>[],
     this.medicosRegistrados = const <MedicoRegistradoMock>[],
-    this.motivosDisponibles = _motivosCitaAdminPorDefecto,
-    this.estadosDisponibles = const <String>['proxima'],
+    this.motivosDisponibles = const <String>[],
+    this.estadosDisponibles = const <String>[],
   });
 
   final VoidCallback? onCerrar;
@@ -139,6 +123,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   final _formKey = GlobalKey<FormState>();
   final _fechaHoraController = TextEditingController();
   final _descripcionController = TextEditingController();
+  final CatalogosJsonService _catalogosService = CatalogosJsonService();
 
   String? _mascotaSeleccionadaId;
   String? _usuarioSeleccionadoId;
@@ -146,19 +131,22 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   String? _motivoSeleccionado;
   String? _estadoSeleccionado;
   DateTime? _fechaHoraSeleccionada;
+  bool _cargandoCatalogos = true;
+  List<String> _motivosCatalogo = const <String>[];
+  List<String> _estadosCatalogo = const <String>[];
 
   // Sección: listas efectivas de opciones
-  // Usa valores por defecto para mantener el formulario estable sin backend.
+  // Usa valores de JSON cuando la pantalla no inyecta una lista personalizada.
   List<String> get _motivosDisponibles {
     if (widget.motivosDisponibles.isEmpty) {
-      return _motivosCitaAdminPorDefecto;
+      return _motivosCatalogo;
     }
     return widget.motivosDisponibles;
   }
 
   List<String> get _estadosDisponibles {
     if (widget.estadosDisponibles.isEmpty) {
-      return const <String>['proxima'];
+      return _estadosCatalogo;
     }
     return widget.estadosDisponibles;
   }
@@ -195,8 +183,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   void initState() {
     super.initState();
     _medicoSeleccionadoId = '';
-    _estadoSeleccionado = _estadosDisponibles.first;
-    _motivoSeleccionado = _motivosDisponibles.first;
+    _cargarCatalogos();
   }
 
   @override
@@ -204,6 +191,26 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
     _fechaHoraController.dispose();
     _descripcionController.dispose();
     super.dispose();
+  }
+
+  // Sección: carga de catálogos
+  // Obtiene motivos y estados desde assets antes de inicializar los dropdowns.
+  Future<void> _cargarCatalogos() async {
+    final resultados = await Future.wait<List<String>>([
+      _catalogosService.obtenerMotivosCitaAdmin(),
+      _catalogosService.obtenerEstadosCreacionCitaAdmin(),
+    ]);
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _motivosCatalogo = resultados[0];
+      _estadosCatalogo = resultados[1];
+      _estadoSeleccionado = _estadosDisponibles.first;
+      _motivoSeleccionado = _motivosDisponibles.first;
+      _cargandoCatalogos = false;
+    });
   }
 
   // Sección: estilo base de campos
@@ -386,171 +393,181 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColores.baseFF1A95F7, width: 2),
       ),
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      'Registrar cita',
-                      style: TextStyle(
-                        color: AppColores.baseFF223633,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.1,
+      child: _cargandoCatalogos
+          ? const Padding(
+              padding: EdgeInsets.symmetric(vertical: 32),
+              child: Center(child: CircularProgressIndicator(strokeWidth: 2.3)),
+            )
+          : Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text(
+                            'Registrar cita',
+                            style: TextStyle(
+                              color: AppColores.baseFF223633,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.1,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: widget.onCerrar,
+                          icon: const Icon(Icons.close, size: 20),
+                          visualDensity: VisualDensity.compact,
+                          color: AppColores.baseFF5E6A68,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const _EtiquetaCampo('Usuario registrado'),
+                    DropdownButtonFormField<String>(
+                      initialValue: _usuarioSeleccionadoId,
+                      validator: (value) => value == null ? '' : null,
+                      decoration: _decoracionCampo('Seleccionar usuario'),
+                      items: widget.usuariosRegistrados
+                          .map(
+                            (usuario) => DropdownMenuItem<String>(
+                              value: usuario.id,
+                              child: Text(usuario.nombre),
+                            ),
+                          )
+                          .toList(growable: false),
+                      onChanged: _onUsuarioChanged,
+                    ),
+                    const SizedBox(height: 10),
+                    const _EtiquetaCampo('Mascota registrada'),
+                    DropdownButtonFormField<String>(
+                      initialValue: _mascotaSeleccionadaId,
+                      validator: (value) => value == null ? '' : null,
+                      decoration: _decoracionCampo('Seleccionar mascota'),
+                      items: _mascotasDisponibles
+                          .map(
+                            (mascota) => DropdownMenuItem<String>(
+                              value: mascota.id,
+                              child: Text(
+                                '${mascota.nombre} (${mascota.especie})',
+                              ),
+                            ),
+                          )
+                          .toList(growable: false),
+                      onChanged: _onMascotaChanged,
+                    ),
+                    const SizedBox(height: 10),
+                    const _EtiquetaCampo('Fecha y hora de la cita'),
+                    TextFormField(
+                      controller: _fechaHoraController,
+                      readOnly: true,
+                      validator: _validadorRequerido,
+                      decoration: _decoracionCampo('Seleccionar fecha y hora')
+                          .copyWith(
+                            suffixIcon: IconButton(
+                              onPressed: _seleccionarFechaHora,
+                              icon: const Icon(Icons.calendar_today_outlined),
+                            ),
+                          ),
+                      onTap: _seleccionarFechaHora,
+                    ),
+                    const SizedBox(height: 10),
+                    const _EtiquetaCampo('Motivo'),
+                    DropdownButtonFormField<String>(
+                      initialValue: _motivoSeleccionado,
+                      validator: (value) =>
+                          (value == null || value.trim().isEmpty) ? '' : null,
+                      decoration: _decoracionCampo('Seleccionar motivo'),
+                      items: _motivosDisponibles
+                          .map(
+                            (motivo) => DropdownMenuItem<String>(
+                              value: motivo,
+                              child: Text(motivo),
+                            ),
+                          )
+                          .toList(growable: false),
+                      onChanged: (value) =>
+                          setState(() => _motivoSeleccionado = value),
+                    ),
+                    const SizedBox(height: 10),
+                    const _EtiquetaCampo('Medico asignado'),
+                    DropdownButtonFormField<String>(
+                      initialValue: _medicoSeleccionadoId,
+                      decoration: _decoracionCampo('Seleccionar medico'),
+                      items: <DropdownMenuItem<String>>[
+                        const DropdownMenuItem<String>(
+                          value: '',
+                          child: Text('Sin asignar'),
+                        ),
+                        ...widget.medicosRegistrados.map(
+                          (medico) => DropdownMenuItem<String>(
+                            value: medico.id,
+                            child: Text(medico.nombre),
+                          ),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _medicoSeleccionadoId = value ?? '';
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    const _EtiquetaCampo('Estado'),
+                    DropdownButtonFormField<String>(
+                      initialValue: _estadoSeleccionado,
+                      validator: (value) =>
+                          (value == null || value.trim().isEmpty) ? '' : null,
+                      decoration: _decoracionCampo('Estado'),
+                      items: _estadosDisponibles
+                          .map(
+                            (estado) => DropdownMenuItem<String>(
+                              value: estado,
+                              child: Text(estado),
+                            ),
+                          )
+                          .toList(growable: false),
+                      onChanged: (value) =>
+                          setState(() => _estadoSeleccionado = value),
+                    ),
+                    const SizedBox(height: 10),
+                    const _EtiquetaCampo('Descripción'),
+                    TextFormField(
+                      controller: _descripcionController,
+                      maxLines: 2,
+                      decoration: _decoracionCampo('Descripción opcional'),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _registrar,
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: AppColores.baseFF1E6246,
+                          foregroundColor: AppColores.blanco,
+                          minimumSize: const Size.fromHeight(44),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          'Guardar cita',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: widget.onCerrar,
-                    icon: const Icon(Icons.close, size: 20),
-                    visualDensity: VisualDensity.compact,
-                    color: AppColores.baseFF5E6A68,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              const _EtiquetaCampo('Usuario registrado'),
-              DropdownButtonFormField<String>(
-                initialValue: _usuarioSeleccionadoId,
-                validator: (value) => value == null ? '' : null,
-                decoration: _decoracionCampo('Seleccionar usuario'),
-                items: widget.usuariosRegistrados
-                    .map(
-                      (usuario) => DropdownMenuItem<String>(
-                        value: usuario.id,
-                        child: Text(usuario.nombre),
-                      ),
-                    )
-                    .toList(growable: false),
-                onChanged: _onUsuarioChanged,
-              ),
-              const SizedBox(height: 10),
-              const _EtiquetaCampo('Mascota registrada'),
-              DropdownButtonFormField<String>(
-                initialValue: _mascotaSeleccionadaId,
-                validator: (value) => value == null ? '' : null,
-                decoration: _decoracionCampo('Seleccionar mascota'),
-                items: _mascotasDisponibles
-                    .map(
-                      (mascota) => DropdownMenuItem<String>(
-                        value: mascota.id,
-                        child: Text('${mascota.nombre} (${mascota.especie})'),
-                      ),
-                    )
-                    .toList(growable: false),
-                onChanged: _onMascotaChanged,
-              ),
-              const SizedBox(height: 10),
-              const _EtiquetaCampo('Fecha y hora de la cita'),
-              TextFormField(
-                controller: _fechaHoraController,
-                readOnly: true,
-                validator: _validadorRequerido,
-                decoration: _decoracionCampo('Seleccionar fecha y hora')
-                    .copyWith(
-                      suffixIcon: IconButton(
-                        onPressed: _seleccionarFechaHora,
-                        icon: const Icon(Icons.calendar_today_outlined),
-                      ),
-                    ),
-                onTap: _seleccionarFechaHora,
-              ),
-              const SizedBox(height: 10),
-              const _EtiquetaCampo('Motivo'),
-              DropdownButtonFormField<String>(
-                initialValue: _motivoSeleccionado,
-                validator: (value) =>
-                    (value == null || value.trim().isEmpty) ? '' : null,
-                decoration: _decoracionCampo('Seleccionar motivo'),
-                items: _motivosDisponibles
-                    .map(
-                      (motivo) => DropdownMenuItem<String>(
-                        value: motivo,
-                        child: Text(motivo),
-                      ),
-                    )
-                    .toList(growable: false),
-                onChanged: (value) =>
-                    setState(() => _motivoSeleccionado = value),
-              ),
-              const SizedBox(height: 10),
-              const _EtiquetaCampo('Medico asignado'),
-              DropdownButtonFormField<String>(
-                initialValue: _medicoSeleccionadoId,
-                decoration: _decoracionCampo('Seleccionar medico'),
-                items: <DropdownMenuItem<String>>[
-                  const DropdownMenuItem<String>(
-                    value: '',
-                    child: Text('Sin asignar'),
-                  ),
-                  ...widget.medicosRegistrados.map(
-                    (medico) => DropdownMenuItem<String>(
-                      value: medico.id,
-                      child: Text(medico.nombre),
-                    ),
-                  ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _medicoSeleccionadoId = value ?? '';
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              const _EtiquetaCampo('Estado'),
-              DropdownButtonFormField<String>(
-                initialValue: _estadoSeleccionado,
-                validator: (value) =>
-                    (value == null || value.trim().isEmpty) ? '' : null,
-                decoration: _decoracionCampo('Estado'),
-                items: _estadosDisponibles
-                    .map(
-                      (estado) => DropdownMenuItem<String>(
-                        value: estado,
-                        child: Text(estado),
-                      ),
-                    )
-                    .toList(growable: false),
-                onChanged: (value) =>
-                    setState(() => _estadoSeleccionado = value),
-              ),
-              const SizedBox(height: 10),
-              const _EtiquetaCampo('Descripción'),
-              TextFormField(
-                controller: _descripcionController,
-                maxLines: 2,
-                decoration: _decoracionCampo('Descripción opcional'),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _registrar,
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: AppColores.baseFF1E6246,
-                    foregroundColor: AppColores.blanco,
-                    minimumSize: const Size.fromHeight(44),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'Guardar cita',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

@@ -2,6 +2,7 @@
 // Se importan servicios de sesión y mascotas para registrar en JSON local.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
 
@@ -37,12 +38,21 @@ class _TarjetaCreacionPacienteState extends State<TarjetaCreacionPaciente> {
   // Sección: servicios de dominio
   // Resuelven usuario autenticado y persistencia de mascotas.
   final AuthService _authService = AuthService();
+  final CatalogosJsonService _catalogosService = CatalogosJsonService();
   final MascotaService _mascotaService = MascotaService();
 
   // Sección: estado de UI y selección
   // Controla bloqueo del botón durante guardado y valor de sexo.
+  bool _cargandoCatalogos = true;
   bool _guardando = false;
+  List<String> _opcionesSexo = const <String>[];
   String? _sexoSeleccionado;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarCatalogos();
+  }
 
   // Sección: liberación de recursos
   // Evita fugas de memoria al cerrar la tarjeta.
@@ -54,6 +64,20 @@ class _TarjetaCreacionPacienteState extends State<TarjetaCreacionPaciente> {
     _edadController.dispose();
     _pesoController.dispose();
     super.dispose();
+  }
+
+  // Sección: carga de catálogos
+  // Lee las opciones de sexo desde el JSON de assets.
+  Future<void> _cargarCatalogos() async {
+    final opcionesSexo = await _catalogosService.obtenerOpcionesMascotaSexo();
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _opcionesSexo = opcionesSexo;
+      _cargandoCatalogos = false;
+    });
   }
 
   // Sección: decoración reutilizable de campos
@@ -253,168 +277,184 @@ class _TarjetaCreacionPacienteState extends State<TarjetaCreacionPaciente> {
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: AppColores.baseFF1A95F7, width: 2),
         ),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text(
-                        'Registrar mascota',
-                        style: TextStyle(
-                          color: AppColores.baseFF223633,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.1,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: _cerrar,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 4,
-                          vertical: 2,
-                        ),
-                        child: Icon(
-                          Icons.close,
-                          color: AppColores.baseFF5E6A68,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
+        child: _cargandoCatalogos
+            ? const Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 32),
+                  child: CircularProgressIndicator(strokeWidth: 2.3),
                 ),
-                const SizedBox(height: 8),
-                const _EtiquetaCampo('Nombre'),
-                TextFormField(
-                  controller: _nombreController,
-                  validator: _validadorRequerido,
-                  decoration: _decoracionCampo(
-                    hintText: 'Nombre de la mascota',
-                    colorBorde: AppColores.baseFF5ABF9A,
-                    colorFondo: AppColores.baseFFE5E8E7,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const _EtiquetaCampo('Especie'),
-                TextFormField(
-                  controller: _especieController,
-                  validator: _validadorRequerido,
-                  decoration: _decoracionCampo(hintText: 'Ej: Perro'),
-                ),
-                const SizedBox(height: 10),
-                const _EtiquetaCampo('Sexo'),
-                DropdownButtonFormField<String>(
-                  initialValue: _sexoSeleccionado,
-                  validator: (value) => value == null ? '' : null,
-                  decoration: _decoracionCampo(hintText: 'Seleccionar sexo'),
-                  hint: const Text(
-                    'Seleccionar sexo',
-                    style: TextStyle(
-                      color: AppColores.baseFF6E7A78,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                  borderRadius: BorderRadius.circular(12),
-                  items: const <DropdownMenuItem<String>>[
-                    DropdownMenuItem(value: 'Hembra', child: Text('Hembra')),
-                    DropdownMenuItem(value: 'Macho', child: Text('Macho')),
-                  ],
-                  onChanged: (value) {
-                    setState(() {
-                      _sexoSeleccionado = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 10),
-                const _EtiquetaCampo('Raza'),
-                TextFormField(
-                  controller: _razaController,
-                  // Sección: campo opcional
-                  // La raza no es obligatoria para permitir registrar mascotas sin ese dato.
-                  decoration: _decoracionCampo(hintText: 'Raza'),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              )
+            : Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          const _EtiquetaCampo('Edad'),
-                          TextFormField(
-                            controller: _edadController,
-                            keyboardType: TextInputType.number,
-                            validator: _validadorRequerido,
-                            decoration: _decoracionCampo(
-                              hintText: 'Ej: 3 años',
+                          const Expanded(
+                            child: Text(
+                              'Registrar mascota',
+                              style: TextStyle(
+                                color: AppColores.baseFF223633,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.1,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: _cerrar,
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 2,
+                              ),
+                              child: Icon(
+                                Icons.close,
+                                color: AppColores.baseFF5E6A68,
+                                size: 20,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      const SizedBox(height: 8),
+                      const _EtiquetaCampo('Nombre'),
+                      TextFormField(
+                        controller: _nombreController,
+                        validator: _validadorRequerido,
+                        decoration: _decoracionCampo(
+                          hintText: 'Nombre de la mascota',
+                          colorBorde: AppColores.baseFF5ABF9A,
+                          colorFondo: AppColores.baseFFE5E8E7,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const _EtiquetaCampo('Especie'),
+                      TextFormField(
+                        controller: _especieController,
+                        validator: _validadorRequerido,
+                        decoration: _decoracionCampo(hintText: 'Ej: Perro'),
+                      ),
+                      const SizedBox(height: 10),
+                      const _EtiquetaCampo('Sexo'),
+                      DropdownButtonFormField<String>(
+                        initialValue: _sexoSeleccionado,
+                        validator: (value) => value == null ? '' : null,
+                        decoration: _decoracionCampo(
+                          hintText: 'Seleccionar sexo',
+                        ),
+                        hint: const Text(
+                          'Seleccionar sexo',
+                          style: TextStyle(
+                            color: AppColores.baseFF6E7A78,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                        borderRadius: BorderRadius.circular(12),
+                        items: _opcionesSexo
+                            .map(
+                              (sexo) => DropdownMenuItem<String>(
+                                value: sexo,
+                                child: Text(sexo),
+                              ),
+                            )
+                            .toList(growable: false),
+                        onChanged: (value) {
+                          setState(() {
+                            _sexoSeleccionado = value;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      const _EtiquetaCampo('Raza'),
+                      TextFormField(
+                        controller: _razaController,
+                        // Sección: campo opcional
+                        // La raza no es obligatoria para permitir registrar mascotas sin ese dato.
+                        decoration: _decoracionCampo(hintText: 'Raza'),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
                         children: [
-                          const _EtiquetaCampo('Peso'),
-                          TextFormField(
-                            controller: _pesoController,
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const _EtiquetaCampo('Edad'),
+                                TextFormField(
+                                  controller: _edadController,
+                                  keyboardType: TextInputType.number,
+                                  validator: _validadorRequerido,
+                                  decoration: _decoracionCampo(
+                                    hintText: 'Ej: 3 años',
+                                  ),
+                                ),
+                              ],
                             ),
-                            validator: _validadorRequerido,
-                            decoration: _decoracionCampo(hintText: 'Ej: 12 kg'),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const _EtiquetaCampo('Peso'),
+                                TextFormField(
+                                  controller: _pesoController,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                      ),
+                                  validator: _validadorRequerido,
+                                  decoration: _decoracionCampo(
+                                    hintText: 'Ej: 12 kg',
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _guardando ? null : _registrarMascota,
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      backgroundColor: AppColores.secundarioOscuro,
-                      foregroundColor: AppColores.blanco,
-                      minimumSize: const Size.fromHeight(44),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: _guardando
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.1,
-                              color: AppColores.blanco,
-                            ),
-                          )
-                        : const Text(
-                            'Registrar mascota',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _guardando ? null : _registrarMascota,
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: AppColores.secundarioOscuro,
+                            foregroundColor: AppColores.blanco,
+                            minimumSize: const Size.fromHeight(44),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
+                          child: _guardando
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.1,
+                                    color: AppColores.blanco,
+                                  ),
+                                )
+                              : const Text(
+                                  'Registrar mascota',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }

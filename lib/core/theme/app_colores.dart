@@ -270,7 +270,7 @@ class AppColores {
   // Section: semantic UI defaults
   static const Color fondo = blanco;
   static const Color superficie = blanco;
-  static const Color textoPrincipal = secundarioOscuro;
+  static const Color textoPrincipal = Color.fromRGBO(21, 55, 67, 1);
   static const Color textoSobrePrimario = negro;
   static const Color borde = grisSuave;
 }

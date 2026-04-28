@@ -2,6 +2,7 @@
 // Se importan servicios, funciones y widgets reutilizables de citas admin.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/features/admin/models/vista_cita_admin_view_data.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/detalle_cita_admin_popup.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/tarjeta_creacion_cita.dart';
@@ -11,6 +12,7 @@ import 'package:petcontrol_limpio/models/cita.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
 import 'package:petcontrol_limpio/models/personal_medico.dart';
 import 'package:petcontrol_limpio/models/usuario.dart';
+import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
 import 'package:petcontrol_limpio/services/cita_service.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
 import 'package:petcontrol_limpio/services/personal_medico_service.dart';
@@ -29,6 +31,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
   // Seccion: dependencias y estado local
   // Mantiene cache de datos y estado de carga para la pantalla.
   final CitaService _citaService = CitaService();
+  final CatalogosJsonService _catalogosService = CatalogosJsonService();
   final MascotaService _mascotaService = MascotaService();
   final UsuarioService _usuarioService = UsuarioService();
   final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
@@ -37,6 +40,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
   String? _errorCarga;
   List<Cita> _citas = const <Cita>[];
   List<Mascota> _mascotas = const <Mascota>[];
+  List<String> _estadosCreacionCitaAdmin = const <String>[];
   Map<String, Usuario> _usuariosPorId = const <String, Usuario>{};
   Map<String, PersonalMedico> _medicosPorId = const <String, PersonalMedico>{};
 
@@ -55,12 +59,17 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
     });
 
     try {
-      final data = await VistaCitaAdminFunciones.cargarDatos(
-        citaService: _citaService,
-        mascotaService: _mascotaService,
-        usuarioService: _usuarioService,
-        personalMedicoService: _personalMedicoService,
-      );
+      final resultados = await Future.wait<dynamic>([
+        VistaCitaAdminFunciones.cargarDatos(
+          citaService: _citaService,
+          mascotaService: _mascotaService,
+          usuarioService: _usuarioService,
+          personalMedicoService: _personalMedicoService,
+        ),
+        _catalogosService.obtenerEstadosCreacionCitaAdmin(),
+      ]);
+      final data = resultados[0] as CitasAdminCargaData;
+      final estadosCreacion = resultados[1] as List<String>;
 
       if (!mounted) {
         return;
@@ -69,6 +78,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
       setState(() {
         _citas = data.citas;
         _mascotas = data.mascotas;
+        _estadosCreacionCitaAdmin = estadosCreacion;
         _usuariosPorId = data.usuariosPorId;
         _medicosPorId = data.medicosPorId;
         _cargando = false;
@@ -128,7 +138,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
                     usuariosRegistrados: usuariosFormulario,
                     mascotasRegistradas: mascotasFormulario,
                     medicosRegistrados: medicosFormulario,
-                    estadosDisponibles: const <String>['proxima'],
+                    estadosDisponibles: _estadosCreacionCitaAdmin,
                     onRegistrar: (data) {
                       _registrarCitaDesdeDialogo(data: data);
                     },

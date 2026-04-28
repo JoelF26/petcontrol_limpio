@@ -46,7 +46,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
   String _nombreCliente = 'Cliente';
   String _inicialCliente = 'C';
   int _totalMascotas = 0;
-  int _totalCitasPendientes = 0;
+  int _totalCitas = 0;
   List<Mascota> _mascotasRecientes = const <Mascota>[];
   List<Cita> _proximasCitas = const <Cita>[];
 
@@ -67,7 +67,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
       final idUsuario = _resolverIdUsuario(usuario?.idUsuario);
 
       var totalMascotas = 0;
-      var totalCitasPendientes = 0;
+      var totalCitas = 0;
       var mascotasRecientes = const <Mascota>[];
       var proximasCitas = const <Cita>[];
       if (idUsuario.isNotEmpty) {
@@ -80,7 +80,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
         totalMascotas = mascotas.length;
         mascotasRecientes = mascotas.take(2).toList(growable: false);
         final citas = await citasFuture;
-        totalCitasPendientes = _citaService.contarPendientesEnLista(citas);
+        totalCitas = citas.length;
         proximasCitas = citas.take(4).toList(growable: false);
       }
 
@@ -92,7 +92,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
         _nombreCliente = nombre;
         _inicialCliente = _resolverInicial(nombre);
         _totalMascotas = totalMascotas;
-        _totalCitasPendientes = totalCitasPendientes;
+        _totalCitas = totalCitas;
         _mascotasRecientes = mascotasRecientes;
         _proximasCitas = proximasCitas;
       });
@@ -104,7 +104,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
         _nombreCliente = _resolverNombreVisible(null);
         _inicialCliente = _resolverInicial(_nombreCliente);
         _totalMascotas = 0;
-        _totalCitasPendientes = 0;
+        _totalCitas = 0;
         _mascotasRecientes = const <Mascota>[];
         _proximasCitas = const <Cita>[];
       });
@@ -388,7 +388,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
                         const SizedBox(width: 12),
                         HomeClienteResumenCard(
                           icono: Icons.calendar_month_outlined,
-                          valor: '$_totalCitasPendientes',
+                          valor: '$_totalCitas',
                           etiqueta: 'Mis citas',
                           onTap: () {},
                         ),

@@ -8,6 +8,7 @@ import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widge
 import 'package:petcontrol_limpio/features/admin/widgets/citas/historial_citas_content.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/historial_citas_widgets.dart';
 import 'package:petcontrol_limpio/services/cita_service.dart';
+import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
 import 'package:petcontrol_limpio/services/personal_medico_service.dart';
 import 'package:petcontrol_limpio/services/usuario_service.dart';
 
@@ -24,6 +25,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
   // Seccion: dependencias y estado local
   // Manejan carga de datos y valores seleccionados de filtros.
   final CitaService _citaService = CitaService();
+  final CatalogosJsonService _catalogosService = CatalogosJsonService();
   final UsuarioService _usuarioService = UsuarioService();
   final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
 
@@ -31,9 +33,16 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
   bool _cargando = true;
   String? _errorCarga;
 
-  String _estadoSeleccionado = estadoTodosHistorial;
-  String _especieSeleccionada = especieTodasHistorial;
-  String _fechaSeleccionada = fechaTodoHistorial;
+  List<String> _estadosFiltroHistorial = const <String>[];
+  List<String> _especiesFiltroHistorial = const <String>[];
+  List<String> _fechasFiltroHistorial = const <String>[];
+  String _estadoSeleccionado = '';
+  String _especieSeleccionada = '';
+  String _fechaSeleccionada = '';
+
+  String get _estadoTodosHistorial => _estadosFiltroHistorial.first;
+  String get _especieTodasHistorial => _especiesFiltroHistorial.first;
+  String get _fechaTodoHistorial => _fechasFiltroHistorial.first;
 
   @override
   void initState() {
@@ -50,11 +59,16 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
     });
 
     try {
-      final historial = await HistorialCitasFunciones.cargarHistorial(
-        citaService: _citaService,
-        usuarioService: _usuarioService,
-        personalMedicoService: _personalMedicoService,
-      );
+      final resultados = await Future.wait<dynamic>([
+        HistorialCitasFunciones.cargarHistorial(
+          citaService: _citaService,
+          usuarioService: _usuarioService,
+          personalMedicoService: _personalMedicoService,
+        ),
+        _catalogosService.obtenerFiltrosHistorial(),
+      ]);
+      final historial = resultados[0] as List<HistorialCitaVista>;
+      final filtros = resultados[1] as FiltrosHistorialCitas;
 
       if (!mounted) {
         return;
@@ -64,6 +78,18 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
         _historialCitas
           ..clear()
           ..addAll(historial);
+        _estadosFiltroHistorial = filtros.estados;
+        _especiesFiltroHistorial = filtros.especies;
+        _fechasFiltroHistorial = filtros.fechas;
+        _estadoSeleccionado = filtros.estados.contains(_estadoSeleccionado)
+            ? _estadoSeleccionado
+            : filtros.estados.first;
+        _especieSeleccionada = filtros.especies.contains(_especieSeleccionada)
+            ? _especieSeleccionada
+            : filtros.especies.first;
+        _fechaSeleccionada = filtros.fechas.contains(_fechaSeleccionada)
+            ? _fechaSeleccionada
+            : filtros.fechas.first;
         _cargando = false;
       });
     } catch (_) {
@@ -81,13 +107,19 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
   // Seccion: historial filtrado
   // Aplica filtros activos sobre la lista en memoria.
   List<HistorialCitaVista> get _historialFiltrado {
+    if (_estadosFiltroHistorial.isEmpty ||
+        _especiesFiltroHistorial.isEmpty ||
+        _fechasFiltroHistorial.isEmpty) {
+      return const <HistorialCitaVista>[];
+    }
+
     return HistorialCitasFunciones.filtrarHistorial(
       historial: _historialCitas,
       estadoSeleccionado: _estadoSeleccionado,
       especieSeleccionada: _especieSeleccionada,
       fechaSeleccionada: _fechaSeleccionada,
-      estadoTodos: estadoTodosHistorial,
-      especieTodas: especieTodasHistorial,
+      estadoTodos: _estadoTodosHistorial,
+      especieTodas: _especieTodasHistorial,
     );
   }
 
@@ -100,6 +132,12 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
   // Seccion: popup de filtros
   // Muestra modal para seleccionar filtros y actualizar listado.
   Future<void> _abrirFiltroPopup() async {
+    if (_estadosFiltroHistorial.isEmpty ||
+        _especiesFiltroHistorial.isEmpty ||
+        _fechasFiltroHistorial.isEmpty) {
+      return;
+    }
+
     var estadoTemp = _estadoSeleccionado;
     var especieTemp = _especieSeleccionada;
     var fechaTemp = _fechaSeleccionada;
@@ -141,7 +179,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                       child: DropdownButtonFormField<String>(
                         initialValue: estadoTemp,
                         decoration: decoracionFiltroHistorial(),
-                        items: estadosFiltroHistorial
+                        items: _estadosFiltroHistorial
                             .map(
                               (estado) => DropdownMenuItem<String>(
                                 value: estado,
@@ -162,7 +200,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                       child: DropdownButtonFormField<String>(
                         initialValue: especieTemp,
                         decoration: decoracionFiltroHistorial(),
-                        items: especiesFiltroHistorial
+                        items: _especiesFiltroHistorial
                             .map(
                               (especie) => DropdownMenuItem<String>(
                                 value: especie,
@@ -183,7 +221,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                       child: DropdownButtonFormField<String>(
                         initialValue: fechaTemp,
                         decoration: decoracionFiltroHistorial(),
-                        items: fechasFiltroHistorial
+                        items: _fechasFiltroHistorial
                             .map(
                               (fecha) => DropdownMenuItem<String>(
                                 value: fecha,
@@ -206,9 +244,9 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
                           child: OutlinedButton(
                             onPressed: () {
                               setState(() {
-                                _estadoSeleccionado = estadoTodosHistorial;
-                                _especieSeleccionada = especieTodasHistorial;
-                                _fechaSeleccionada = fechaTodoHistorial;
+                                _estadoSeleccionado = _estadoTodosHistorial;
+                                _especieSeleccionada = _especieTodasHistorial;
+                                _fechaSeleccionada = _fechaTodoHistorial;
                               });
                               Navigator.of(context).pop();
                             },

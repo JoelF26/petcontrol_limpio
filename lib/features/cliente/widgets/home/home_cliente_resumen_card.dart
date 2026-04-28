@@ -24,6 +24,7 @@ class HomeClienteResumenCard extends StatelessWidget {
     return Expanded(
       child: Material(
         color: AppColores.transparente,
+        // Botón/tarjeta: abre el módulo asociado al resumen.
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(14),

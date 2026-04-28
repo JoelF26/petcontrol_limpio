@@ -139,6 +139,7 @@ class _HomeClienteMenuFlotanteState extends State<HomeClienteMenuFlotante>
         Positioned.fill(
           child: IgnorePointer(
             ignoring: !_abierto,
+            // Botón invisible: toca fuera del menú para cerrarlo.
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: _cerrar,
@@ -176,6 +177,7 @@ class _HomeClienteMenuFlotanteState extends State<HomeClienteMenuFlotante>
           child: SizedBox(
             width: 62,
             height: 62,
+            // Botón: abre o cierra el menú flotante de acciones.
             child: FloatingActionButton(
               onPressed: _alternar,
               backgroundColor: AppColores.secundarioOscuro,
@@ -242,6 +244,7 @@ class _HomeClienteMenuFlotanteState extends State<HomeClienteMenuFlotante>
     required String texto,
     required AccionMenuHomeCliente onTap,
   }) {
+    // Botón/fila: ejecuta la acción elegida dentro del menú flotante.
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () async {

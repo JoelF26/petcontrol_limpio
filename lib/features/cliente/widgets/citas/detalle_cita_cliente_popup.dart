@@ -1,11 +1,17 @@
 // Sección: imports
 // Se importan Material, colores, modelo Cita y servicio para actualizar JSON local.
 import 'package:flutter/material.dart';
+import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/citas/detalle_cliente/detalle_cita_cliente_content.dart';
 import 'package:petcontrol_limpio/models/cita.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
+import 'package:petcontrol_limpio/models/personal_medico.dart';
+import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
 import 'package:petcontrol_limpio/services/cita_service.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
+import 'package:petcontrol_limpio/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/services/usuario_service.dart';
 
 // Sección: helper de apertura de detalle
 // Muestra el popup centrado y retorna true cuando se actualiza la cita.
@@ -49,8 +55,11 @@ class _DetalleCitaClientePopup extends StatefulWidget {
 class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   // Sección: dependencias y formulario
   // Se prepara el servicio para persistir cambios y validar datos.
+  final CatalogosJsonService _catalogosService = CatalogosJsonService();
   final CitaService _citaService = CitaService();
   final MascotaService _mascotaService = MascotaService();
+  final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
+  final UsuarioService _usuarioService = UsuarioService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreMascotaController =
       TextEditingController();
@@ -66,8 +75,14 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   bool _cancelandoCita = false;
   DateTime? _fechaHoraSeleccionada;
   bool _cargandoMascotas = true;
+  bool _cargandoMedicos = true;
+  bool _cargandoMotivos = true;
   List<Mascota>? _mascotasDisponibles;
+  List<PersonalMedico> _medicosDisponibles = const <PersonalMedico>[];
+  List<String> _motivosDisponibles = const <String>[];
+  PersonalMedico? _medicoSeleccionado;
   String? _idMascotaSeleccionada;
+  String _idMedicoSeleccionado = '';
 
   // Sección: inicialización de datos
   // Carga datos de la cita en controladores para lectura y edición.
@@ -77,6 +92,8 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
     _mascotasDisponibles = const <Mascota>[];
     _resetearControladores();
     _cargarMascotas();
+    _cargarMedicos();
+    _cargarMotivos();
   }
 
   // Sección: liberación de recursos
@@ -97,6 +114,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
     _idMascotaSeleccionada = widget.cita.idMascota.trim().isEmpty
         ? null
         : widget.cita.idMascota;
+    _idMedicoSeleccionado = widget.cita.idMedico.trim();
     _nombreMascotaController.text = widget.cita.nombreMascotaVisible;
     _especieController.text = widget.cita.especieMascotaVisible;
     _motivoController.text = widget.cita.motivoVisible;
@@ -243,15 +261,6 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
     });
   }
 
-  // Sección: validaciones básicas
-  // Asegura que los campos obligatorios se completen antes de guardar.
-  String? _validarRequerido(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return '';
-    }
-    return null;
-  }
-
   // Sección: selector de fecha y hora
   // Permite ajustar programación de la cita desde calendarios nativos.
   Future<void> _seleccionarFechaHora() async {
@@ -357,6 +366,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
         motivo: _motivoController.text.trim(),
         descripcion: _descripcionController.text.trim(),
         fechaHora: fechaHora,
+        idMedico: _idMedicoSeleccionado,
       );
 
       if (!mounted) {
@@ -366,6 +376,16 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
         const SnackBar(content: Text('Información de la cita actualizada.')),
       );
       _cerrar(context, true);
+    } on StateError catch (error) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message.toString())));
+      setState(() {
+        _guardando = false;
+      });
     } catch (_) {
       if (!mounted) {
         return;
@@ -379,6 +399,91 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
     }
   }
 
+  // Sección: carga de médicos disponibles
+  // Lista personal médico asociado a usuarios con rol admin.
+  Future<void> _cargarMedicos() async {
+    try {
+      final resultados = await Future.wait<dynamic>([
+        _personalMedicoService.obtenerPersonalMedico(),
+        _usuarioService.obtenerUsuarios(),
+      ]);
+      if (!mounted) {
+        return;
+      }
+
+      final personal = resultados[0] as List<PersonalMedico>;
+      final usuarios = resultados[1];
+      final correosAdmin = <String>{
+        for (final usuario in usuarios)
+          if (usuario.rol == RolesUsuario.admin)
+            usuario.correo.trim().toLowerCase(),
+      };
+      final medicos =
+          personal
+              .where(
+                (medico) =>
+                    correosAdmin.contains(medico.correo.trim().toLowerCase()),
+              )
+              .toList(growable: false)
+            ..sort(
+              (a, b) => a.nombreCompleto.toLowerCase().compareTo(
+                b.nombreCompleto.toLowerCase(),
+              ),
+            );
+
+      setState(() {
+        _medicosDisponibles = medicos;
+        _medicoSeleccionado = _buscarMedicoPorId(
+          _idMedicoSeleccionado,
+          medicos,
+        );
+        _cargandoMedicos = false;
+      });
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _medicosDisponibles = const <PersonalMedico>[];
+        _medicoSeleccionado = null;
+        _cargandoMedicos = false;
+      });
+    }
+  }
+
+  // Sección: búsqueda local de médico
+  // Resuelve un médico dentro de una lista ya cargada.
+  PersonalMedico? _buscarMedicoPorId(
+    String idMedico,
+    List<PersonalMedico> medicos,
+  ) {
+    final idLimpio = idMedico.trim();
+    if (idLimpio.isEmpty) {
+      return null;
+    }
+
+    for (final medico in medicos) {
+      if (medico.idMedico == idLimpio) {
+        return medico;
+      }
+    }
+    return null;
+  }
+
+  // Sección: carga de motivos
+  // Lee las opciones del selector desde catalogos.json.
+  Future<void> _cargarMotivos() async {
+    final motivos = await _catalogosService.obtenerMotivosCitaCliente();
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _motivosDisponibles = motivos;
+      _cargandoMotivos = false;
+    });
+  }
+
   // Sección: confirmación de cancelación
   // Solicita confirmación explícita antes de cambiar el estado a cancelada.
   Future<bool> _confirmarCancelacion() async {
@@ -388,14 +493,14 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
       builder: (context) {
         return AlertDialog(
           title: const Text('Cancelar cita'),
-          content: const Text(
-            '¿De verdad deseas cancelar esta cita?',
-          ),
+          content: const Text('¿De verdad deseas cancelar esta cita?'),
           actions: [
+            // Botón: cierra la confirmación y mantiene la cita activa.
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: const Text('Volver'),
             ),
+            // Botón: confirma la cancelación definitiva de la cita.
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
               style: ElevatedButton.styleFrom(
@@ -518,537 +623,59 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   }
 
   // Sección: construcción del popup
-  // Mantiene ficha en modo lectura y habilita edición sólo con botón.
+  // Delega la UI para mantener este archivo enfocado en datos y persistencia.
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColores.transparente,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
-        decoration: BoxDecoration(
-          color: AppColores.baseFFDCDDDE,
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Sección: encabezado del popup
-                // Muestra icono, título y botón de cierre.
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: const BoxDecoration(
-                        color: AppColores.baseFFC6DACC,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.calendar_month_rounded,
-                        color: AppColores.baseFF2F7D68,
-                        size: 26,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _nombreMascotaController.text.trim().isEmpty
-                                ? 'Detalle de cita'
-                                : _nombreMascotaController.text.trim(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: AppColores.baseFF1F2A35,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              height: 1,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          const Text(
-                            'Ficha completa de la cita',
-                            style: TextStyle(
-                              color: AppColores.baseFF6B737E,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              height: 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => _cerrar(context),
-                      splashRadius: 18,
-                      icon: const Icon(
-                        Icons.close,
-                        color: AppColores.baseFF6B737E,
-                        size: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-
-                // Sección: campos de la cita
-                // Muestran solo lectura y se vuelven editables al activar edición.
-                _campoMascotaSeleccion(),
-                const SizedBox(height: 10),
-                _campoEspecieSoloLectura(),
-                const SizedBox(height: 10),
-                _campoFechaHora(),
-                const SizedBox(height: 10),
-                _campoFicha(
-                  etiqueta: 'Motivo',
-                  controller: _motivoController,
-                  habilitado: _modoEdicion,
-                  validator: _validarRequerido,
-                ),
-                const SizedBox(height: 10),
-                _campoFicha(
-                  etiqueta: 'Descripción',
-                  controller: _descripcionController,
-                  habilitado: _modoEdicion,
-                  minLines: 2,
-                  maxLines: 3,
-                ),
-                const SizedBox(height: 12),
-
-                // Sección: acciones inferiores
-                // Muestra editar o cancelar/guardar según modo actual.
-                if (!_modoEdicion)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _cancelandoCita ? null : _activarEdicion,
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: AppColores.baseFF143B5F,
-                            foregroundColor: AppColores.blanco,
-                            minimumSize: const Size.fromHeight(44),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            'Editar información',
-                            maxLines: 1,
-                            softWrap: false,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 13.5,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: _cancelandoCita ? null : _cancelarCita,
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColores.baseFFB53939,
-                            side: const BorderSide(
-                              color: AppColores.baseFFB53939,
-                            ),
-                            minimumSize: const Size.fromHeight(44),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: _cancelandoCita
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: AppColores.baseFFB53939,
-                                  ),
-                                )
-                              : const Text(
-                                  'Cancelar cita',
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 13.5,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ],
-                  )
-                else
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: _guardando ? null : _cancelarEdicion,
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColores.baseFF5A616A,
-                            side: const BorderSide(
-                              color: AppColores.baseFFA4ABB3,
-                            ),
-                            minimumSize: const Size.fromHeight(44),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            'Cancelar',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _guardando ? null : _guardarCambios,
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: AppColores.baseFF143B5F,
-                            foregroundColor: AppColores.blanco,
-                            minimumSize: const Size.fromHeight(44),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: _guardando
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: AppColores.blanco,
-                                  ),
-                                )
-                              : const Text(
-                                  'Guardar cambios',
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Sección: campo visual reutilizable
-  // Mantiene bloque de ficha y alterna entre texto o input según modo edición.
-  Widget _campoMascotaSeleccion() {
-    final mascotas = _mascotasDisponibles ?? const <Mascota>[];
-    final existeSeleccion = mascotas.any(
-      (mascota) => mascota.idMascota == _idMascotaSeleccionada,
-    );
-    final valorSeleccionado = existeSeleccion ? _idMascotaSeleccionada : null;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: AppColores.baseFFE9EAEB,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Mascota',
-            style: TextStyle(
-              color: AppColores.baseFF7A8088,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              height: 1,
-            ),
-          ),
-          const SizedBox(height: 7),
-          if (!_modoEdicion)
-            Text(
-              _nombreMascotaController.text.trim().isEmpty
-                  ? '-'
-                  : _nombreMascotaController.text.trim(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColores.baseFF1F2A35,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                height: 1.1,
-              ),
-            )
-          else if (_cargandoMascotas)
-            const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          else
-            DropdownButtonFormField<String>(
-              initialValue: valorSeleccionado,
-              isExpanded: true,
-              icon: const Icon(
-                Icons.expand_more_rounded,
-                color: AppColores.baseFF5F6772,
-                size: 20,
-              ),
-              dropdownColor: AppColores.baseFFE9EAEB,
-              style: const TextStyle(
-                color: AppColores.baseFF1F2A35,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                height: 1.1,
-              ),
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
-                filled: false,
-                fillColor: AppColores.transparente,
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                focusedErrorBorder: InputBorder.none,
-              ),
-              hint: const Text(
-                'Seleccionar mascota',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: AppColores.baseFF6B737E,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  height: 1.1,
-                ),
-              ),
-              items: mascotas
-                  .map(
-                    (mascota) => DropdownMenuItem<String>(
-                      value: mascota.idMascota,
-                      child: Text(
-                        mascota.nombreVisible,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  )
-                  .toList(growable: false),
-              onChanged: (idSeleccionado) {
-                if (idSeleccionado == null) {
-                  return;
-                }
-                final mascota = _buscarMascotaPorId(idSeleccionado);
-                setState(() {
-                  _idMascotaSeleccionada = idSeleccionado;
-                  if (mascota != null) {
-                    _nombreMascotaController.text = mascota.nombreVisible;
-                    _especieController.text = mascota.especieVisible;
-                  }
-                });
-              },
-            ),
-        ],
-      ),
-    );
-  }
-
-  // Sección: campo de especie solo lectura
-  // La especie se deriva de la mascota seleccionada y no se edita manualmente.
-  Widget _campoEspecieSoloLectura() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: AppColores.baseFFE9EAEB,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Especie',
-            style: TextStyle(
-              color: AppColores.baseFF7A8088,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              height: 1,
-            ),
-          ),
-          const SizedBox(height: 7),
-          Text(
-            _especieController.text.trim().isEmpty
-                ? '-'
-                : _especieController.text.trim(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColores.baseFF1F2A35,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              height: 1.1,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Sección: campo visual reutilizable
-  // Mantiene bloque de ficha y alterna entre texto o input según modo edición.
-  Widget _campoFicha({
-    required String etiqueta,
-    required TextEditingController controller,
-    required bool habilitado,
-    String? Function(String?)? validator,
-    int minLines = 1,
-    int maxLines = 1,
-  }) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: AppColores.baseFFE9EAEB,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            etiqueta,
-            style: const TextStyle(
-              color: AppColores.baseFF7A8088,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              height: 1,
-            ),
-          ),
-          const SizedBox(height: 7),
-          if (!habilitado)
-            Text(
-              controller.text.trim().isEmpty ? '-' : controller.text.trim(),
-              maxLines: maxLines + 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColores.baseFF1F2A35,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                height: 1.1,
-              ),
-            )
-          else
-            TextFormField(
-              controller: controller,
-              validator: validator,
-              minLines: minLines,
-              maxLines: maxLines,
-              style: const TextStyle(
-                color: AppColores.baseFF1F2A35,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                height: 1.1,
-              ),
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
-                filled: false,
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                focusedErrorBorder: InputBorder.none,
-                errorStyle: TextStyle(height: 0.01, fontSize: 0),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  // Sección: campo fecha y hora
-  // En modo edición abre selector; en lectura solo muestra el texto actual.
-  Widget _campoFechaHora() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: AppColores.baseFFE9EAEB,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Fecha y hora',
-            style: TextStyle(
-              color: AppColores.baseFF7A8088,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              height: 1,
-            ),
-          ),
-          const SizedBox(height: 7),
-          if (!_modoEdicion)
-            Text(
-              _fechaHoraController.text.trim().isEmpty
-                  ? 'Fecha por definir'
-                  : _fechaHoraController.text.trim(),
-              style: const TextStyle(
-                color: AppColores.baseFF1F2A35,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                height: 1.1,
-              ),
-            )
-          else
-            InkWell(
-              onTap: _seleccionarFechaHora,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _fechaHoraController.text.trim().isEmpty
-                          ? 'Seleccionar fecha y hora'
-                          : _fechaHoraController.text.trim(),
-                      style: const TextStyle(
-                        color: AppColores.baseFF1F2A35,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        height: 1.1,
-                      ),
-                    ),
-                  ),
-                  const Icon(
-                    Icons.calendar_month_outlined,
-                    color: AppColores.baseFF1F2A35,
-                    size: 18,
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
+    return DetalleCitaClienteContent(
+      formKey: _formKey,
+      nombreMascotaController: _nombreMascotaController,
+      especieController: _especieController,
+      fechaHoraController: _fechaHoraController,
+      motivoController: _motivoController,
+      descripcionController: _descripcionController,
+      modoEdicion: _modoEdicion,
+      guardando: _guardando,
+      cancelandoCita: _cancelandoCita,
+      cargandoMascotas: _cargandoMascotas,
+      cargandoMedicos: _cargandoMedicos,
+      cargandoMotivos: _cargandoMotivos,
+      mascotasDisponibles: _mascotasDisponibles,
+      medicosDisponibles: _medicosDisponibles,
+      motivosDisponibles: _motivosDisponibles,
+      idMascotaSeleccionada: _idMascotaSeleccionada,
+      idMedicoSeleccionado: _idMedicoSeleccionado,
+      medicoSeleccionado: _medicoSeleccionado,
+      onCerrar: () => _cerrar(context),
+      onActivarEdicion: _activarEdicion,
+      onCancelarCita: _cancelarCita,
+      onCancelarEdicion: _cancelarEdicion,
+      onGuardarCambios: _guardarCambios,
+      onSeleccionarFechaHora: _seleccionarFechaHora,
+      onMascotaChanged: (idSeleccionado) {
+        final mascota = _buscarMascotaPorId(idSeleccionado);
+        setState(() {
+          _idMascotaSeleccionada = idSeleccionado;
+          if (mascota != null) {
+            _nombreMascotaController.text = mascota.nombreVisible;
+            _especieController.text = mascota.especieVisible;
+          }
+        });
+      },
+      onMedicoChanged: (idMedico) {
+        final idLimpio = idMedico.trim();
+        setState(() {
+          _idMedicoSeleccionado = idLimpio;
+          _medicoSeleccionado = _buscarMedicoPorId(
+            idLimpio,
+            _medicosDisponibles,
+          );
+        });
+      },
+      onMotivoChanged: (motivo) {
+        setState(() {
+          _motivoController.text = motivo;
+        });
+      },
     );
   }
 }

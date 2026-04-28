@@ -1,9 +1,9 @@
 // Sección: imports
-// Se importan utilidades JSON, constantes de entidades y almacenamiento local unificado.
+// Se importan utilidades JSON, assets, constantes de entidades y storage local.
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:petcontrol_limpio/core/constants/entidades_locales.dart';
-import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Sección: servicio central de almacenamiento local
@@ -27,42 +27,15 @@ class LocalJsonStorageService {
   // Sección: clave de almacenamiento
   // Guarda toda la base en una sola clave para tener fuente única de verdad.
   static const String _llaveBase = 'petcontrol_json_db_v1';
+  static const String _rutaSeed = 'assets/data/local_db_seed.json';
 
   // Sección: estado de inicialización
   // Evita recalcular la base inicial más de una vez.
   bool _inicializado = false;
   Future<void>? _inicializacionEnCurso;
 
-  // Sección: usuarios base
-  // Define cuentas iniciales solicitadas para admin y cliente.
-  static const List<Map<String, dynamic>> _usuariosBase =
-      <Map<String, dynamic>>[
-        <String, dynamic>{
-          'id_usuario': 'usuario_admin_001',
-          'nombre_completo': 'Maria',
-          'numero_documento': '100000001',
-          'telefono': '3000000001',
-          'correo': 'maria@vetcontrol.com',
-          'contrasena': 'M123456',
-          'rol': RolesUsuario.admin,
-          'fecha_creacion': '2026-04-14',
-          'created_at': '2026-04-14T00:00:00.000',
-        },
-        <String, dynamic>{
-          'id_usuario': 'usuario_cliente_001',
-          'nombre_completo': 'Joel',
-          'numero_documento': '100000002',
-          'telefono': '3000000002',
-          'correo': 'joel@gmail.com',
-          'contrasena': 'J123456',
-          'rol': RolesUsuario.cliente,
-          'fecha_creacion': '2026-04-14',
-          'created_at': '2026-04-14T00:00:00.000',
-        },
-      ];
-
   // Sección: inicialización principal
-  // Si no existe base local, crea una base inicial con listas vacías.
+  // Si no existe base local, crea una base inicial desde el seed JSON.
   Future<void> inicializar() {
     if (_inicializado) {
       return Future<void>.value();
@@ -78,7 +51,7 @@ class LocalJsonStorageService {
     return tarea;
   }
 
-  // Sección: construcción de base inicial
+  // Sección: construcción de base inicial vacía
   // Genera una estructura con todas las entidades apuntando a listas vacías.
   Map<String, dynamic> _crearBaseInicialVacia() {
     final Map<String, dynamic> base = <String, dynamic>{};
@@ -88,66 +61,40 @@ class LocalJsonStorageService {
     return base;
   }
 
-  // Sección: inserción/sincronización de usuarios base
-  // Agrega por correo y sincroniza datos clave aunque el usuario ya exista.
-  bool _asegurarUsuariosBase(Map<String, dynamic> base) {
-    final dynamic usuariosRaw = base[EntidadesLocales.usuarios];
-    final List<dynamic> usuarios = usuariosRaw is List
-        ? usuariosRaw
-        : <dynamic>[];
-
-    var cambio = false;
-
-    for (final usuarioBase in _usuariosBase) {
-      final idUsuarioBase =
-          (usuarioBase['id_usuario'] ?? '').toString().trim();
-      final correo =
-          (usuarioBase['correo'] ?? '').toString().trim().toLowerCase();
-      if (correo.isEmpty) {
-        continue;
+  // Sección: construcción desde seed JSON
+  // Lee la base inicial desde assets y completa entidades faltantes.
+  Future<Map<String, dynamic>> _crearBaseInicialDesdeSeed() async {
+    try {
+      final contenido = await rootBundle.loadString(_rutaSeed);
+      final decoded = jsonDecode(contenido);
+      if (decoded is Map<String, dynamic>) {
+        return _normalizarBase(decoded);
       }
-
-      final indice = usuarios.indexWhere((item) {
-        if (item is! Map) {
-          return false;
-        }
-        final idItem = (item['id_usuario'] ?? '').toString().trim();
-        final correoItem = (item['correo'] ?? '').toString().trim().toLowerCase();
-        if (idUsuarioBase.isNotEmpty && idItem == idUsuarioBase) {
-          return true;
-        }
-        return correoItem == correo;
-      });
-
-      if (indice < 0) {
-        usuarios.add(Map<String, dynamic>.from(usuarioBase));
-        cambio = true;
-        continue;
+      if (decoded is Map) {
+        return _normalizarBase(
+          decoded.map((key, value) => MapEntry(key.toString(), value)),
+        );
       }
-
-      final actual = usuarios[indice];
-      if (actual is! Map) {
-        usuarios[indice] = Map<String, dynamic>.from(usuarioBase);
-        cambio = true;
-        continue;
-      }
-
-      final actualizado = Map<String, dynamic>.from(actual);
-      for (final entrada in usuarioBase.entries) {
-        if (actualizado[entrada.key] != entrada.value) {
-          actualizado[entrada.key] = entrada.value;
-          cambio = true;
-        }
-      }
-      usuarios[indice] = actualizado;
+    } catch (_) {
+      // Si el asset no está disponible, la app conserva una base vacía operable.
     }
+    return _crearBaseInicialVacia();
+  }
 
-    base[EntidadesLocales.usuarios] = usuarios;
-    return cambio;
+  // Sección: normalización de base
+  // Asegura que todas las entidades soportadas existan como listas.
+  Map<String, dynamic> _normalizarBase(Map<String, dynamic> baseRaw) {
+    final base = Map<String, dynamic>.from(baseRaw);
+    for (final entidad in EntidadesLocales.todas) {
+      if (base[entidad] is! List) {
+        base[entidad] = <dynamic>[];
+      }
+    }
+    return base;
   }
 
   // Sección: bootstrap de base local
-  // Si no hay base persistida la crea, y luego asegura usuarios base en ambos casos.
+  // Si no hay base persistida la crea desde el seed JSON inicial.
   Future<void> _ejecutarInicializacion() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -157,25 +104,17 @@ class LocalJsonStorageService {
       if (baseActual != null && baseActual.trim().isNotEmpty) {
         final decoded = jsonDecode(baseActual);
         if (decoded is Map<String, dynamic>) {
-          base = decoded;
+          base = _normalizarBase(decoded);
         } else if (decoded is Map) {
-          base = decoded.map((key, value) => MapEntry(key.toString(), value));
+          base = _normalizarBase(
+            decoded.map((key, value) => MapEntry(key.toString(), value)),
+          );
         } else {
-          base = _crearBaseInicialVacia();
+          base = await _crearBaseInicialDesdeSeed();
         }
       } else {
-        base = _crearBaseInicialVacia();
+        base = await _crearBaseInicialDesdeSeed();
       }
-
-      // Sección: normalización de entidades faltantes
-      // Completa llaves ausentes con listas vacías antes de guardar.
-      for (final entidad in EntidadesLocales.todas) {
-        if (base[entidad] is! List) {
-          base[entidad] = <dynamic>[];
-        }
-      }
-
-      _asegurarUsuariosBase(base);
       await prefs.setString(_llaveBase, jsonEncode(base));
       _inicializado = true;
     } finally {
@@ -216,10 +155,6 @@ class LocalJsonStorageService {
       }
     }
 
-    if (_asegurarUsuariosBase(base)) {
-      requiereGuardar = true;
-    }
-
     if (requiereGuardar) {
       await _guardarBase(base);
     }
@@ -241,17 +176,19 @@ class LocalJsonStorageService {
       return <Map<String, dynamic>>[];
     }
 
-    return valorEntidad.map((item) {
-      if (item is Map<String, dynamic>) {
-        return item;
-      }
-      if (item is Map) {
-        return item.map((key, value) => MapEntry(key.toString(), value));
-      }
-      throw const FormatException(
-        'La lista contiene registros con formato inválido.',
-      );
-    }).toList(growable: false);
+    return valorEntidad
+        .map((item) {
+          if (item is Map<String, dynamic>) {
+            return item;
+          }
+          if (item is Map) {
+            return item.map((key, value) => MapEntry(key.toString(), value));
+          }
+          throw const FormatException(
+            'La lista contiene registros con formato inválido.',
+          );
+        })
+        .toList(growable: false);
   }
 
   // Sección: lectura tipada de lista

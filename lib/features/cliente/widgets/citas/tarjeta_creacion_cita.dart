@@ -2,8 +2,11 @@
 // Se importan utilidades visuales y servicios de dominio del proyecto.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/citas/creacion/formulario_creacion_cita_content.dart';
+import 'package:petcontrol_limpio/features/cliente/widgets/citas/creacion/medico_cita_item.dart';
 import 'package:petcontrol_limpio/models/mascota.dart';
 import 'package:petcontrol_limpio/services/auth_service.dart';
+import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
 import 'package:petcontrol_limpio/services/cita_service.dart';
 import 'package:petcontrol_limpio/services/personal_medico_service.dart';
 import 'package:petcontrol_limpio/services/mascota_service.dart';
@@ -32,6 +35,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   // Sección: servicios backend
   // Encapsulan acceso a sesión, mascotas, médicos y persistencia de citas.
   final AuthService _authService = AuthService();
+  final CatalogosJsonService _catalogosService = CatalogosJsonService();
   final MascotaService _mascotaService = MascotaService();
   final CitaService _citaService = CitaService();
   final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
@@ -45,8 +49,9 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   // Almacena id usuario, mascotas asociadas y médicos disponibles.
   String _idUsuarioActual = '';
   List<Mascota> _mascotasDisponibles = const <Mascota>[];
-  List<_MedicoItem> _todosMedicos = const <_MedicoItem>[];
-  List<_MedicoItem> _medicosDisponibles = const <_MedicoItem>[];
+  List<MedicoCitaItem> _todosMedicos = const <MedicoCitaItem>[];
+  List<MedicoCitaItem> _medicosDisponibles = const <MedicoCitaItem>[];
+  List<String> _motivosDisponibles = const <String>[];
   int _tokenConsultaDisponibilidad = 0;
 
   // Sección: estado de selección del formulario
@@ -55,18 +60,6 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   String? _motivoSeleccionado;
   String? _idMedicoSeleccionado;
   DateTime? _fechaHoraSeleccionada;
-
-  // Sección: catálogo de motivos
-  // Lista cerrada para el desplegable de motivo de cita.
-  static const List<String> _motivosDisponibles = <String>[
-    'Vacunacion anual',
-    'Control general',
-    'Desparasitacion',
-    'Revision de piel',
-    'Corte de uñas',
-    'Revisión odontologica',
-    'Otro',
-  ];
 
   // Sección: inicialización del widget
   // Carga mascotas y médicos apenas se abre el popup.
@@ -99,7 +92,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
         setState(() {
           _idUsuarioActual = '';
           _mascotasDisponibles = const <Mascota>[];
-          _medicosDisponibles = const <_MedicoItem>[];
+          _medicosDisponibles = const <MedicoCitaItem>[];
           _cargandoDatos = false;
         });
         return;
@@ -109,8 +102,15 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
         idUsuario,
       );
       final medicosFuture = _obtenerMedicosDisponibles();
-      final mascotas = await mascotasFuture;
-      final medicos = await medicosFuture;
+      final motivosFuture = _catalogosService.obtenerMotivosCitaCliente();
+      final resultados = await Future.wait<dynamic>([
+        mascotasFuture,
+        medicosFuture,
+        motivosFuture,
+      ]);
+      final mascotas = resultados[0] as List<Mascota>;
+      final medicos = resultados[1] as List<MedicoCitaItem>;
+      final motivos = resultados[2] as List<String>;
 
       if (!mounted) {
         return;
@@ -120,6 +120,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
         _mascotasDisponibles = mascotas;
         _todosMedicos = medicos;
         _medicosDisponibles = medicos;
+        _motivosDisponibles = motivos;
         _cargandoDatos = false;
       });
     } catch (_) {
@@ -129,8 +130,9 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
       setState(() {
         _idUsuarioActual = '';
         _mascotasDisponibles = const <Mascota>[];
-        _todosMedicos = const <_MedicoItem>[];
-        _medicosDisponibles = const <_MedicoItem>[];
+        _todosMedicos = const <MedicoCitaItem>[];
+        _medicosDisponibles = const <MedicoCitaItem>[];
+        _motivosDisponibles = const <String>[];
         _cargandoDatos = false;
       });
     }
@@ -145,10 +147,11 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
         .where((id) => id.isNotEmpty)
         .toList(growable: false);
 
-    final idsDisponibles = await _citaService.obtenerIdsMedicosDisponiblesEnHorario(
-      fechaHora: fechaHora,
-      idsMedico: idsMedicos,
-    );
+    final idsDisponibles = await _citaService
+        .obtenerIdsMedicosDisponiblesEnHorario(
+          fechaHora: fechaHora,
+          idsMedico: idsMedicos,
+        );
 
     if (!mounted || token != _tokenConsultaDisponibilidad) {
       return;
@@ -228,11 +231,11 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
 
   // Sección: consulta de personal médico
   // Lee personal médico activo y normaliza id/nombre para el dropdown.
-  Future<List<_MedicoItem>> _obtenerMedicosDisponibles() async {
+  Future<List<MedicoCitaItem>> _obtenerMedicosDisponibles() async {
     final medicosActivos = await _personalMedicoService.obtenerMedicosActivos();
     final medicos = medicosActivos
         .map(
-          (medico) => _MedicoItem(
+          (medico) => MedicoCitaItem(
             id: medico.idMedico,
             nombre: medico.nombreCompleto,
             especialidad: medico.especialidad,
@@ -261,60 +264,6 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
       if (mascota.idMascota == idMascota) {
         return mascota;
       }
-    }
-    return null;
-  }
-
-  // Sección: decoración visual de campos
-  // Reutiliza la misma apariencia de inputs en toda la tarjeta.
-  InputDecoration _decoracionCampo(String hintText) {
-    return InputDecoration(
-      hintText: hintText,
-      hintStyle: const TextStyle(
-        color: AppColores.baseFF6E7A78,
-        fontSize: 15,
-        fontWeight: FontWeight.w500,
-      ),
-      filled: true,
-      fillColor: AppColores.baseFFE8EBEA,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(
-          color: AppColores.baseFFCDD4D1,
-          width: 1.2,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(
-          color: AppColores.baseFF5ABF9A,
-          width: 1.7,
-        ),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(
-          color: AppColores.baseFFB53939,
-          width: 1.2,
-        ),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(
-          color: AppColores.baseFFB53939,
-          width: 1.7,
-        ),
-      ),
-      errorStyle: const TextStyle(height: 0.01),
-    );
-  }
-
-  // Sección: validadores de campos requeridos
-  // Devuelven error vacío para mantener el estilo de tu diseño actual.
-  String? _validadorRequerido(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return '';
     }
     return null;
   }
@@ -416,16 +365,22 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
           ),
         ),
         // Sección: tema de días del calendario
-        // Mantiene estilo azul y fuerza el número en blanco cuando el día está seleccionado.
+        // Diferencia días pasados deshabilitados de fechas disponibles.
         datePickerTheme: DatePickerThemeData(
           backgroundColor: AppColores.baseFFE7ECF4,
           dayBackgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return AppColores.transparente;
+            }
             if (states.contains(WidgetState.selected)) {
               return AppColores.secundarioOscuro;
             }
             return null;
           }),
           dayForegroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return AppColores.baseFF93A2B2.withValues(alpha: 0.42);
+            }
             if (states.contains(WidgetState.selected)) {
               return AppColores.blanco;
             }
@@ -546,239 +501,36 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   }
 
   // Sección: construcción principal
-  // Mantiene el diseño de tarjeta y agrega estados de carga/guardado.
+  // Delega el formulario visual para mantener este archivo enfocado en estado y guardado.
   @override
   Widget build(BuildContext context) {
-    final alturaMaxima = MediaQuery.of(context).size.height * 0.82;
-
-    // Sección: contenedor material del popup
-    // Asegura un ancestro Material para Dropdown y widgets interactivos.
-    return Material(
-      color: AppColores.transparente,
-      child: Container(
-        constraints: BoxConstraints(maxHeight: alturaMaxima),
-        padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
-        decoration: BoxDecoration(
-          color: AppColores.baseFFDCDDDB,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColores.baseFF1A95F7, width: 2),
-        ),
-        child: _cargandoDatos
-            ? const Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 32),
-                  child: CircularProgressIndicator(strokeWidth: 2.4),
-                ),
-              )
-            : Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Expanded(
-                            child: Text(
-                              'Registrar Cita',
-                              style: TextStyle(
-                                color: AppColores.baseFF223633,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: 0.1,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: _cerrar,
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 4,
-                                vertical: 2,
-                              ),
-                              child: Icon(
-                                Icons.close,
-                                color: AppColores.baseFF5E6A68,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const _EtiquetaCampo('Mascota registrada'),
-                      DropdownButtonFormField<String>(
-                        initialValue: _idMascotaSeleccionada,
-                        validator: (value) => value == null ? '' : null,
-                        isExpanded: true,
-                        menuMaxHeight: 260,
-                        decoration: _decoracionCampo('Seleccionar mascota'),
-                        items: _mascotasDisponibles
-                            .map(
-                              (mascota) => DropdownMenuItem<String>(
-                                value: mascota.idMascota,
-                                child: Text(
-                                  '${mascota.nombreVisible} (${mascota.especieVisible})',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            )
-                            .toList(growable: false),
-                        onChanged: _mascotasDisponibles.isEmpty
-                            ? null
-                            : (value) {
-                                setState(() {
-                                  _idMascotaSeleccionada = value;
-                                });
-                              },
-                      ),
-                      const SizedBox(height: 4),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 2),
-                        child: Text(
-                          'Se muestran las mascotas asociadas a tu cuenta.',
-                          style: TextStyle(
-                            color: AppColores.baseFF6A7674,
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const _EtiquetaCampo('Fecha y hora de la cita'),
-                      TextFormField(
-                        controller: _fechaHoraController,
-                        readOnly: true,
-                        validator: _validadorRequerido,
-                        decoration: _decoracionCampo('Seleccionar fecha y hora')
-                            .copyWith(
-                              suffixIcon: IconButton(
-                                onPressed: _seleccionarFechaHora,
-                                icon: const Icon(
-                                  Icons.event_available_outlined,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                        onTap: _seleccionarFechaHora,
-                      ),
-                      const SizedBox(height: 10),
-                      const _EtiquetaCampo('Motivo de la cita'),
-                      DropdownButtonFormField<String>(
-                        initialValue: _motivoSeleccionado,
-                        validator: (value) => value == null ? '' : null,
-                        isExpanded: true,
-                        menuMaxHeight: 300,
-                        decoration: _decoracionCampo('Seleccionar motivo'),
-                        items: _motivosDisponibles
-                            .map(
-                              (motivo) => DropdownMenuItem<String>(
-                                value: motivo,
-                                child: Text(
-                                  motivo,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            )
-                            .toList(growable: false),
-                        onChanged: (value) {
-                          setState(() {
-                            _motivoSeleccionado = value;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      const _EtiquetaCampo('Médico asignado (opcional)'),
-                      DropdownButtonFormField<String?>(
-                        initialValue: _idMedicoSeleccionado,
-                        isExpanded: true,
-                        menuMaxHeight: 260,
-                        decoration: _decoracionCampo('Seleccionar médico'),
-                        items: [
-                          // Sección: opción vacía de médico
-                          // Permite crear la cita sin médico preferido (sin valor mock).
-                          const DropdownMenuItem<String?>(
-                            value: null,
-                            child: Text('Sin preferencia'),
-                          ),
-                          ..._medicosDisponibles.map(
-                            (medico) => DropdownMenuItem<String?>(
-                              value: medico.id,
-                              child: Text(
-                                medico.nombreVisible,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          _onMedicoChanged(value);
-                        },
-                      ),
-                      if (_fechaHoraSeleccionada != null &&
-                          _medicosDisponibles.isEmpty) ...[
-                        const SizedBox(height: 4),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 2),
-                          child: Text(
-                            'No hay médicos disponibles en esa hora. Puedes elegir otra hora o dejar sin preferencia.',
-                            style: TextStyle(
-                              color: AppColores.baseFF7F3A3A,
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                      const SizedBox(height: 10),
-                      const _EtiquetaCampo('Descripción de la cita'),
-                      TextFormField(
-                        controller: _descripcionController,
-                        maxLines: 6,
-                        minLines: 4,
-                        textInputAction: TextInputAction.newline,
-                        decoration: _decoracionCampo(
-                          'Describe con detalle lo que se evaluará o realizará.',
-                        ).copyWith(alignLabelWithHint: true),
-                      ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _guardando ? null : _registrarCita,
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: AppColores.secundarioOscuro,
-                            foregroundColor: AppColores.blanco,
-                            minimumSize: const Size.fromHeight(44),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: _guardando
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.1,
-                                    color: AppColores.blanco,
-                                  ),
-                                )
-                              : const Text(
-                                  'Crear Cita',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-      ),
+    return FormularioCreacionCitaContent(
+      cargandoDatos: _cargandoDatos,
+      guardando: _guardando,
+      formKey: _formKey,
+      fechaHoraController: _fechaHoraController,
+      descripcionController: _descripcionController,
+      mascotasDisponibles: _mascotasDisponibles,
+      medicosDisponibles: _medicosDisponibles,
+      motivosDisponibles: _motivosDisponibles,
+      idMascotaSeleccionada: _idMascotaSeleccionada,
+      motivoSeleccionado: _motivoSeleccionado,
+      idMedicoSeleccionado: _idMedicoSeleccionado,
+      fechaHoraSeleccionada: _fechaHoraSeleccionada,
+      onCerrar: _cerrar,
+      onSeleccionarFechaHora: _seleccionarFechaHora,
+      onRegistrarCita: _registrarCita,
+      onMascotaChanged: (value) {
+        setState(() {
+          _idMascotaSeleccionada = value;
+        });
+      },
+      onMotivoChanged: (value) {
+        setState(() {
+          _motivoSeleccionado = value;
+        });
+      },
+      onMedicoChanged: _onMedicoChanged,
     );
   }
 
@@ -805,52 +557,5 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
     final hora = fechaHora.hour.toString().padLeft(2, '0');
     final minuto = fechaHora.minute.toString().padLeft(2, '0');
     return '$dia $mes $anio - $hora:$minuto';
-  }
-}
-
-// Sección: etiqueta de campo reutilizable
-// Estandariza el estilo visual de títulos de cada input.
-class _EtiquetaCampo extends StatelessWidget {
-  const _EtiquetaCampo(this.texto);
-
-  final String texto;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 2, bottom: 5),
-      child: Text(
-        texto,
-        style: const TextStyle(
-          color: AppColores.baseFF4A5B58,
-          fontSize: 13,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    );
-  }
-}
-
-// Sección: modelo local de médico para dropdown
-// Simplifica renderizado de personal médico en el formulario.
-class _MedicoItem {
-  const _MedicoItem({
-    required this.id,
-    required this.nombre,
-    required this.especialidad,
-  });
-
-  final String id;
-  final String nombre;
-  final String especialidad;
-
-  // Sección: nombre visible de médico
-  // Combina nombre y especialidad solo cuando hay especialidad cargada.
-  String get nombreVisible {
-    final especialidadLimpia = especialidad.trim();
-    if (especialidadLimpia.isEmpty) {
-      return nombre;
-    }
-    return '$nombre - $especialidadLimpia';
   }
 }

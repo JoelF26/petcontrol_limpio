@@ -1,0 +1,31 @@
+{
+  "usuarios": [
+    {
+      "id_usuario": "usuario_admin_001",
+      "nombre_completo": "Maria",
+      "numero_documento": "100000001",
+      "telefono": "3000000001",
+      "correo": "maria@vetcontrol.com",
+      "contrasena": "M123456",
+      "rol": "admin",
+      "fecha_creacion": "2026-04-14",
+      "created_at": "2026-04-14T00:00:00.000"
+    },
+    {
+      "id_usuario": "usuario_cliente_001",
+      "nombre_completo": "Joel",
+      "numero_documento": "100000002",
+      "telefono": "3000000002",
+      "correo": "joel@gmail.com",
+      "contrasena": "J123456",
+      "rol": "cliente",
+      "fecha_creacion": "2026-04-14",
+      "created_at": "2026-04-14T00:00:00.000"
+    }
+  ],
+  "mascotas": [],
+  "citas": [],
+  "personal_medico": [],
+  "preferencia_medico": [],
+  "historial_clinico": []
+}
