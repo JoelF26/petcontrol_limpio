@@ -86,7 +86,6 @@ class BienvenidaPantalla extends StatelessWidget {
                       child: const Text(
                         "Iniciar Sesión",
                         style: TextStyle(
-                          //fontFamily: , //preguntar a jero
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: AppColores.negro,

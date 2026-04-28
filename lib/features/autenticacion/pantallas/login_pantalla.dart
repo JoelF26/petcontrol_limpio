@@ -111,7 +111,7 @@ class _LoginPantallaState extends State<LoginPantalla> {
   }
 
   // Sección: feedback visual
-  // Muestra mensajes de error o estado en un SnackBar.
+  // Muestra mensajes de error
   void _mostrarMensaje(String mensaje) {
     if (!mounted) {
       return;
