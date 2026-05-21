@@ -1,0 +1,259 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function email() {
+      return signedIn() && request.auth.token.email is string
+        ? request.auth.token.email
+        : '';
+    }
+
+    function authProfilePath(uid) {
+      return /databases/$(database)/documents/usuarios_auth/$(uid);
+    }
+
+    function currentUser() {
+      return get(authProfilePath(request.auth.uid));
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(authProfilePath(request.auth.uid))
+        && currentUser().data.rol == 'admin';
+    }
+
+    function isBootstrapAdmin() {
+      return signedIn()
+        && email() == 'maria@vetcontrol.com'
+        && request.resource.data.rol == 'admin';
+    }
+
+    function validString(value, max) {
+      return value is string && value.size() <= max;
+    }
+
+    function validRole(role) {
+      return role in ['admin', 'cliente'];
+    }
+
+    function validUsuario(data) {
+      return data.keys().hasOnly([
+          'id_usuario',
+          'nombre_completo',
+          'numero_documento',
+          'telefono',
+          'correo',
+          'contrasena',
+          'rol',
+          'fecha_creacion',
+          'created_at',
+          'email_hash'
+        ])
+        && validString(data.id_usuario, 128)
+        && validString(data.nombre_completo, 120)
+        && validString(data.numero_documento, 40)
+        && validString(data.telefono, 40)
+        && validString(data.correo, 160)
+        && data.contrasena == ''
+        && validRole(data.rol)
+        && validString(data.fecha_creacion, 40)
+        && validString(data.created_at, 80)
+        && validString(data.email_hash, 128);
+    }
+
+    function validAuthProfile(data) {
+      return data.keys().hasOnly([
+          'id_usuario',
+          'correo',
+          'rol',
+          'nombre_completo',
+          'email_hash',
+          'usuario_doc_id',
+          'updated_at'
+        ])
+        && validString(data.id_usuario, 128)
+        && validString(data.correo, 160)
+        && validRole(data.rol)
+        && validString(data.nombre_completo, 120)
+        && validString(data.email_hash, 128)
+        && validString(data.usuario_doc_id, 180)
+        && (data.updated_at is timestamp || validString(data.updated_at, 80));
+    }
+
+    function pendingAllowsClaim(data) {
+      return data.email_hash is string
+        && exists(/databases/$(database)/documents/usuarios_pendientes/$(data.email_hash))
+        && get(/databases/$(database)/documents/usuarios_pendientes/$(data.email_hash)).data.correo == email()
+        && get(/databases/$(database)/documents/usuarios_pendientes/$(data.email_hash)).data.rol == data.rol;
+    }
+
+    function validOwned(data) {
+      return data.id_usuario == request.auth.uid;
+    }
+
+    function validMascota(data) {
+      return data.keys().hasOnly([
+          'id_mascota',
+          'id_usuario',
+          'nombre',
+          'especie',
+          'raza',
+          'sexo',
+          'edad_anios',
+          'peso_kg',
+          'fecha_creacion',
+          'created_at'
+        ])
+        && validString(data.id_mascota, 128)
+        && validString(data.id_usuario, 128)
+        && validString(data.nombre, 80)
+        && validString(data.especie, 50)
+        && validString(data.raza, 80)
+        && validString(data.sexo, 30)
+        && (data.edad_anios is int || data.edad_anios == null)
+        && (data.peso_kg is number || data.peso_kg == null);
+    }
+
+    function validCita(data) {
+      return data.keys().hasOnly([
+          'id_cita',
+          'id_usuario',
+          'id_mascota',
+          'id_medico',
+          'nombre_mascota',
+          'especie_mascota',
+          'motivo',
+          'descripcion',
+          'estado',
+          'fecha_hora',
+          'fecha_cita',
+          'hora_cita',
+          'fecha_creacion',
+          'created_at'
+        ])
+        && validString(data.id_cita, 128)
+        && validString(data.id_usuario, 128)
+        && validString(data.id_mascota, 128)
+        && validString(data.id_medico, 128)
+        && validString(data.motivo, 160)
+        && validString(data.descripcion, 1000)
+        && data.estado in ['proxima', 'pendiente', 'confirmada', 'finalizada', 'cancelada', 'reprogramada'];
+    }
+
+    match /usuarios/{usuarioDocId} {
+      allow get, list: if isAdmin()
+        || (signedIn() && resource.data.id_usuario == request.auth.uid);
+      allow create: if validUsuario(request.resource.data)
+        && (
+          isAdmin()
+          || isBootstrapAdmin()
+          || (
+            validOwned(request.resource.data)
+            && request.resource.data.rol == 'cliente'
+            && request.resource.data.correo == email()
+          )
+          || (
+            validOwned(request.resource.data)
+            && request.resource.data.correo == email()
+            && pendingAllowsClaim(request.resource.data)
+          )
+        );
+      allow update: if validUsuario(request.resource.data)
+        && (
+          isAdmin()
+          || (
+            signedIn()
+            && resource.data.id_usuario == request.auth.uid
+            && request.resource.data.id_usuario == request.auth.uid
+            && request.resource.data.rol == resource.data.rol
+            && request.resource.data.correo == resource.data.correo
+          )
+        );
+      allow delete: if isAdmin();
+    }
+
+    match /usuarios_auth/{uid} {
+      allow get: if isOwner(uid) || isAdmin();
+      allow list: if false;
+      allow create: if validAuthProfile(request.resource.data)
+        && request.resource.data.id_usuario == uid
+        && (
+          isAdmin()
+          || (isOwner(uid) && request.resource.data.rol == 'cliente' && request.resource.data.correo == email())
+          || (isOwner(uid) && email() == 'maria@vetcontrol.com' && request.resource.data.rol == 'admin')
+          || (isOwner(uid) && request.resource.data.correo == email() && pendingAllowsClaim(request.resource.data))
+        );
+      allow update: if validAuthProfile(request.resource.data)
+        && request.resource.data.id_usuario == uid
+        && (
+          isAdmin()
+          || (
+            isOwner(uid)
+            && request.resource.data.rol == resource.data.rol
+            && request.resource.data.correo == resource.data.correo
+          )
+          || (isOwner(uid) && email() == 'maria@vetcontrol.com' && request.resource.data.rol == 'admin')
+        );
+      allow delete: if isAdmin();
+    }
+
+    match /usuarios_pendientes/{emailHash} {
+      allow get: if isAdmin() || (signedIn() && resource.data.correo == email());
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /accesos_iniciales/{emailHash} {
+      allow get: if true;
+      allow list: if false;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /mascotas/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.id_usuario == request.auth.uid);
+      allow create, update: if validMascota(request.resource.data)
+        && request.resource.data.id_mascota == id
+        && (isAdmin() || (validOwned(request.resource.data)));
+      allow delete: if isAdmin() || (signedIn() && resource.data.id_usuario == request.auth.uid);
+    }
+
+    match /citas/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.id_usuario == request.auth.uid);
+      allow create, update: if validCita(request.resource.data)
+        && request.resource.data.id_cita == id
+        && (isAdmin() || validOwned(request.resource.data));
+      allow delete: if isAdmin() || (signedIn() && resource.data.id_usuario == request.auth.uid);
+    }
+
+    match /personal_medico/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /preferencia_medico/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.id_usuario == request.auth.uid);
+      allow write: if isAdmin() || (signedIn() && request.resource.data.id_usuario == request.auth.uid);
+    }
+
+    match /historial_clinico/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.id_usuario == request.auth.uid);
+      allow write: if isAdmin();
+    }
+
+    match /catalogos/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin() || isBootstrapAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

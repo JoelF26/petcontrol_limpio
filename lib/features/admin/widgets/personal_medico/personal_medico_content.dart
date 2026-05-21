@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:intl/intl.dart';
-import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
+import 'package:petcontrol_limpio/domain/constants/roles_usuario.dart';
 import 'package:petcontrol_limpio/features/admin/models/correo_medico_exceptions.dart';
 import 'package:petcontrol_limpio/features/admin/models/personal_medico_view_data.dart';
 import 'package:petcontrol_limpio/features/admin/utils/correo_medico_helper.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
-import 'package:petcontrol_limpio/models/usuario.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
+import 'package:petcontrol_limpio/domain/entities/usuario.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 import 'package:uuid/uuid.dart';
 
 // Seccion: funciones de funcionamiento
@@ -27,6 +27,7 @@ class PersonalMedicoFunciones {
     final personal = await personalMedicoService.obtenerPersonalMedico();
     final usuarios = await usuarioService.obtenerUsuarios();
 
+    // Une personal médico con usuario por correo para completar documento si falta.
     final usuarioPorCorreo = <String, Usuario>{
       for (final usuario in usuarios)
         usuario.correo.trim().toLowerCase(): usuario,
@@ -154,6 +155,7 @@ class PersonalMedicoFunciones {
     String? aliasCorreo,
     Uuid uuid = const Uuid(),
   }) async {
+    // El primer intento deriva el correo desde el nombre; si colisiona, usa el alias elegido.
     final correoPropuesto = (aliasCorreo == null || aliasCorreo.trim().isEmpty)
         ? CorreoMedicoHelper.correoDesdeNombre(input.nombreCompleto.trim())
         : CorreoMedicoHelper.correoDesdeAlias(aliasCorreo.trim());
@@ -183,6 +185,7 @@ class PersonalMedicoFunciones {
       estado: input.estado.trim(),
     );
 
+    // El médico también necesita usuario admin para poder iniciar sesión.
     final usuarioExistente = await usuarioService.obtenerUsuarioPorCorreo(
       correo,
     );

@@ -2,7 +2,7 @@
 // Se importan componentes base para construir la sección de mascotas registradas.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/shared/home_cliente_mensaje_vacio.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_panel_seccion.dart';
 

@@ -2,10 +2,11 @@
 // Se importan rutas, paleta, formulario y servicio de autenticación.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/core/widgets/boton_atras.dart';
 import 'package:petcontrol_limpio/features/autenticacion/widgets/registro/formulario_registro.dart';
-import 'package:petcontrol_limpio/services/auth_service.dart';
+import 'package:petcontrol_limpio/application/services/auth_service.dart';
 
 // Sección: pantalla de registro
 // Mantiene el diseño visual y delega la persistencia al servicio de auth.
@@ -21,7 +22,7 @@ class RegistroPantalla extends StatefulWidget {
 class _RegistroPantallaState extends State<RegistroPantalla> {
   // Sección: dependencias y estado local
   // Servicio de autenticación y bandera para bloquear acciones duplicadas.
-  final AuthService _authService = AuthService();
+  final AuthService _authService = AppDependencies.authService;
   bool _cargando = false;
 
   // Sección: acción principal de registro

@@ -1,21 +1,23 @@
 // Sección: imports
 // Se importan Material, colores, modelo Cita y servicio para actualizar JSON local.
 import 'package:flutter/material.dart';
-import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
+import 'package:petcontrol_limpio/domain/constants/roles_usuario.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/citas/detalle_cliente/detalle_cita_cliente_content.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 
 // Sección: helper de apertura de detalle
 // Muestra el popup centrado y retorna true cuando se actualiza la cita.
 Future<bool> mostrarDetalleCitaCliente(BuildContext context, Cita cita) async {
+  // El popup devuelve true solo si editó o canceló la cita.
   final actualizada = await showDialog<bool>(
     context: context,
     barrierDismissible: true,
@@ -55,11 +57,13 @@ class _DetalleCitaClientePopup extends StatefulWidget {
 class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   // Sección: dependencias y formulario
   // Se prepara el servicio para persistir cambios y validar datos.
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
-  final CitaService _citaService = CitaService();
-  final MascotaService _mascotaService = MascotaService();
-  final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
-  final UsuarioService _usuarioService = UsuarioService();
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
+  final CitaService _citaService = AppDependencies.citaService;
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
+  final PersonalMedicoService _personalMedicoService =
+      AppDependencies.personalMedicoService;
+  final UsuarioService _usuarioService = AppDependencies.usuarioService;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreMascotaController =
       TextEditingController();
@@ -111,6 +115,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   // Sección: reset de campos
   // Restablece los valores originales de la cita.
   void _resetearControladores() {
+    // También se usa al cancelar edición para volver a la cita original.
     _idMascotaSeleccionada = widget.cita.idMascota.trim().isEmpty
         ? null
         : widget.cita.idMascota;
@@ -153,6 +158,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
         return;
       }
 
+      // Si la cita antigua no tiene id de mascota, intenta inferirlo por nombre.
       String? idSeleccionado = _idMascotaSeleccionada;
       if ((idSeleccionado ?? '').isEmpty) {
         for (final mascota in mascotas) {
@@ -227,6 +233,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
     if (fecha.isEmpty) {
       return null;
     }
+    // Este respaldo cubre registros antiguos con fecha y hora guardadas por separado.
     final fechaBase = DateTime.tryParse(fecha);
     if (fechaBase == null) {
       return null;
@@ -268,6 +275,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
     final inicial = _fechaHoraSeleccionada ?? ahora;
     final hoy = DateTime(ahora.year, ahora.month, ahora.day);
 
+    // Fecha y hora se seleccionan por separado y luego se combinan.
     final fecha = await showDatePicker(
       context: context,
       initialDate: inicial.isBefore(hoy) ? hoy : inicial,
@@ -345,6 +353,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
       return;
     }
 
+    // Guarda nombre/especie desde la mascota actual para evitar textos desactualizados.
     final mascotaSeleccionada = _buscarMascotaPorId(_idMascotaSeleccionada);
     if (mascotaSeleccionada == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -375,6 +384,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Información de la cita actualizada.')),
       );
+      // true indica a la pantalla contenedora que debe recargar la agenda.
       _cerrar(context, true);
     } on StateError catch (error) {
       if (!mounted) {
@@ -403,6 +413,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   // Lista personal médico asociado a usuarios con rol admin.
   Future<void> _cargarMedicos() async {
     try {
+      // Cruza personal médico con usuarios admin para mostrar solo médicos válidos.
       final resultados = await Future.wait<dynamic>([
         _personalMedicoService.obtenerPersonalMedico(),
         _usuarioService.obtenerUsuarios(),
@@ -487,6 +498,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   // Sección: confirmación de cancelación
   // Solicita confirmación explícita antes de cambiar el estado a cancelada.
   Future<bool> _confirmarCancelacion() async {
+    // Se separa la confirmación del guardado para no cancelar por toque accidental.
     final confirmar = await showDialog<bool>(
       context: context,
       barrierDismissible: true,
@@ -546,6 +558,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Cita cancelada correctamente.')),
       );
+      // La cancelación cambia el estado en storage, por eso se fuerza recarga externa.
       _cerrar(context, true);
     } on StateError catch (error) {
       if (!mounted) {
@@ -615,6 +628,7 @@ class _DetalleCitaClientePopupState extends State<_DetalleCitaClientePopup> {
   // Sección: cierre seguro
   // Evita pop inválido y retorna resultado opcional al llamador.
   void _cerrar(BuildContext context, [bool? resultado]) {
+    // rootNavigator evita que un contexto interno cierre una ruta equivocada.
     final navigator = Navigator.of(context, rootNavigator: true);
     if (!navigator.canPop()) {
       return;

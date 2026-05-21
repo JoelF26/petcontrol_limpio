@@ -2,9 +2,10 @@
 // Se importan servicios de sesión y mascotas para registrar en JSON local.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
-import 'package:petcontrol_limpio/services/auth_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/application/services/auth_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
 
 // Sección: tarjeta de registro de mascota
 // Renderiza el formulario popup y guarda la mascota con id único en JSON local.
@@ -37,9 +38,10 @@ class _TarjetaCreacionPacienteState extends State<TarjetaCreacionPaciente> {
 
   // Sección: servicios de dominio
   // Resuelven usuario autenticado y persistencia de mascotas.
-  final AuthService _authService = AuthService();
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
-  final MascotaService _mascotaService = MascotaService();
+  final AuthService _authService = AppDependencies.authService;
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
 
   // Sección: estado de UI y selección
   // Controla bloqueo del botón durante guardado y valor de sexo.

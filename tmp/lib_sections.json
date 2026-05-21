@@ -1,0 +1,3208 @@
+[
+  {
+    "path": "lib/app.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se cargan rutas y tema global de la aplicación."
+      },
+      {
+        "title": "raíz de la app",
+        "description": "Configura MaterialApp con tema, ruta inicial y enrutador centralizado."
+      },
+      {
+        "title": "construcción de UI raíz",
+        "description": "Retorna la configuración global de navegación y apariencia."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/constants/entidades_locales.dart",
+    "sections": [
+      {
+        "title": "entidades locales",
+        "description": "Centraliza los nombres de entidades persistidas en almacenamiento local."
+      },
+      {
+        "title": "identificadores de entidades",
+        "description": "Se usan como llave única en servicios y almacenamiento local."
+      },
+      {
+        "title": "listado de entidades soportadas",
+        "description": "Permite validar y construir la base local inicial."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/constants/roles_usuario.dart",
+    "sections": [
+      {
+        "title": "roles de usuario",
+        "description": "Define roles permitidos para controlar navegación y permisos."
+      },
+      {
+        "title": "tipos de rol disponibles",
+        "description": "cliente para usuarios finales y admin para personal administrativo."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/routes/app_router.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan las pantallas que se resuelven por nombre de ruta."
+      },
+      {
+        "title": "router central",
+        "description": "Traduce cada nombre de ruta en la pantalla correspondiente."
+      },
+      {
+        "title": "resolución de rutas",
+        "description": "Evalúa el nombre de ruta y retorna la pantalla adecuada."
+      },
+      {
+        "title": "helper de navegación",
+        "description": "Crea una ruta Material conservando RouteSettings para sincronizar URL."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/routes/rutas.dart",
+    "sections": [
+      {
+        "title": "constantes de navegación",
+        "description": "Centraliza los nombres de rutas para evitar strings duplicados en la app."
+      },
+      {
+        "title": "rutas públicas de autenticación",
+        "description": "Define bienvenida, login y registro."
+      },
+      {
+        "title": "rutas por rol",
+        "description": "Define panel principal de cliente y administrador."
+      },
+      {
+        "title": "rutas de gestión admin",
+        "description": "Expone vistas administrativas por URL directa en web."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/routes/url_strategy.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se usa import condicional para aplicar URL strategy solo en web."
+      },
+      {
+        "title": "configuración de URL",
+        "description": "Expone una única función para inicializar estrategia de URL por plataforma."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/routes/url_strategy_stub.dart",
+    "sections": [
+      {
+        "title": "implementación por defecto",
+        "description": "En plataformas no web no se requiere modificar la estrategia de URL."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/routes/url_strategy_web.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se usa estrategia de path para mostrar rutas limpias en navegador web."
+      },
+      {
+        "title": "implementación web",
+        "description": "Elimina '#' de la URL y permite ver rutas como /login y /registro."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/theme/app_colores.dart",
+    "sections": []
+  },
+  {
+    "path": "lib/core/theme/tema_app.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan fuentes y paleta de colores para construir el tema global."
+      },
+      {
+        "title": "configuración de tema",
+        "description": "Define el tema principal reutilizable para toda la aplicación."
+      },
+      {
+        "title": "tema claro principal",
+        "description": "Combina la estructura sólida anterior con la tipografía nueva."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/widgets/boton_atras.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan rutas y paleta para resolver navegación y estilo base del botón."
+      },
+      {
+        "title": "widget reutilizable de botón atrás",
+        "description": "Permite volver a la pantalla anterior y, si no existe historial, usar una ruta fallback."
+      },
+      {
+        "title": "construcción de UI",
+        "description": "Renderiza el botón en zona segura para evitar superposición con la barra superior."
+      },
+      {
+        "title": "lógica de navegación atrás",
+        "description": "Prioriza callback personalizado, luego pop del historial y por último ruta fallback."
+      }
+    ]
+  },
+  {
+    "path": "lib/core/widgets/popup_detalle.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa material para construir el popup reutilizable de detalle."
+      },
+      {
+        "title": "campo de detalle",
+        "description": "Representa una fila de etiqueta y valor dentro del popup."
+      },
+      {
+        "title": "configuración del popup",
+        "description": "Agrupa los datos visuales y de contenido para el detalle contextual."
+      },
+      {
+        "title": "helper público de apertura",
+        "description": "Muestra un diálogo modal con información de detalle de forma consistente."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/models/correo_medico_exceptions.dart",
+    "sections": [
+      {
+        "title": "excepción de colisión de correo médico",
+        "description": "Indica que el correo institucional propuesto ya está ocupado."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/models/historial_citas_view_data.dart",
+    "sections": [
+      {
+        "title": "constantes de filtros para historial",
+        "description": "Definen valores iniciales y opciones de filtro para la vista admin."
+      },
+      {
+        "title": "modelo visual de historial",
+        "description": "Representa la informacion que consumen las tarjetas y el popup detalle."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/models/home_admin_view_data.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa material para usar IconData en modelos visuales."
+      },
+      {
+        "title": "modelo de metrica",
+        "description": "Representa cada tarjeta de resumen del home admin."
+      },
+      {
+        "title": "modelo de proxima cita",
+        "description": "Define la estructura de la cita destacada en home admin."
+      },
+      {
+        "title": "texto de tarjeta",
+        "description": "Provee strings listos para dibujar en card del home."
+      },
+      {
+        "title": "modelo de dashboard admin",
+        "description": "Agrupa datos dinamicos que consume la pantalla home admin."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/models/personal_medico_view_data.dart",
+    "sections": [
+      {
+        "title": "opciones base del formulario",
+        "description": "Mantiene listas de seleccion para especialidad, jornada y estado."
+      },
+      {
+        "title": "modelo de entrada del formulario",
+        "description": "Representa el payload para registrar nuevo personal medico."
+      },
+      {
+        "title": "modelo visual de medico",
+        "description": "Define la estructura usada por tarjetas, filtros y popup de detalle."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/models/vista_cita_admin_view_data.dart",
+    "sections": [
+      {
+        "title": "modelo de datos cargados",
+        "description": "Agrupa la data necesaria para renderizar la vista de citas admin."
+      },
+      {
+        "title": "modelo visual de cita admin",
+        "description": "Estructura usada por tarjetas y secciones de agenda."
+      },
+      {
+        "title": "estilo por estado",
+        "description": "Encapsula icono y colores para un estado de cita."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/models/vista_pacientes_admin_view_data.dart",
+    "sections": [
+      {
+        "title": "modelo visual de paciente admin",
+        "description": "Define los campos que consume la UI de tarjetas y detalle."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/historial_citas.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan servicios, funciones de negocio y widgets visuales de historial."
+      },
+      {
+        "title": "pantalla historial admin",
+        "description": "Define la IU principal del modulo de historial de citas."
+      },
+      {
+        "title": "dependencias y estado local",
+        "description": "Manejan carga de datos y valores seleccionados de filtros."
+      },
+      {
+        "title": "carga de historial",
+        "description": "Obtiene registros desde servicios y actualiza estado visual."
+      },
+      {
+        "title": "historial filtrado",
+        "description": "Aplica filtros activos sobre la lista en memoria."
+      },
+      {
+        "title": "conteos del resumen",
+        "description": "Obtiene metricas por estado para las tarjetas superiores."
+      },
+      {
+        "title": "popup de filtros",
+        "description": "Muestra modal para seleccionar filtros y actualizar listado."
+      },
+      {
+        "title": "popup de detalle",
+        "description": "Muestra el detalle completo de una cita del historial."
+      },
+      {
+        "title": "composicion principal",
+        "description": "Renderiza la estructura visual del historial llamando widgets reutilizables."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/home_admin.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan modelo, funciones y widgets del home admin modular y dinamico."
+      },
+      {
+        "title": "pantalla home admin",
+        "description": "Presenta el panel principal con datos reales del admin en sesion."
+      },
+      {
+        "title": "estado local",
+        "description": "Gestiona carga inicial del dashboard y posibles errores."
+      },
+      {
+        "title": "carga de dashboard",
+        "description": "Obtiene datos del admin logueado, metricas y proxima cita."
+      },
+      {
+        "title": "navegacion con refresco",
+        "description": "Navega a un modulo admin y recarga metricas al volver a esta pantalla."
+      },
+      {
+        "title": "composicion principal",
+        "description": "Dibuja fondo, encabezado, metricas, menu, proxima cita y navbar."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/personal_medico.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan servicios, funciones y widgets para la vista de personal medico."
+      },
+      {
+        "title": "pantalla personal medico",
+        "description": "Presenta la IU del modulo y coordina eventos de carga y registro."
+      },
+      {
+        "title": "dependencias y estado local",
+        "description": "Manejan busqueda, servicios y estado de carga."
+      },
+      {
+        "title": "listado filtrado",
+        "description": "Retorna la lista visual segun texto de busqueda."
+      },
+      {
+        "title": "conteo por estado",
+        "description": "Calcula metricas de resumen segun estado de medico."
+      },
+      {
+        "title": "carga de backend",
+        "description": "Consulta datos desde servicios y actualiza estado visual."
+      },
+      {
+        "title": "popup detalle",
+        "description": "Muestra informacion completa del medico seleccionado."
+      },
+      {
+        "title": "apertura de formulario",
+        "description": "Lanza el dialogo para capturar datos de nuevo medico."
+      },
+      {
+        "title": "registro de medico",
+        "description": "Persiste el medico y sincroniza su usuario con rol admin."
+      },
+      {
+        "title": "composicion de pantalla",
+        "description": "Construye la UI principal usando widgets reutilizables."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/vista_cita_admin.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan servicios, funciones y widgets reutilizables de citas admin."
+      },
+      {
+        "title": "pantalla de citas admin",
+        "description": "Muestra agenda completa y permite registrar citas nuevas."
+      },
+      {
+        "title": "dependencias y estado local",
+        "description": "Mantiene cache de datos y estado de carga para la pantalla."
+      },
+      {
+        "title": "carga de datos",
+        "description": "Recupera toda la informacion necesaria para renderizar agenda admin."
+      },
+      {
+        "title": "bloques de agenda",
+        "description": "Obtiene listas para hoy y proximas segun fecha de cita."
+      },
+      {
+        "title": "registro de cita",
+        "description": "Abre el formulario admin e inyecta usuarios/mascotas reales."
+      },
+      {
+        "title": "persistencia de cita",
+        "description": "Valida mascota y guarda nueva cita en storage local."
+      },
+      {
+        "title": "detalle de cita",
+        "description": "Abre popup editable y recarga la agenda cuando se guardan cambios."
+      },
+      {
+        "title": "build principal",
+        "description": "Composicion de IU llamando widgets reutilizables y datos de estado."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/vista_pacientes_admin.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan servicios, funciones y widgets de apoyo para la vista de pacientes admin."
+      },
+      {
+        "title": "pantalla de pacientes admin",
+        "description": "Muestra mascotas registradas y permite crear nuevas desde el modulo admin."
+      },
+      {
+        "title": "dependencias y estado local",
+        "description": "Manejan carga de datos, busqueda y persistencia desde formulario."
+      },
+      {
+        "title": "carga de backend",
+        "description": "Recupera pacientes y actualiza estado visual."
+      },
+      {
+        "title": "filtros y metricas",
+        "description": "Derivan lista visible y resumen de especies."
+      },
+      {
+        "title": "formulario de alta",
+        "description": "Abre popup con usuarios finales (rol cliente/usuario) y delega guardado."
+      },
+      {
+        "title": "guardado de paciente",
+        "description": "Persiste la mascota y refresca listado con feedback visual."
+      },
+      {
+        "title": "detalle del paciente",
+        "description": "Abre ficha editable y recarga lista si se guarda informacion."
+      },
+      {
+        "title": "composicion principal",
+        "description": "Construye la UI llamando widgets separados y estado de la pantalla."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/utils/correo_medico_helper.dart",
+    "sections": [
+      {
+        "title": "helper de correos médicos",
+        "description": "Centraliza generación y normalización de correos con dominio institucional."
+      },
+      {
+        "title": "correo automático desde nombre",
+        "description": "Usa el nombre completo como alias institucional, sin espacios."
+      },
+      {
+        "title": "correo desde alias manual",
+        "description": "Normaliza el alias y construye el correo final del dominio médico."
+      },
+      {
+        "title": "normalización de alias",
+        "description": "Elimina tildes/caracteres no permitidos y limpia separadores."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/detalle_cita_admin_popup.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan Material, modelos de dominio y servicio para editar citas."
+      },
+      {
+        "title": "helper de apertura",
+        "description": "Muestra popup editable de cita admin y retorna true cuando se guardan cambios."
+      },
+      {
+        "title": "popup de detalle de cita admin",
+        "description": "Conserva la ficha completa y habilita edicion al presionar el boton inferior."
+      },
+      {
+        "title": "estado del popup",
+        "description": "Gestiona edicion, validacion de campos y guardado en storage local."
+      },
+      {
+        "title": "dependencias y estado base",
+        "description": "Mantiene controladores y flags de UI para modo lectura/edicion."
+      },
+      {
+        "title": "restauracion de formulario",
+        "description": "Reinicia los campos a los valores actuales de la cita."
+      },
+      {
+        "title": "normalizacion de estado",
+        "description": "Garantiza que el valor inicial del dropdown exista en opciones."
+      },
+      {
+        "title": "resolucion de mascota seleccionada",
+        "description": "Obtiene la mascota activa desde la lista de mascotas disponibles."
+      },
+      {
+        "title": "valores visuales derivados",
+        "description": "Genera textos visibles de especie, dueno y medico segun seleccion actual."
+      },
+      {
+        "title": "validaciones basicas",
+        "description": "Define reglas requeridas para campos editables."
+      },
+      {
+        "title": "selector de fecha y hora",
+        "description": "Permite actualizar programacion de la cita con calendarios nativos."
+      },
+      {
+        "title": "activacion y cancelacion de edicion",
+        "description": "Cambia entre modo lectura y formulario editable."
+      },
+      {
+        "title": "guardado de cambios",
+        "description": "Persiste todos los campos editables de la cita en JSON local."
+      },
+      {
+        "title": "cierre seguro",
+        "description": "Evita pop invalido y devuelve resultado opcional al llamador."
+      },
+      {
+        "title": "formato de fecha para UI",
+        "description": "Convierte DateTime a texto corto para el campo de fecha/hora."
+      },
+      {
+        "title": "fecha inicial",
+        "description": "Toma fecha_hora si existe y usa now como respaldo."
+      },
+      {
+        "title": "contenedor base de campo",
+        "description": "Reutiliza estilo del bloque para cada etiqueta y control."
+      },
+      {
+        "title": "build principal",
+        "description": "Renderiza ficha completa y acciones de edicion/guardado."
+      },
+      {
+        "title": "encabezado",
+        "description": "Muestra icono, titulo y boton de cierre."
+      },
+      {
+        "title": "campos de ficha",
+        "description": "Cambian a controles editables cuando el usuario activa edicion."
+      },
+      {
+        "title": "acciones inferiores",
+        "description": "Muestra boton de editar o acciones de cancelar/guardar."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/historial_citas_content.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan modelos y servicios para resolver la logica de historial admin."
+      },
+      {
+        "title": "funciones de funcionamiento de historial",
+        "description": "Centraliza carga, filtros y utilidades para que la pantalla quede enfocada en IU."
+      },
+      {
+        "title": "carga de historial",
+        "description": "Consulta citas, usuarios y medicos para construir la lista visual final."
+      },
+      {
+        "title": "filtro por rango",
+        "description": "Convierte el texto del filtro de fecha en numero de dias."
+      },
+      {
+        "title": "filtrado de historial",
+        "description": "Aplica filtros activos y ordena por fecha descendente."
+      },
+      {
+        "title": "conteo por estado",
+        "description": "Cuenta elementos con estado exacto dentro de una lista filtrada."
+      },
+      {
+        "title": "formato de fecha",
+        "description": "Convierte DateTime a texto corto para tarjetas y popup de detalle."
+      },
+      {
+        "title": "color de fondo por estado",
+        "description": "Define el color de fondo del badge segun estado de la cita."
+      },
+      {
+        "title": "color de texto por estado",
+        "description": "Define el color de texto del badge segun estado de la cita."
+      },
+      {
+        "title": "icono por estado",
+        "description": "Selecciona el icono a renderizar segun estado de la cita."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/historial_citas_widgets.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades visuales y modelo de datos para la UI de historial."
+      },
+      {
+        "title": "decoracion de campos de filtro",
+        "description": "Centraliza el estilo de los dropdowns para mantener consistencia visual."
+      },
+      {
+        "title": "fondo decorativo historial",
+        "description": "Dibuja el gradiente superior y la base clara de la pantalla."
+      },
+      {
+        "title": "encabezado historial",
+        "description": "Muestra volver, boton de filtros y textos principales."
+      },
+      {
+        "title": "boton de encabezado",
+        "description": "Boton reutilizable para acciones de navegacion en el header."
+      },
+      {
+        "title": "resumen superior",
+        "description": "Presenta metricas rapidas del historial filtrado."
+      },
+      {
+        "title": "item de resumen",
+        "description": "Tarjeta compacta usada dentro del bloque de metricas."
+      },
+      {
+        "title": "chip de filtro activo",
+        "description": "Etiqueta visual para indicar filtros aplicados."
+      },
+      {
+        "title": "tarjeta de cita en historial",
+        "description": "Renderiza cada registro filtrado con sus datos clave."
+      },
+      {
+        "title": "estado vacio historial",
+        "description": "Mensaje cuando no hay resultados para el filtro aplicado."
+      },
+      {
+        "title": "campo de filtro",
+        "description": "Estructura uniforme etiqueta + control para cada dropdown."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/tarjeta_creacion_cita.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa material para construir el formulario visual de creación de citas admin."
+      },
+      {
+        "title": "catálogo base de motivos admin",
+        "description": "Lista de motivos disponibles cuando la pantalla no inyecta una lista personalizada."
+      },
+      {
+        "title": "formato de fecha y hora",
+        "description": "Convierte DateTime a texto legible para mostrar en el formulario."
+      },
+      {
+        "title": "modelo visual de mascota para formulario admin",
+        "description": "Define las mascotas que pueden seleccionarse al crear cita."
+      },
+      {
+        "title": "modelo visual de usuario para formulario admin",
+        "description": "Define los propietarios disponibles para vincular en la cita."
+      },
+      {
+        "title": "modelo visual de médico para formulario admin",
+        "description": "Define los médicos disponibles para asignar en la creación de la cita."
+      },
+      {
+        "title": "payload de creación",
+        "description": "Expone los datos del formulario al callback de la pantalla."
+      },
+      {
+        "title": "tarjeta de creación de cita",
+        "description": "Mantiene formulario visual de admin desacoplado de backend para fase UI-first."
+      },
+      {
+        "title": "estado de tarjeta de creación",
+        "description": "Gestiona selección de campos y validaciones del formulario."
+      },
+      {
+        "title": "listas efectivas de opciones",
+        "description": "Usa valores por defecto para mantener el formulario estable sin backend."
+      },
+      {
+        "title": "estilo base de campos",
+        "description": "Unifica visual del formulario sin alterar identidad de la tarjeta."
+      },
+      {
+        "title": "etiqueta de campo",
+        "description": "Reutiliza el estilo de texto de las etiquetas en toda la tarjeta."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/vista_cita_admin_content.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan modelos, servicios y helpers de formulario para logica de citas admin."
+      },
+      {
+        "title": "funciones de funcionamiento",
+        "description": "Centraliza carga, mapeos, filtros y estilos para la vista de citas admin."
+      },
+      {
+        "title": "carga integral de datos",
+        "description": "Trae citas, mascotas, usuarios y medicos para construir la vista."
+      },
+      {
+        "title": "bloques de agenda",
+        "description": "Separa citas en hoy y proximas para mantener la estructura visual."
+      },
+      {
+        "title": "opciones para formulario",
+        "description": "Convierte usuarios/mascotas de dominio a modelos del formulario admin."
+      },
+      {
+        "title": "busquedas puntuales",
+        "description": "Busca entidad por id para detalles y creacion."
+      },
+      {
+        "title": "mapeo de visualizacion",
+        "description": "Convierte una cita de dominio al modelo usado por tarjetas."
+      },
+      {
+        "title": "estilo por estado",
+        "description": "Define paleta visual e icono segun estado textual."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/vista_cita_admin_widgets.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan recursos visuales y modelos de la agenda admin."
+      },
+      {
+        "title": "fondo decorativo",
+        "description": "Dibuja gradiente superior y base clara de la pantalla de citas."
+      },
+      {
+        "title": "encabezado",
+        "description": "Renderiza boton volver y textos principales de la vista."
+      },
+      {
+        "title": "boton encabezado",
+        "description": "Boton reutilizable para regresar a la pantalla anterior."
+      },
+      {
+        "title": "resumen superior",
+        "description": "Muestra totales de hoy, proximas y confirmadas."
+      },
+      {
+        "title": "tarjeta de resumen",
+        "description": "Item visual para cada contador del resumen."
+      },
+      {
+        "title": "seccion de agenda",
+        "description": "Renderiza bloque de citas con contador y lista."
+      },
+      {
+        "title": "tarjeta de cita",
+        "description": "Muestra resumen visual de una cita en agenda."
+      },
+      {
+        "title": "chip de estado",
+        "description": "Renderiza estado textual con color segun estilo de la cita."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/home/home_admin_content.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan rutas, popup, roles, modelos y servicios para el home admin dinamico."
+      },
+      {
+        "title": "funciones de home admin",
+        "description": "Agrupa carga dinamica, logout, navegacion y popup de detalle."
+      },
+      {
+        "title": "carga de dashboard admin",
+        "description": "Resuelve usuario de sesion, valida rol admin y construye metricas reales."
+      },
+      {
+        "title": "construccion de proximas citas",
+        "description": "Selecciona hasta 2 citas proximas del sistema para el panel principal."
+      },
+      {
+        "title": "limite visual de proximas citas",
+        "description": "Restringe el bloque del home admin a un maximo de 2 elementos."
+      },
+      {
+        "title": "formato breve de fecha",
+        "description": "Genera texto compacto para el subtitulo de la proxima cita."
+      },
+      {
+        "title": "logout",
+        "description": "Cierra sesion y redirige a bienvenida limpiando stack."
+      },
+      {
+        "title": "navegacion de modulos",
+        "description": "Redirige a las vistas principales del panel admin."
+      },
+      {
+        "title": "detalle de proxima cita",
+        "description": "Abre popup de detalle usando el modelo dinamico de la cita destacada."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/home/home_admin_widgets.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan rutas y modelos visuales para construir widgets del home admin."
+      },
+      {
+        "title": "clipper de curva",
+        "description": "Mantiene la forma ondulada inferior del fondo admin."
+      },
+      {
+        "title": "encabezado",
+        "description": "Muestra inicial del doctor, nombre y boton de salir."
+      },
+      {
+        "title": "fila de metricas",
+        "description": "Renderiza las tarjetas resumen del panel admin."
+      },
+      {
+        "title": "tarjeta de metrica",
+        "description": "Componente visual reutilizable para cada contador."
+      },
+      {
+        "title": "panel de seccion",
+        "description": "Contenedor visual con icono/titulo para agrupar bloques."
+      },
+      {
+        "title": "menu principal",
+        "description": "Grid de accesos a modulos del panel admin."
+      },
+      {
+        "title": "tarjeta de menu",
+        "description": "Card individual para cada acceso del menu principal."
+      },
+      {
+        "title": "bloque de proximas citas",
+        "description": "Lista vertical de la tarjeta destacada de proxima cita."
+      },
+      {
+        "title": "item de proxima cita",
+        "description": "Card compacta de cita para el panel principal."
+      },
+      {
+        "title": "navbar inferior",
+        "description": "Navegacion rapida entre las vistas administrativas."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/detalle_paciente_admin_popup.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan Material, modelo visual admin y servicio de mascotas para editar."
+      },
+      {
+        "title": "helper de apertura",
+        "description": "Muestra la ficha admin centrada y retorna true cuando se actualiza el paciente."
+      },
+      {
+        "title": "popup de detalle admin",
+        "description": "Conserva ficha de paciente y habilita edicion al pulsar el boton inferior."
+      },
+      {
+        "title": "estado del popup",
+        "description": "Gestiona modo lectura/edicion y persistencia de cambios."
+      },
+      {
+        "title": "dependencias y controladores",
+        "description": "Preparan validacion de campos y guardado contra JSON local."
+      },
+      {
+        "title": "estado visual",
+        "description": "Controla si el formulario esta editable y si hay guardado en curso."
+      },
+      {
+        "title": "carga inicial",
+        "description": "Copia los valores del paciente a los controladores del formulario."
+      },
+      {
+        "title": "validadores y parseo",
+        "description": "Garantizan datos minimos antes de guardar."
+      },
+      {
+        "title": "acciones de edicion",
+        "description": "Habilitan y cancelan modo editable sin perder consistencia visual."
+      },
+      {
+        "title": "guardado",
+        "description": "Persiste la mascota editada y cierra popup devolviendo true."
+      },
+      {
+        "title": "cierre seguro",
+        "description": "Evita pop cuando no hay ruta disponible."
+      },
+      {
+        "title": "encabezado",
+        "description": "Muestra icono, nombre, subtitulo y boton de cierre."
+      },
+      {
+        "title": "campos de ficha",
+        "description": "Se visualizan como texto y pasan a input al editar."
+      },
+      {
+        "title": "acciones inferiores",
+        "description": "Muestra boton de editar o acciones de cancelar/guardar."
+      },
+      {
+        "title": "campo editable/lectura",
+        "description": "Reutiliza el mismo bloque visual para mostrar texto o input."
+      },
+      {
+        "title": "campo fijo",
+        "description": "Renderiza un bloque de solo lectura que nunca entra en edicion."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa Material para construir formulario y controles de seleccion."
+      },
+      {
+        "title": "modelo de usuario para formulario",
+        "description": "Define los usuarios disponibles en el selector obligatorio del popup."
+      },
+      {
+        "title": "payload del formulario",
+        "description": "Expone todos los valores necesarios para registrar la mascota desde Admin."
+      },
+      {
+        "title": "tarjeta de registro",
+        "description": "Popup de alta de pacientes para Admin con seleccion de usuario obligatoria."
+      },
+      {
+        "title": "estado y controladores",
+        "description": "Mantienen los valores del formulario y validaciones locales."
+      },
+      {
+        "title": "decoracion base de campo",
+        "description": "Uniforma bordes, relleno y tipografia de todos los inputs y dropdowns."
+      },
+      {
+        "title": "validacion comun",
+        "description": "Marca como requerido cualquier campo de texto vacio."
+      },
+      {
+        "title": "accion registrar",
+        "description": "Valida formulario y emite payload con idUsuario obligatorio."
+      },
+      {
+        "title": "etiqueta reutilizable",
+        "description": "Estilo unico para titulos de campos dentro del formulario."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/vista_pacientes_admin_content.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan modelos y servicios usados por la logica de pacientes admin."
+      },
+      {
+        "title": "funciones de funcionamiento",
+        "description": "Centraliza carga, mapeo, filtros y registro de pacientes para la vista admin."
+      },
+      {
+        "title": "carga de pacientes",
+        "description": "Consulta mascotas y usuarios, y devuelve una lista visual ordenada."
+      },
+      {
+        "title": "mapeo a vista",
+        "description": "Convierte Mascota + Usuario a modelo visual para tarjetas admin."
+      },
+      {
+        "title": "filtro en memoria",
+        "description": "Filtra por nombre, especie, raza o duenio segun el termino de busqueda."
+      },
+      {
+        "title": "total de especies",
+        "description": "Cuenta especies unicas para el resumen superior."
+      },
+      {
+        "title": "parseo numerico",
+        "description": "Convierte textos de formulario a edad y peso de forma segura."
+      },
+      {
+        "title": "registro de paciente",
+        "description": "Valida entrada y persiste una mascota asociada al usuario seleccionado."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/vista_pacientes_admin_widgets.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades visuales y modelo de vista para pacientes admin."
+      },
+      {
+        "title": "fondo decorativo",
+        "description": "Dibuja gradiente superior y base clara de la pantalla de pacientes."
+      },
+      {
+        "title": "encabezado",
+        "description": "Renderiza boton volver y textos principales de la vista."
+      },
+      {
+        "title": "boton de encabezado",
+        "description": "Boton reutilizable para navegacion de regreso."
+      },
+      {
+        "title": "resumen de pacientes",
+        "description": "Muestra totales de pacientes y especies en dos tarjetas."
+      },
+      {
+        "title": "tarjeta de resumen",
+        "description": "Item compacto para bloque de metricas."
+      },
+      {
+        "title": "buscador",
+        "description": "Campo de texto para filtrar pacientes por distintos atributos."
+      },
+      {
+        "title": "tarjeta de paciente",
+        "description": "Renderiza la informacion principal de cada mascota."
+      },
+      {
+        "title": "chip de especie",
+        "description": "Etiqueta visual para especie principal de la mascota."
+      },
+      {
+        "title": "chip de dato",
+        "description": "Renderiza un dato secundario de la mascota con icono."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/personal_medico_content.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades y servicios para la logica de personal medico."
+      },
+      {
+        "title": "funciones de funcionamiento",
+        "description": "Agrupa transformaciones, filtros y persistencia de personal medico."
+      },
+      {
+        "title": "carga desde backend",
+        "description": "Consulta personal medico y usuarios para construir la lista visual."
+      },
+      {
+        "title": "filtrado por busqueda",
+        "description": "Filtra por nombre, especialidad o correo y ordena alfabeticamente."
+      },
+      {
+        "title": "conteo por estado",
+        "description": "Cuenta cuantos registros cumplen el estado solicitado."
+      },
+      {
+        "title": "utilidades de presentacion",
+        "description": "Calcula iniciales, colores de estado y fecha formateada."
+      },
+      {
+        "title": "registro de personal medico",
+        "description": "Crea/actualiza usuario admin y guarda medico en su entidad."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/personal_medico_widgets.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan recursos visuales y modelos de la vista de personal medico."
+      },
+      {
+        "title": "fondo de pantalla",
+        "description": "Renderiza el gradiente superior y base clara de la vista."
+      },
+      {
+        "title": "encabezado principal",
+        "description": "Muestra volver, contador y textos de contexto."
+      },
+      {
+        "title": "boton de encabezado",
+        "description": "Boton reutilizable para accion de volver."
+      },
+      {
+        "title": "buscador",
+        "description": "Campo de texto para filtrar personal medico en tiempo real."
+      },
+      {
+        "title": "caja de resumen",
+        "description": "Tarjeta compacta para mostrar metricas rapidas."
+      },
+      {
+        "title": "tarjeta de medico",
+        "description": "Renderiza un item del listado principal de personal."
+      },
+      {
+        "title": "chip de estado/especialidad",
+        "description": "Etiqueta compacta para mostrar informacion del medico."
+      },
+      {
+        "title": "chip de contacto",
+        "description": "Muestra informacion de correo o telefono."
+      },
+      {
+        "title": "estado vacio",
+        "description": "Mensaje mostrado cuando no hay personal para renderizar."
+      },
+      {
+        "title": "formulario de nuevo medico",
+        "description": "Dialogo visual para capturar datos y emitir input validado."
+      },
+      {
+        "title": "estado local del formulario",
+        "description": "Controla valores seleccionados y visibilidad de campos condicionales."
+      },
+      {
+        "title": "estilos del formulario",
+        "description": "Define decoracion uniforme para inputs y dropdowns."
+      },
+      {
+        "title": "validadores",
+        "description": "Valida campos requeridos y formato basico de correo."
+      },
+      {
+        "title": "validador especialidad personalizada",
+        "description": "Exige texto solo cuando el usuario selecciona la opcion \"Otro\"."
+      },
+      {
+        "title": "accion guardar",
+        "description": "Construye el input validado y lo entrega al callback."
+      },
+      {
+        "title": "etiqueta de campo",
+        "description": "Texto auxiliar para titulos de cada campo en formulario."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/popup_alias_correo_medico.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan Material y utilidades de normalización del correo institucional."
+      },
+      {
+        "title": "apertura del popup de alias",
+        "description": "Solicita alias manual cuando el correo generado automáticamente colisiona."
+      },
+      {
+        "title": "diálogo de alias",
+        "description": "Permite ingresar un alias para formar un correo único en @Vetcontrol.com."
+      },
+      {
+        "title": "validación de alias",
+        "description": "Asegura que el alias tenga contenido utilizable tras normalización."
+      },
+      {
+        "title": "confirmación de alias",
+        "description": "Normaliza y retorna el alias para reintentar registro de médico."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/shared/admin_base_widgets.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades visuales para construir piezas base de vistas admin."
+      },
+      {
+        "title": "fondo decorativo admin",
+        "description": "Dibuja un encabezado con gradiente y círculos suaves reutilizable."
+      },
+      {
+        "title": "botón de encabezado reutilizable",
+        "description": "Unifica el estilo del botón de regreso en las vistas admin."
+      },
+      {
+        "title": "tarjeta resumen compacta",
+        "description": "Variante compacta para métricas de cabecera en vistas admin."
+      },
+      {
+        "title": "encabezado base admin",
+        "description": "Presenta título, descripción corta y botón de regreso."
+      },
+      {
+        "title": "tarjeta resumen base",
+        "description": "Muestra un valor resumido con icono y etiqueta."
+      },
+      {
+        "title": "estado vacío base",
+        "description": "Unifica el mensaje cuando no hay elementos para mostrar en la lista."
+      },
+      {
+        "title": "círculo decorativo",
+        "description": "Soporte interno para el fondo decorativo reusable."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/bienvenida_pantalla.dart",
+    "sections": []
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/login_pantalla.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan rutas, paleta, formulario y servicio de autenticación."
+      },
+      {
+        "title": "pantalla de login",
+        "description": "Mantiene el diseño visual original y centraliza la lógica de autenticación."
+      },
+      {
+        "title": "estado de LoginPantalla",
+        "description": "Maneja autenticación, loading y navegación por rol sin alterar el diseño."
+      },
+      {
+        "title": "dependencias y estado local",
+        "description": "Servicio de auth y bandera para bloquear acciones durante la petición."
+      },
+      {
+        "title": "acción principal de login",
+        "description": "Ejecuta login real con persistencia local y redirige según rol."
+      },
+      {
+        "title": "navegación por rol",
+        "description": "Redirige al panel correspondiente del usuario autenticado."
+      },
+      {
+        "title": "feedback visual",
+        "description": "Muestra mensajes de error o estado en un SnackBar."
+      },
+      {
+        "title": "navegación a registro",
+        "description": "Conserva el flujo visual original hacia pantalla de registro."
+      },
+      {
+        "title": "construcción de UI",
+        "description": "Conserva la misma estructura visual (header degradado + panel curvo)."
+      },
+      {
+        "title": "fondo base",
+        "description": "Capa blanca de respaldo para toda la pantalla."
+      },
+      {
+        "title": "header con logo",
+        "description": "Franja superior con degradado y logo central."
+      },
+      {
+        "title": "contenedor inferior principal",
+        "description": "Panel visual donde vive el formulario."
+      },
+      {
+        "title": "botón atrás",
+        "description": "Botón flotante superior para volver a la pantalla anterior."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/registro_pantalla.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan rutas, paleta, formulario y servicio de autenticación."
+      },
+      {
+        "title": "pantalla de registro",
+        "description": "Mantiene el diseño visual y delega la persistencia al servicio de auth."
+      },
+      {
+        "title": "estado de RegistroPantalla",
+        "description": "Gestiona registro, loading y navegación posterior al alta."
+      },
+      {
+        "title": "dependencias y estado local",
+        "description": "Servicio de autenticación y bandera para bloquear acciones duplicadas."
+      },
+      {
+        "title": "acción principal de registro",
+        "description": "Crea usuario en autenticación local y perfil en JSON local."
+      },
+      {
+        "title": "navegación a login",
+        "description": "Permite volver al flujo de inicio de sesión."
+      },
+      {
+        "title": "feedback visual",
+        "description": "Muestra errores y estados de operación al usuario."
+      },
+      {
+        "title": "construcción de UI",
+        "description": "Conserva estructura de header, panel curvo y formulario de registro."
+      },
+      {
+        "title": "fondo base",
+        "description": "Capa blanca de respaldo para toda la pantalla."
+      },
+      {
+        "title": "header con logo",
+        "description": "Franja superior degradada con logo principal."
+      },
+      {
+        "title": "contenedor inferior principal",
+        "description": "Panel visual donde vive el formulario de registro."
+      },
+      {
+        "title": "botón atrás",
+        "description": "Permite regresar de forma segura a la pantalla anterior."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/login/formulario_login.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan rutas y paleta para mantener el diseño original del formulario."
+      },
+      {
+        "title": "formulario de login",
+        "description": "Conserva el diseño original y delega autenticación al callback externo."
+      },
+      {
+        "title": "estado del formulario login",
+        "description": "Gestiona campos, validaciones manuales y comportamiento visual."
+      },
+      {
+        "title": "controladores y estado de campos",
+        "description": "Guarda texto ingresado y estado de visibilidad de contraseña."
+      },
+      {
+        "title": "estado de errores en UI",
+        "description": "Se muestran debajo de cada campo sin alterar la estructura visual."
+      },
+      {
+        "title": "limpieza de recursos",
+        "description": "Libera controladores al destruir el widget."
+      },
+      {
+        "title": "envío de formulario",
+        "description": "Valida campos y ejecuta callback de login real."
+      },
+      {
+        "title": "validación de correo",
+        "description": "Revisa vacío y formato general de email."
+      },
+      {
+        "title": "validación de contraseña",
+        "description": "Revisa campo obligatorio y longitud mínima."
+      },
+      {
+        "title": "decoración compartida de inputs",
+        "description": "Mantiene el estilo visual original en ambos campos."
+      },
+      {
+        "title": "etiqueta de campo",
+        "description": "Componente pequeño para textos \"Correo\" y \"Contraseña\"."
+      },
+      {
+        "title": "mensaje de error bajo campo",
+        "description": "Reserva alto fijo para evitar saltos de layout al validar."
+      },
+      {
+        "title": "construcción de UI",
+        "description": "Renderiza el mismo diseño original del formulario."
+      },
+      {
+        "title": "acción secundaria de registro",
+        "description": "Fuerza estilo transparente para que solo se muestre el texto sin fondo."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/registro/formulario_registro.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan Material y la paleta para mantener el diseño original del formulario."
+      },
+      {
+        "title": "DTO del formulario",
+        "description": "Agrupa los datos capturados en UI antes de enviarlos al backend."
+      },
+      {
+        "title": "widget de formulario de registro",
+        "description": "Conserva el diseño y delega la lógica de backend por callbacks."
+      },
+      {
+        "title": "estado del formulario de registro",
+        "description": "Administra campos, validaciones y estados visuales."
+      },
+      {
+        "title": "controladores de campos",
+        "description": "Gestionan los valores digitados por el usuario."
+      },
+      {
+        "title": "estado de visibilidad de contraseñas",
+        "description": "Permite alternar mostrar/ocultar en cada campo de contraseña."
+      },
+      {
+        "title": "estado de errores",
+        "description": "Guarda mensajes de error fuera del TextField para evitar saltos de tamaño."
+      },
+      {
+        "title": "limpieza de recursos",
+        "description": "Libera los controladores al desmontar el widget."
+      },
+      {
+        "title": "envío del formulario",
+        "description": "Valida todos los campos y delega el registro a la pantalla."
+      },
+      {
+        "title": "validación de nombres",
+        "description": "Exige un texto no vacío con longitud mínima razonable."
+      },
+      {
+        "title": "validación de documento",
+        "description": "Acepta solo dígitos para el número de documento."
+      },
+      {
+        "title": "validación de teléfono",
+        "description": "Acepta solo dígitos y un tamaño típico de teléfono móvil."
+      },
+      {
+        "title": "validación de correo",
+        "description": "Verifica formato básico de correo electrónico."
+      },
+      {
+        "title": "validación de contraseña",
+        "description": "Requiere longitud mínima para fortalecer credenciales."
+      },
+      {
+        "title": "validación de confirmación",
+        "description": "Comprueba que la confirmación coincida con la contraseña."
+      },
+      {
+        "title": "decoración de inputs",
+        "description": "Reutiliza el mismo estilo visual en todos los campos."
+      },
+      {
+        "title": "etiqueta de campo",
+        "description": "Dibuja el título encima de cada input."
+      },
+      {
+        "title": "contenedor con sombra",
+        "description": "Mantiene el relieve visual del diseño original."
+      },
+      {
+        "title": "texto de error",
+        "description": "Reserva alto fijo para que el layout no cambie al validar."
+      },
+      {
+        "title": "UI del formulario",
+        "description": "Construye la vista completa con campos, validaciones y acciones."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/shared/popup_configurar_contrasena_inicial.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan widgets de Flutter y colores del proyecto."
+      },
+      {
+        "title": "apertura del popup",
+        "description": "Muestra diálogo de primer acceso y retorna contraseña nueva al confirmar."
+      },
+      {
+        "title": "popup de configuración inicial",
+        "description": "Solicita contraseña y confirmación para cuentas sin clave previa."
+      },
+      {
+        "title": "validadores de campos",
+        "description": "Aseguran formato mínimo y coincidencia entre ambas entradas."
+      },
+      {
+        "title": "confirmar guardado",
+        "description": "Valida y cierra retornando la contraseña final al login."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/home_cliente.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan rutas, paleta y widgets modulares del home de cliente."
+      },
+      {
+        "title": "pantalla principal del cliente",
+        "description": "Presenta el dashboard visual del cliente sin datos mock ni acciones de creación."
+      },
+      {
+        "title": "estado de pantalla principal",
+        "description": "Se encarga de cargar datos del usuario autenticado para el header dinámico."
+      },
+      {
+        "title": "constantes visuales base",
+        "description": "Se centralizan textos fijos y ajustes visuales para mantener el archivo compacto."
+      },
+      {
+        "title": "dependencias y estado del header",
+        "description": "Mantiene los datos de sesión y conteos para mostrar resumen real del cliente."
+      },
+      {
+        "title": "ciclo de vida inicial",
+        "description": "Dispara la carga del perfil al entrar al home."
+      },
+      {
+        "title": "carga inicial del home",
+        "description": "Resuelve datos de sesión y consulta JSON local para llenar resúmenes."
+      },
+      {
+        "title": "resolución de id de usuario",
+        "description": "Prioriza id del perfil y usa uid de Auth como respaldo para las consultas."
+      },
+      {
+        "title": "resolución de nombre visible",
+        "description": "Prioriza nombre del perfil y usa correo como respaldo si aún no hay perfil."
+      },
+      {
+        "title": "cálculo de inicial",
+        "description": "Toma la primera letra del primer bloque del nombre mostrado."
+      },
+      {
+        "title": "salida a bienvenida",
+        "description": "Cierra la sesión y redirige a la pantalla de bienvenida."
+      },
+      {
+        "title": "navegación a pantalla de citas",
+        "description": "Abre la vista completa de citas y al volver refresca el home."
+      },
+      {
+        "title": "navegación a pantalla de mascotas",
+        "description": "Abre la vista completa de mascotas y al volver refresca el home."
+      },
+      {
+        "title": "apertura de detalle de mascota",
+        "description": "Muestra ficha extendida y, si se actualiza, refresca los datos del home."
+      },
+      {
+        "title": "apertura de detalle de cita",
+        "description": "Muestra la ficha extendida de la cita y refresca Home si se actualiza."
+      },
+      {
+        "title": "acciones del menú",
+        "description": "Dejan listo el punto de navegación para formularios futuros."
+      },
+      {
+        "title": "apertura de popup para registrar mascota",
+        "description": "Muestra la tarjeta centrada y oscurece el fondo mientras está abierta."
+      },
+      {
+        "title": "refresco del home tras crear mascota",
+        "description": "Si se confirma creación, recarga totales y listado reciente de mascotas."
+      },
+      {
+        "title": "apertura de popup para crear cita",
+        "description": "Muestra la tarjeta centrada como diálogo y oscurece el fondo."
+      },
+      {
+        "title": "refresco del home tras crear cita",
+        "description": "Si se confirma creación, vuelve a consultar resúmenes y tarjetas."
+      },
+      {
+        "title": "construcción de la pantalla",
+        "description": "Mantiene el diseño original, pero delega bloques visuales a widgets separados."
+      },
+      {
+        "title": "altura de la curva base",
+        "description": "Se aumenta esta altura para que el fondo azul termine más arriba sin modificar la forma de la curva definida en el clipper."
+      },
+      {
+        "title": "base de fondo",
+        "description": "Capa inferior gris para conservar contraste con los paneles."
+      },
+      {
+        "title": "degradado superior",
+        "description": "Replica el encabezado azul del diseño de referencia."
+      },
+      {
+        "title": "recorte curvo inferior",
+        "description": "Forma orgánica que separa el encabezado del contenido principal."
+      },
+      {
+        "title": "contenido desplazable del home",
+        "description": "Agrupa encabezado, resumen y paneles principales."
+      },
+      {
+        "title": "resúmenes superpuestos sobre la curva",
+        "description": "Se elevan levemente para que el azul y la curva pasen por detrás sin afectar el diseño ni la distribución general."
+      },
+      {
+        "title": "paneles superpuestos sobre la curva",
+        "description": "Se desplazan visualmente para que el fondo azul/curva quede detrás, manteniendo separación correcta respecto a los resúmenes."
+      },
+      {
+        "title": "menú flotante del home",
+        "description": "Muestra el botón \"+\" y el panel animado de acciones del cliente."
+      },
+      {
+        "title": "header local del home",
+        "description": "Se movió desde widgets para mantener esta vista autocontenida como solicitaste."
+      },
+      {
+        "title": "clipper local de curva inferior",
+        "description": "Se movió desde widgets para consolidar la forma del fondo en esta pantalla."
+      },
+      {
+        "title": "arranque de curva tipo arco",
+        "description": "Se sube el inicio y se reduce la profundidad total del arco."
+      },
+      {
+        "title": "arco principal redondeado",
+        "description": "Curva única amplia con menor altura para que no baje hasta el botón."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/mis_citas_cliente.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan modelos, servicios y tarjeta de creación para conectar la vista con backend."
+      },
+      {
+        "title": "pantalla de citas del cliente",
+        "description": "Muestra todas las citas del usuario autenticado y permite registrar nuevas."
+      },
+      {
+        "title": "estado de Mis Citas",
+        "description": "Gestiona consultas a JSON local, métricas dinámicas y apertura del formulario de cita."
+      },
+      {
+        "title": "servicios de backend",
+        "description": "Se reutilizan para obtener usuario actual, citas y conteo de mascotas."
+      },
+      {
+        "title": "estado principal de la vista",
+        "description": "Guarda datos del usuario y resultados para renderizar UI dinámica."
+      },
+      {
+        "title": "inicialización de pantalla",
+        "description": "Carga datos del usuario y su agenda al abrir la vista."
+      },
+      {
+        "title": "carga de datos de backend",
+        "description": "Consulta citas y métricas del usuario autenticado desde JSON local."
+      },
+      {
+        "title": "id de usuario para consultas",
+        "description": "Prioriza id del perfil y usa uid de autenticación local como respaldo."
+      },
+      {
+        "title": "nombre visible del cliente",
+        "description": "Usa nombre de perfil y, si falta, construye un alias desde el correo."
+      },
+      {
+        "title": "resumen de citas próximas",
+        "description": "Cuenta estados \"proxima\" y \"pendiente\" como próximas a atender."
+      },
+      {
+        "title": "apertura de formulario de cita",
+        "description": "Muestra popup centrado con fondo oscuro y refresca datos al guardar."
+      },
+      {
+        "title": "apertura de detalle de cita",
+        "description": "Muestra la ficha completa y recarga datos si hay edición guardada."
+      },
+      {
+        "title": "construcción de la pantalla",
+        "description": "Mantiene el diseño visual de cabecera y agenda con datos reales."
+      },
+      {
+        "title": "fondo visual superior",
+        "description": "Conserva degradado y círculos decorativos de la vista."
+      },
+      {
+        "title": "gradiente de cabecera",
+        "description": "Define la banda azul con bordes inferiores redondeados."
+      },
+      {
+        "title": "círculo decorativo",
+        "description": "Añade profundidad visual al fondo superior."
+      },
+      {
+        "title": "encabezado de la vista",
+        "description": "Muestra botón atrás, título y subtítulo de la sección de citas."
+      },
+      {
+        "title": "botón circular del encabezado",
+        "description": "Se usa para regresar a la pantalla anterior."
+      },
+      {
+        "title": "resumen superior de métricas",
+        "description": "Renderiza contadores dinámicos de citas, próximas y mascotas."
+      },
+      {
+        "title": "tarjeta de resumen individual",
+        "description": "Define estilo compacto para cada métrica del encabezado."
+      },
+      {
+        "title": "panel de agenda personal",
+        "description": "Lista todas las citas del usuario o muestra estado vacío/cargando."
+      },
+      {
+        "title": "estado vacío de agenda",
+        "description": "Muestra mensaje cuando el usuario aún no tiene citas creadas."
+      },
+      {
+        "title": "tarjeta de cita individual",
+        "description": "Replica el diseño solicitado: hora bajo icono, especie/fecha y motivo."
+      },
+      {
+        "title": "fecha corta para chip",
+        "description": "Formatea la fecha al estilo \"08 mar 2026\"."
+      },
+      {
+        "title": "hora visible para bloque izquierdo",
+        "description": "Prioriza fecha_hora y usa hora_texto como respaldo."
+      },
+      {
+        "title": "chip visual de datos",
+        "description": "Se usa para especie y fecha dentro de cada tarjeta de cita."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/mis_mascotas_cliente.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan modelos, servicios y formulario para conectar la vista con backend."
+      },
+      {
+        "title": "pantalla de mascotas del cliente",
+        "description": "Muestra todas las mascotas del usuario autenticado y permite registrar nuevas."
+      },
+      {
+        "title": "estado de Mis Mascotas",
+        "description": "Gestiona carga desde JSON local y apertura del formulario de registro."
+      },
+      {
+        "title": "servicios de backend",
+        "description": "Permiten resolver usuario autenticado y consultar la colección mascotas."
+      },
+      {
+        "title": "estado principal de la vista",
+        "description": "Guarda datos de sesión y listado de mascotas para render dinámico."
+      },
+      {
+        "title": "inicialización",
+        "description": "Carga datos del usuario y sus mascotas al abrir la pantalla."
+      },
+      {
+        "title": "carga de datos desde backend",
+        "description": "Consulta JSON local para traer todas las mascotas del usuario logueado."
+      },
+      {
+        "title": "id de usuario para consultas",
+        "description": "Prioriza id del perfil y usa uid de autenticación local como respaldo."
+      },
+      {
+        "title": "nombre visible del cliente",
+        "description": "Usa nombre del perfil y, como fallback, alias derivado del correo."
+      },
+      {
+        "title": "apertura de formulario de mascota",
+        "description": "Muestra popup centrado con fondo oscuro y recarga al registrar."
+      },
+      {
+        "title": "apertura de detalle de mascota",
+        "description": "Muestra ficha extendida y, si hay cambios, recarga el listado."
+      },
+      {
+        "title": "texto dinámico de resumen",
+        "description": "Construye frase \"n registradas a nombre de ...\" con singular/plural."
+      },
+      {
+        "title": "construcción de la pantalla",
+        "description": "Mantiene el diseño visual y lista todas las mascotas del usuario."
+      },
+      {
+        "title": "fondo visual superior",
+        "description": "Conserva el gradiente y círculos decorativos de la vista."
+      },
+      {
+        "title": "gradiente de cabecera",
+        "description": "Define banda azul superior con bordes redondeados."
+      },
+      {
+        "title": "círculo decorativo de cabecera",
+        "description": "Se utiliza para profundidad visual en el fondo."
+      },
+      {
+        "title": "encabezado principal",
+        "description": "Muestra botón atrás, título y descripción de la sección."
+      },
+      {
+        "title": "botón circular del encabezado",
+        "description": "Permite volver a la pantalla anterior."
+      },
+      {
+        "title": "panel principal de mascotas",
+        "description": "Renderiza subtítulo dinámico y listado completo de mascotas del usuario."
+      },
+      {
+        "title": "estado vacío del listado",
+        "description": "Muestra mensaje cuando no existen mascotas en la cuenta."
+      },
+      {
+        "title": "tarjeta individual de mascota",
+        "description": "Presenta nombre de mascota y especie en formato compacto como referencia."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan Material, colores, modelo Cita y servicio para actualizar JSON local."
+      },
+      {
+        "title": "helper de apertura de detalle",
+        "description": "Muestra el popup centrado y retorna true cuando se actualiza la cita."
+      },
+      {
+        "title": "popup de detalle de cita",
+        "description": "Renderiza la información completa de la cita y permite edición por botón."
+      },
+      {
+        "title": "estado del popup de cita",
+        "description": "Gestiona controladores, validación, selección de fecha/hora y guardado."
+      },
+      {
+        "title": "dependencias y formulario",
+        "description": "Se prepara el servicio para persistir cambios y validar datos."
+      },
+      {
+        "title": "estado visual y de guardado",
+        "description": "Controla el modo edición y evita envíos duplicados."
+      },
+      {
+        "title": "inicialización de datos",
+        "description": "Carga datos de la cita en controladores para lectura y edición."
+      },
+      {
+        "title": "liberación de recursos",
+        "description": "Evita fugas de memoria al cerrar el popup."
+      },
+      {
+        "title": "reset de campos",
+        "description": "Restablece los valores originales de la cita."
+      },
+      {
+        "title": "carga de mascotas disponibles",
+        "description": "Consulta mascotas del usuario para permitir seleccionar otra en edición."
+      },
+      {
+        "title": "búsqueda local por id",
+        "description": "Recupera la mascota seleccionada para sincronizar nombre/especie."
+      },
+      {
+        "title": "helper de búsqueda en lista",
+        "description": "Permite reutilizar la lógica durante carga inicial y edición."
+      },
+      {
+        "title": "fecha inicial de edición",
+        "description": "Intenta usar fecha_hora o combina fecha/hora textual como respaldo."
+      },
+      {
+        "title": "activación y cancelación de edición",
+        "description": "Habilita edición bajo demanda y permite volver a lectura."
+      },
+      {
+        "title": "validaciones básicas",
+        "description": "Asegura que los campos obligatorios se completen antes de guardar."
+      },
+      {
+        "title": "selector de fecha y hora",
+        "description": "Permite ajustar programación de la cita desde calendarios nativos."
+      },
+      {
+        "title": "tema azul de selectores",
+        "description": "Mantiene coherencia visual con el resto de popups de cita."
+      },
+      {
+        "title": "guardado de cambios",
+        "description": "Persiste los datos editados en JSON local y cierra con resultado exitoso."
+      },
+      {
+        "title": "confirmación de cancelación",
+        "description": "Solicita confirmación explícita antes de cambiar el estado a cancelada."
+      },
+      {
+        "title": "cancelación de cita",
+        "description": "Marca la cita como cancelada y cierra el popup para refrescar el listado."
+      },
+      {
+        "title": "formato visual de fecha/hora",
+        "description": "Convierte DateTime a texto corto y usa fallback si no hay fecha parseada."
+      },
+      {
+        "title": "cierre seguro",
+        "description": "Evita pop inválido y retorna resultado opcional al llamador."
+      },
+      {
+        "title": "construcción del popup",
+        "description": "Mantiene ficha en modo lectura y habilita edición sólo con botón."
+      },
+      {
+        "title": "encabezado del popup",
+        "description": "Muestra icono, título y botón de cierre."
+      },
+      {
+        "title": "campos de la cita",
+        "description": "Muestran solo lectura y se vuelven editables al activar edición."
+      },
+      {
+        "title": "acciones inferiores",
+        "description": "Muestra editar o cancelar/guardar según modo actual."
+      },
+      {
+        "title": "campo visual reutilizable",
+        "description": "Mantiene bloque de ficha y alterna entre texto o input según modo edición."
+      },
+      {
+        "title": "campo de especie solo lectura",
+        "description": "La especie se deriva de la mascota seleccionada y no se edita manualmente."
+      },
+      {
+        "title": "campo visual reutilizable",
+        "description": "Mantiene bloque de ficha y alterna entre texto o input según modo edición."
+      },
+      {
+        "title": "campo fecha y hora",
+        "description": "En modo edición abre selector; en lectura solo muestra el texto actual."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/citas/tarjeta_creacion_cita.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades visuales y servicios de dominio del proyecto."
+      },
+      {
+        "title": "tarjeta de creación de cita",
+        "description": "Renderiza el formulario popup para registrar citas del cliente en JSON local."
+      },
+      {
+        "title": "estado del formulario de cita",
+        "description": "Gestiona carga de datos, validación y guardado de una nueva cita."
+      },
+      {
+        "title": "claves y controladores del formulario",
+        "description": "Permiten validar campos y manejar entradas de fecha/descripción."
+      },
+      {
+        "title": "servicios backend",
+        "description": "Encapsulan acceso a sesión, mascotas, médicos y persistencia de citas."
+      },
+      {
+        "title": "estado de carga y guardado",
+        "description": "Controla loaders del popup para evitar acciones duplicadas."
+      },
+      {
+        "title": "estado de usuario y listas dinámicas",
+        "description": "Almacena id usuario, mascotas asociadas y médicos disponibles."
+      },
+      {
+        "title": "estado de selección del formulario",
+        "description": "Guarda las opciones elegidas por el usuario durante el registro."
+      },
+      {
+        "title": "catálogo de motivos",
+        "description": "Lista cerrada para el desplegable de motivo de cita."
+      },
+      {
+        "title": "inicialización del widget",
+        "description": "Carga mascotas y médicos apenas se abre el popup."
+      },
+      {
+        "title": "liberación de controladores",
+        "description": "Evita fugas de memoria al cerrar el popup."
+      },
+      {
+        "title": "carga de datos base",
+        "description": "Resuelve usuario actual, mascotas asociadas y médicos disponibles."
+      },
+      {
+        "title": "filtrado dinámico de médicos por horario",
+        "description": "Si ya hay fecha/hora, sólo deja visibles los médicos libres en ese minuto."
+      },
+      {
+        "title": "selección de médico",
+        "description": "Valida disponibilidad cuando ya existe fecha/hora elegida."
+      },
+      {
+        "title": "consulta de personal médico",
+        "description": "Lee personal médico activo y normaliza id/nombre para el dropdown."
+      },
+      {
+        "title": "resolver id de usuario para consultas",
+        "description": "Usa id del perfil persistido en sesión local."
+      },
+      {
+        "title": "búsqueda local de mascota por id",
+        "description": "Recupera la mascota seleccionada para armar los datos de la cita."
+      },
+      {
+        "title": "decoración visual de campos",
+        "description": "Reutiliza la misma apariencia de inputs en toda la tarjeta."
+      },
+      {
+        "title": "validadores de campos requeridos",
+        "description": "Devuelven error vacío para mantener el estilo de tu diseño actual."
+      },
+      {
+        "title": "selector de fecha y hora",
+        "description": "Abre calendario y reloj para registrar la cita en una fecha futura."
+      },
+      {
+        "title": "tema azul para calendario y reloj",
+        "description": "Uniforma la apariencia de los selectores de fecha/hora con la identidad azul."
+      },
+      {
+        "title": "tema de días del calendario",
+        "description": "Mantiene estilo azul y fuerza el número en blanco cuando el día está seleccionado."
+      },
+      {
+        "title": "guardado de cita en JSON local",
+        "description": "Crea id único, asocia usuario/mascota/médico y persiste la cita."
+      },
+      {
+        "title": "cierre del popup",
+        "description": "Cierra modal y ejecuta callback opcional para pantallas contenedoras."
+      },
+      {
+        "title": "cierre seguro del diálogo",
+        "description": "Evita hacer pop cuando ya no hay rutas disponibles en el Navigator."
+      },
+      {
+        "title": "construcción principal",
+        "description": "Mantiene el diseño de tarjeta y agrega estados de carga/guardado."
+      },
+      {
+        "title": "contenedor material del popup",
+        "description": "Asegura un ancestro Material para Dropdown y widgets interactivos."
+      },
+      {
+        "title": "opción vacía de médico",
+        "description": "Permite crear la cita sin médico preferido (sin valor mock)."
+      },
+      {
+        "title": "helper de formato visible",
+        "description": "Convierte DateTime en texto corto para el campo del formulario."
+      },
+      {
+        "title": "etiqueta de campo reutilizable",
+        "description": "Estandariza el estilo visual de títulos de cada input."
+      },
+      {
+        "title": "modelo local de médico para dropdown",
+        "description": "Simplifica renderizado de personal médico en el formulario."
+      },
+      {
+        "title": "nombre visible de médico",
+        "description": "Combina nombre y especialidad solo cuando hay especialidad cargada."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_mascotas_registradas_card.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan componentes base para construir la sección de mascotas registradas."
+      },
+      {
+        "title": "tarjeta de mascotas registradas",
+        "description": "Encapsula el panel completo manteniendo diseño y estado inicial vacío."
+      },
+      {
+        "title": "lista segura de mascotas",
+        "description": "Se normaliza a lista vacía para evitar errores si llega null en reconstrucciones."
+      },
+      {
+        "title": "construcción del panel",
+        "description": "Renderiza cabecera y contenido vacío cuando aún no hay mascotas."
+      },
+      {
+        "title": "contenido dinámico",
+        "description": "Muestra estado vacío o hasta tres mascotas en formato de tarjeta compacta."
+      },
+      {
+        "title": "tarjeta individual de mascota",
+        "description": "Replica el diseño solicitado con icono, datos principales y chip de especie."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_menu_flotante.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa Material y colores globales para el menú de acciones del home cliente."
+      },
+      {
+        "title": "firma de callbacks asíncronos",
+        "description": "Permite que el menú espere la acción completa antes de continuar."
+      },
+      {
+        "title": "menú flotante de acciones del cliente",
+        "description": "Encapsula el botón \"+\" y el panel animado con opciones de creación."
+      },
+      {
+        "title": "estado del menú flotante",
+        "description": "Gestiona apertura/cierre con animación de desplazamiento hacia arriba."
+      },
+      {
+        "title": "inicialización de animación",
+        "description": "Prepara transiciones de opacidad y movimiento para el panel."
+      },
+      {
+        "title": "liberación de recursos",
+        "description": "Libera el controller cuando el widget deja de existir."
+      },
+      {
+        "title": "toggle del menú",
+        "description": "Alterna entre estado cerrado y abierto."
+      },
+      {
+        "title": "acciones del panel",
+        "description": "Ejecutan callback externo y cierran el menú."
+      },
+      {
+        "title": "fondo táctil para cerrar menú",
+        "description": "Captura toques fuera del panel cuando está abierto."
+      },
+      {
+        "title": "panel de opciones",
+        "description": "Muestra las dos acciones solicitadas con animación de subida."
+      },
+      {
+        "title": "botón principal",
+        "description": "Botón \"+\" fijo en esquina inferior derecha."
+      },
+      {
+        "title": "contenedor visual del menú",
+        "description": "Replica el diseño de tarjeta con dos filas y separador central."
+      },
+      {
+        "title": "fila individual",
+        "description": "Define icono, texto y callback táctil de cada opción."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_panel_seccion.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa Material para construir el contenedor de sección reutilizable."
+      },
+      {
+        "title": "panel de sección del home cliente",
+        "description": "Encapsula título, ícono, acción \"Ver todo\" y contenido interno."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_proximas_citas_card.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan componentes base para construir la sección de próximas citas."
+      },
+      {
+        "title": "tarjeta de próximas citas",
+        "description": "Encapsula el panel completo manteniendo diseño y estado inicial vacío."
+      },
+      {
+        "title": "lista segura de citas",
+        "description": "Se normaliza a lista vacía para evitar errores si llega null en reconstrucciones."
+      },
+      {
+        "title": "construcción del panel",
+        "description": "Renderiza cabecera y contenido vacío cuando aún no hay citas."
+      },
+      {
+        "title": "contenido dinámico",
+        "description": "Muestra mensaje vacío o máximo de citas cargadas desde JSON local."
+      },
+      {
+        "title": "tarjeta individual de cita",
+        "description": "Replica el diseño pedido para nombre, especie, fecha-hora, estado y motivo."
+      },
+      {
+        "title": "ajuste de grosor visual",
+        "description": "Reduce alto general de la tarjeta para acercarla al diseño del SVG."
+      },
+      {
+        "title": "bloque de icono izquierdo",
+        "description": "Centra el ícono del calendario dentro del contenedor como en la referencia."
+      },
+      {
+        "title": "contenido principal de la cita",
+        "description": "Organiza el texto en tres filas para replicar proporciones del diseño."
+      },
+      {
+        "title": "fila superior (nombre + estado)",
+        "description": "Se separa el chip de estado para no quitar espacio a la fecha/hora."
+      },
+      {
+        "title": "fila media (especie + fecha/hora)",
+        "description": "Muestra la especie en chip y la fecha completa en la misma línea."
+      },
+      {
+        "title": "fila inferior (motivo)",
+        "description": "Mantiene una línea como en la maqueta del SVG."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_resumen_card.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa Material para renderizar cada tarjeta de resumen."
+      },
+      {
+        "title": "tarjeta de resumen del home",
+        "description": "Muestra cantidad y etiqueta de mascotas/citas con el mismo estilo del diseño original."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan Material, modelo Mascota y servicio para actualizar datos."
+      },
+      {
+        "title": "helper de apertura de detalle",
+        "description": "Muestra el popup centrado y retorna true cuando la mascota se actualiza."
+      },
+      {
+        "title": "popup de detalle de mascota",
+        "description": "Conserva el diseño original de ficha y agrega edición solo al presionar botón."
+      },
+      {
+        "title": "estado del popup de detalle",
+        "description": "Gestiona el modo edición y el guardado de cambios en JSON local."
+      },
+      {
+        "title": "dependencias y formularios",
+        "description": "Se preparan para validar y persistir los campos de la mascota."
+      },
+      {
+        "title": "estado visual",
+        "description": "Controla si el popup está en edición y si hay guardado en progreso."
+      },
+      {
+        "title": "inicialización",
+        "description": "Carga los datos actuales de la mascota dentro de los controladores."
+      },
+      {
+        "title": "liberación de recursos",
+        "description": "Evita fugas de memoria al cerrar el popup."
+      },
+      {
+        "title": "reset de datos del formulario",
+        "description": "Restablece campos a la información original de la mascota."
+      },
+      {
+        "title": "helper de peso inicial",
+        "description": "Convierte el valor numérico a texto amigable para edición."
+      },
+      {
+        "title": "validadores básicos",
+        "description": "Asegura que los campos requeridos no estén vacíos."
+      },
+      {
+        "title": "parseo de edad",
+        "description": "Extrae un entero desde texto para guardar en JSON local."
+      },
+      {
+        "title": "parseo de peso",
+        "description": "Acepta coma o punto como separador decimal."
+      },
+      {
+        "title": "activación de edición",
+        "description": "Habilita campos solamente cuando el usuario pulsa el botón."
+      },
+      {
+        "title": "cancelación de edición",
+        "description": "Vuelve al modo lectura y recupera valores originales."
+      },
+      {
+        "title": "guardado de cambios",
+        "description": "Actualiza JSON local y cierra el popup devolviendo true si guardó."
+      },
+      {
+        "title": "cierre seguro del popup",
+        "description": "Evita hacer pop cuando no hay rutas apiladas."
+      },
+      {
+        "title": "construcción del popup",
+        "description": "Mantiene diseño anterior y agrega acciones de edición al pie."
+      },
+      {
+        "title": "encabezado del popup",
+        "description": "Muestra icono, nombre, subtítulo y botón de cierre."
+      },
+      {
+        "title": "campos de la ficha",
+        "description": "Se ven en modo texto y cambian a inputs al activar edición."
+      },
+      {
+        "title": "acciones inferiores",
+        "description": "Muestra botón de editar o acciones de cancelar/guardar."
+      },
+      {
+        "title": "campo de ficha reutilizable",
+        "description": "Mantiene el bloque visual anterior y alterna entre texto e input sin cambiar diseño."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan servicios de sesión y mascotas para registrar en JSON local."
+      },
+      {
+        "title": "tarjeta de registro de mascota",
+        "description": "Renderiza el formulario popup y guarda la mascota con id único en JSON local."
+      },
+      {
+        "title": "estado del formulario de mascota",
+        "description": "Gestiona validación, parseo de datos y guardado en backend."
+      },
+      {
+        "title": "controladores y clave de formulario",
+        "description": "Mantienen el estado de los inputs requeridos para crear mascota."
+      },
+      {
+        "title": "servicios de dominio",
+        "description": "Resuelven usuario autenticado y persistencia de mascotas."
+      },
+      {
+        "title": "estado de UI y selección",
+        "description": "Controla bloqueo del botón durante guardado y valor de sexo."
+      },
+      {
+        "title": "liberación de recursos",
+        "description": "Evita fugas de memoria al cerrar la tarjeta."
+      },
+      {
+        "title": "decoración reutilizable de campos",
+        "description": "Mantiene estilo consistente con el diseño actual del popup."
+      },
+      {
+        "title": "validación requerida de campos",
+        "description": "Evita registros incompletos devolviendo error invisible para conservar diseño."
+      },
+      {
+        "title": "resolución de id de usuario",
+        "description": "Usa id del perfil persistido en sesión local."
+      },
+      {
+        "title": "parseo de edad",
+        "description": "Extrae número de texto como \"3 años\" y retorna entero válido."
+      },
+      {
+        "title": "parseo de peso",
+        "description": "Extrae decimal de texto como \"12.5 kg\" o \"12,5 kg\"."
+      },
+      {
+        "title": "cierre controlado del popup",
+        "description": "Ejecuta callback externo y cierra el diálogo con resultado falso."
+      },
+      {
+        "title": "cierre seguro del diálogo",
+        "description": "Evita hacer pop cuando ya no hay rutas disponibles en el Navigator."
+      },
+      {
+        "title": "registro de mascota",
+        "description": "Valida, transforma datos y crea documento en JSON local."
+      },
+      {
+        "title": "bloqueo anticipado de envío",
+        "description": "Se activa antes del primer await para evitar dobles registros por taps rápidos."
+      },
+      {
+        "title": "construcción de la tarjeta",
+        "description": "Presenta el formulario manteniendo el diseño original."
+      },
+      {
+        "title": "campo opcional",
+        "description": "La raza no es obligatoria para permitir registrar mascotas sin ese dato."
+      },
+      {
+        "title": "etiqueta visual de campos",
+        "description": "Reutiliza tipografía y espaciado para títulos de input."
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/shared/home_cliente_mensaje_vacio.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa Material para construir el bloque visual de listas vacías."
+      },
+      {
+        "title": "mensaje vacío del home cliente",
+        "description": "Muestra un bloque informativo cuando no hay mascotas o citas registradas."
+      }
+    ]
+  },
+  {
+    "path": "lib/main.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan Flutter, app principal, configuración de URL y servicio de persistencia local."
+      },
+      {
+        "title": "punto de entrada",
+        "description": "Inicializa estrategia de URL en web, persistencia local y luego renderiza la app."
+      },
+      {
+        "title": "inicialización de persistencia local",
+        "description": "Garantiza que la base local esté disponible antes de abrir pantallas."
+      }
+    ]
+  },
+  {
+    "path": "lib/models/cita.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa utilería JSON para serialización del modelo."
+      },
+      {
+        "title": "modelo de cita",
+        "description": "Representa una cita veterinaria persistida en JSON local."
+      },
+      {
+        "title": "propiedades amigables para UI",
+        "description": "Preparan texto consistente para los widgets del home."
+      },
+      {
+        "title": "propiedades para lógica",
+        "description": "Definen orden de presentación y estado pendiente para resúmenes."
+      },
+      {
+        "title": "serialización a mapa",
+        "description": "Convierte la entidad al esquema de almacenamiento local."
+      },
+      {
+        "title": "serialización a texto JSON",
+        "description": "Genera una cadena JSON para persistencia o depuración."
+      },
+      {
+        "title": "deserialización desde mapa",
+        "description": "Lee el registro y soporta variaciones de nombres de campos."
+      },
+      {
+        "title": "deserialización desde texto JSON",
+        "description": "Convierte una cadena JSON en entidad tipada."
+      },
+      {
+        "title": "copia inmutable",
+        "description": "Permite actualizar campos específicos sin mutar la instancia original."
+      },
+      {
+        "title": "helpers de parsing",
+        "description": "Normalizan lectura de strings y fechas con tolerancia a distintos formatos."
+      }
+    ]
+  },
+  {
+    "path": "lib/models/historial_clinico.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa utilería JSON para serialización del modelo."
+      },
+      {
+        "title": "modelo de historial clínico",
+        "description": "Representa el resumen clínico asociado a una atención veterinaria."
+      },
+      {
+        "title": "serialización a mapa",
+        "description": "Convierte la entidad al esquema persistido en JSON local."
+      },
+      {
+        "title": "serialización a texto JSON",
+        "description": "Genera representación textual para persistencia o depuración."
+      },
+      {
+        "title": "deserialización desde mapa",
+        "description": "Construye la entidad leyendo un registro dinámico."
+      },
+      {
+        "title": "deserialización desde texto JSON",
+        "description": "Convierte una cadena JSON en la entidad tipada."
+      },
+      {
+        "title": "copia inmutable",
+        "description": "Permite actualizar campos sin mutar la instancia original."
+      },
+      {
+        "title": "helper de lectura segura",
+        "description": "Convierte valores dinámicos en string sin fallar por null o tipos."
+      }
+    ]
+  },
+  {
+    "path": "lib/models/mascota.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa utilería JSON para serialización del modelo."
+      },
+      {
+        "title": "modelo de mascota",
+        "description": "Representa una mascota del cliente con campos persistidos en JSON local."
+      },
+      {
+        "title": "valores amigables de UI",
+        "description": "Exponen texto consistente para renderizar la tarjeta sin lógica extra en el widget."
+      },
+      {
+        "title": "valor de ordenamiento",
+        "description": "Permite ordenar mascotas de más reciente a más antigua."
+      },
+      {
+        "title": "serialización a mapa",
+        "description": "Convierte la entidad al esquema usado en archivos JSON."
+      },
+      {
+        "title": "serialización a texto JSON",
+        "description": "Genera una cadena JSON para persistencia o depuración."
+      },
+      {
+        "title": "deserialización desde mapa",
+        "description": "Construye la entidad leyendo el mapa persistido."
+      },
+      {
+        "title": "deserialización desde texto JSON",
+        "description": "Convierte una cadena JSON en la entidad tipada."
+      },
+      {
+        "title": "copia inmutable",
+        "description": "Permite modificar campos puntuales sin mutar la instancia original."
+      },
+      {
+        "title": "helpers de lectura de mapa",
+        "description": "Normalizan extracción de valores con tolerancia a tipos variados."
+      },
+      {
+        "title": "helper de texto",
+        "description": "Capitaliza la primera letra de cada palabra para etiquetas visuales."
+      }
+    ]
+  },
+  {
+    "path": "lib/models/personal_medico.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa utilería JSON para serializar el modelo."
+      },
+      {
+        "title": "modelo de personal médico",
+        "description": "Representa un profesional veterinario del sistema."
+      },
+      {
+        "title": "getters de presentación",
+        "description": "Entregan valores limpios para renderizado en dropdowns y tarjetas."
+      },
+      {
+        "title": "estado visible normalizado",
+        "description": "Prioriza el campo estado del registro y usa activo como respaldo."
+      },
+      {
+        "title": "serialización a mapa",
+        "description": "Convierte la entidad al esquema JSON local."
+      },
+      {
+        "title": "serialización a texto JSON",
+        "description": "Genera representación textual de la entidad."
+      },
+      {
+        "title": "deserialización desde mapa",
+        "description": "Construye la entidad desde un registro dinámico."
+      },
+      {
+        "title": "deserialización desde texto JSON",
+        "description": "Convierte una cadena JSON a entidad tipada."
+      },
+      {
+        "title": "copia inmutable",
+        "description": "Permite actualizar campos puntuales sin mutar la instancia."
+      },
+      {
+        "title": "helpers de parseo seguro",
+        "description": "Normalizan valores dinámicos para evitar errores de tipos."
+      }
+    ]
+  },
+  {
+    "path": "lib/models/preferencia_medico.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa utilería JSON para serialización del modelo."
+      },
+      {
+        "title": "modelo de preferencia de médico",
+        "description": "Vincula la preferencia de médico de una mascota específica."
+      },
+      {
+        "title": "serialización a mapa",
+        "description": "Convierte la entidad al esquema persistido en JSON local."
+      },
+      {
+        "title": "serialización a texto JSON",
+        "description": "Genera representación textual del modelo."
+      },
+      {
+        "title": "deserialización desde mapa",
+        "description": "Reconstruye la entidad desde datos dinámicos."
+      },
+      {
+        "title": "deserialización desde texto JSON",
+        "description": "Convierte una cadena JSON en entidad tipada."
+      },
+      {
+        "title": "copia inmutable",
+        "description": "Permite cambiar campos puntuales manteniendo inmutabilidad."
+      },
+      {
+        "title": "helper de lectura segura",
+        "description": "Convierte valores dinámicos en string controlado."
+      }
+    ]
+  },
+  {
+    "path": "lib/models/usuario.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa utilería JSON y constantes de rol para reglas de dominio."
+      },
+      {
+        "title": "modelo de usuario",
+        "description": "Representa el registro de usuario persistido en JSON local."
+      },
+      {
+        "title": "regla de conveniencia",
+        "description": "Permite validar rápidamente si el usuario corresponde a administrador."
+      },
+      {
+        "title": "serialización a mapa",
+        "description": "Convierte la entidad al formato persistido en JSON local."
+      },
+      {
+        "title": "serialización a texto JSON",
+        "description": "Genera una representación textual para persistencia o debug."
+      },
+      {
+        "title": "deserialización desde mapa",
+        "description": "Construye la entidad leyendo un mapa con claves del dominio."
+      },
+      {
+        "title": "deserialización desde texto JSON",
+        "description": "Convierte una cadena JSON al modelo tipado de usuario."
+      },
+      {
+        "title": "copia inmutable",
+        "description": "Permite clonar la entidad cambiando solo campos puntuales."
+      },
+      {
+        "title": "helper de lectura segura",
+        "description": "Normaliza cualquier valor a string para evitar cast inseguros."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/auth/login_access_state.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importa el modelo de usuario para exponer datos del correo consultado."
+      },
+      {
+        "title": "tipos de acceso en login",
+        "description": "Describe el estado del correo antes de intentar autenticación por contraseña."
+      },
+      {
+        "title": "resultado de pre-chequeo de login",
+        "description": "Encapsula el tipo de acceso y el usuario encontrado cuando aplica."
+      },
+      {
+        "title": "helpers de lectura",
+        "description": "Simplifican condiciones en la pantalla de login."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/auth_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades de fecha, UUID, roles, modelo de usuario y servicios locales."
+      },
+      {
+        "title": "DTO de registro",
+        "description": "Define los datos que llegan desde el formulario para crear un cliente."
+      },
+      {
+        "title": "excepción de autenticación",
+        "description": "Expone mensajes legibles para mostrar en la UI."
+      },
+      {
+        "title": "servicio de autenticación local",
+        "description": "Maneja registro, login y sesión usando JSON local como fuente de verdad."
+      },
+      {
+        "title": "acceso perezoso a servicios",
+        "description": "Evita crear dependencias en constructor de pantallas."
+      },
+      {
+        "title": "registro de cliente",
+        "description": "Crea usuario local con rol cliente y abre sesión automática."
+      },
+      {
+        "title": "inicio de sesión",
+        "description": "Valida credenciales contra usuarios JSON y persiste sesión local."
+      },
+      {
+        "title": "pre-chequeo de acceso por correo",
+        "description": "Determina si el correo existe y qué flujo corresponde antes de autenticar."
+      },
+      {
+        "title": "configuración de contraseña inicial",
+        "description": "Asigna contraseña por primera vez y deja la sesión iniciada."
+      },
+      {
+        "title": "lectura de usuario actual",
+        "description": "Resuelve el perfil del usuario activo según la sesión guardada."
+      },
+      {
+        "title": "cierre de sesión",
+        "description": "Limpia el usuario activo almacenado localmente."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/cita_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades de fecha, UUID, constantes y storage local JSON."
+      },
+      {
+        "title": "servicio de citas",
+        "description": "Encapsula consultas y mutaciones de citas sobre persistencia JSON local."
+      },
+      {
+        "title": "listado completo",
+        "description": "Retorna todas las citas almacenadas en la entidad local."
+      },
+      {
+        "title": "consulta por usuario",
+        "description": "Obtiene citas por id_usuario y las ordena por fecha de más próxima a más lejana. Por defecto oculta citas canceladas para la experiencia del cliente."
+      },
+      {
+        "title": "próximas citas para home",
+        "description": "Retorna un máximo configurable de citas para la tarjeta principal."
+      },
+      {
+        "title": "disponibilidad de médicos por horario",
+        "description": "Retorna los ids de médicos que ya tienen cita en el mismo minuto seleccionado."
+      },
+      {
+        "title": "médicos disponibles por horario",
+        "description": "Filtra una lista de ids de médicos removiendo los que estén ocupados."
+      },
+      {
+        "title": "disponibilidad puntual de médico",
+        "description": "Indica si el médico puede recibir una cita en el minuto seleccionado."
+      },
+      {
+        "title": "conteo de pendientes en memoria",
+        "description": "Cuenta estados pendientes usando una lista ya consultada."
+      },
+      {
+        "title": "conteo de citas pendientes por usuario",
+        "description": "Busca citas por id_usuario y cuenta solo las que estén en estado pendiente."
+      },
+      {
+        "title": "cancelación de cita por cliente",
+        "description": "Marca la cita como cancelada sin eliminarla, para mantener trazabilidad clínica."
+      },
+      {
+        "title": "creación de cita de cliente",
+        "description": "Crea una cita con id único, asociando usuario, mascota y médico opcional."
+      },
+      {
+        "title": "actualización de cita",
+        "description": "Modifica los campos editables de una cita existente."
+      },
+      {
+        "title": "actualización de cita por admin",
+        "description": "Permite modificar todos los campos de una cita desde la vista administrativa."
+      },
+      {
+        "title": "persistencia interna",
+        "description": "Guarda la lista completa de citas en storage local."
+      },
+      {
+        "title": "helper de estado cancelado",
+        "description": "Normaliza distintos textos para detectar citas canceladas."
+      },
+      {
+        "title": "comparación por minuto",
+        "description": "Evalúa conflicto exacto de agenda usando año/mes/día/hora/minuto."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/historial_clinico_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan constantes, modelo de historial clínico y storage local JSON."
+      },
+      {
+        "title": "servicio de historial clínico",
+        "description": "Encapsula CRUD de historiales en persistencia JSON local."
+      },
+      {
+        "title": "listado completo",
+        "description": "Retorna todos los historiales clínicos almacenados."
+      },
+      {
+        "title": "listado por mascota",
+        "description": "Filtra historiales relacionados con la mascota indicada."
+      },
+      {
+        "title": "creación",
+        "description": "Inserta un historial nuevo validando id único."
+      },
+      {
+        "title": "actualización",
+        "description": "Reemplaza un historial existente por id."
+      },
+      {
+        "title": "eliminación",
+        "description": "Elimina un historial según su id."
+      },
+      {
+        "title": "persistencia interna",
+        "description": "Guarda la lista completa de historiales en storage local."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/mascota_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades de fecha, UUID, constantes y storage local JSON."
+      },
+      {
+        "title": "servicio de mascotas",
+        "description": "Encapsula consultas y mutaciones de mascotas sobre persistencia JSON local."
+      },
+      {
+        "title": "listado completo",
+        "description": "Retorna todas las mascotas almacenadas en la entidad local."
+      },
+      {
+        "title": "consulta de mascotas por usuario",
+        "description": "Obtiene todas las mascotas de un cliente y las ordena de más reciente a más antigua."
+      },
+      {
+        "title": "conteo por usuario",
+        "description": "Retorna cuántas mascotas tiene registradas un usuario por id_usuario."
+      },
+      {
+        "title": "creación de mascota de cliente",
+        "description": "Registra una nueva mascota con id único y la asocia al id_usuario autenticado."
+      },
+      {
+        "title": "actualización de mascota",
+        "description": "Modifica los datos editables de una mascota existente."
+      },
+      {
+        "title": "persistencia interna",
+        "description": "Guarda la lista completa de mascotas en storage local."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/personal_medico_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan constantes de entidad, modelo de médico y storage local JSON."
+      },
+      {
+        "title": "servicio de personal médico",
+        "description": "Encapsula CRUD de profesionales en persistencia JSON local."
+      },
+      {
+        "title": "listado completo",
+        "description": "Retorna todos los médicos registrados."
+      },
+      {
+        "title": "listado de médicos activos",
+        "description": "Filtra únicamente personal médico marcado como activo."
+      },
+      {
+        "title": "búsqueda por id",
+        "description": "Devuelve un médico puntual según su identificador."
+      },
+      {
+        "title": "creación",
+        "description": "Inserta un profesional validando id único."
+      },
+      {
+        "title": "actualización",
+        "description": "Reemplaza un profesional existente por id."
+      },
+      {
+        "title": "eliminación",
+        "description": "Elimina el profesional asociado al id indicado."
+      },
+      {
+        "title": "persistencia interna",
+        "description": "Guarda la lista completa de médicos en storage local."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/preferencia_medico_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan constantes, modelo de preferencia y storage local JSON."
+      },
+      {
+        "title": "servicio de preferencia de médico",
+        "description": "Encapsula CRUD de preferencias sobre persistencia JSON local."
+      },
+      {
+        "title": "listado completo",
+        "description": "Retorna todas las preferencias registradas."
+      },
+      {
+        "title": "listado por usuario",
+        "description": "Filtra preferencias del usuario indicado."
+      },
+      {
+        "title": "creación",
+        "description": "Inserta una preferencia nueva validando id único."
+      },
+      {
+        "title": "actualización",
+        "description": "Reemplaza una preferencia existente por id."
+      },
+      {
+        "title": "eliminación",
+        "description": "Elimina una preferencia según su id."
+      },
+      {
+        "title": "persistencia interna",
+        "description": "Guarda la lista completa de preferencias en storage local."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/session_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se usa SharedPreferences para mantener el usuario logueado entre sesiones."
+      },
+      {
+        "title": "servicio de sesión",
+        "description": "Encapsula persistencia del id de usuario autenticado."
+      },
+      {
+        "title": "llave de sesión",
+        "description": "Identifica de forma única el id del usuario actual en almacenamiento local."
+      },
+      {
+        "title": "guardado de sesión",
+        "description": "Persiste el id del usuario autenticado."
+      },
+      {
+        "title": "lectura de sesión",
+        "description": "Recupera el id del usuario logueado, si existe."
+      },
+      {
+        "title": "limpieza de sesión",
+        "description": "Elimina sesión local al cerrar sesión."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/storage/local_json_storage_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan utilidades JSON, constantes de entidades y almacenamiento local unificado."
+      },
+      {
+        "title": "servicio central de almacenamiento local",
+        "description": "Mantiene una base única con listas por entidad para toda la app."
+      },
+      {
+        "title": "singleton compartido",
+        "description": "Se mantiene una sola instancia para toda la app."
+      },
+      {
+        "title": "constructor público",
+        "description": "Siempre retorna la misma instancia central."
+      },
+      {
+        "title": "constructor interno",
+        "description": "Evita construir instancias externas por error."
+      },
+      {
+        "title": "clave de almacenamiento",
+        "description": "Guarda toda la base en una sola clave para tener fuente única de verdad."
+      },
+      {
+        "title": "estado de inicialización",
+        "description": "Evita recalcular la base inicial más de una vez."
+      },
+      {
+        "title": "usuarios base",
+        "description": "Define cuentas iniciales solicitadas para admin y cliente."
+      },
+      {
+        "title": "inicialización principal",
+        "description": "Si no existe base local, crea una base inicial con listas vacías."
+      },
+      {
+        "title": "construcción de base inicial",
+        "description": "Genera una estructura con todas las entidades apuntando a listas vacías."
+      },
+      {
+        "title": "inserción/sincronización de usuarios base",
+        "description": "Agrega por correo y sincroniza datos clave aunque el usuario ya exista."
+      },
+      {
+        "title": "bootstrap de base local",
+        "description": "Si no hay base persistida la crea, y luego asegura usuarios base en ambos casos."
+      },
+      {
+        "title": "normalización de entidades faltantes",
+        "description": "Completa llaves ausentes con listas vacías antes de guardar."
+      },
+      {
+        "title": "validación de entidad",
+        "description": "Impide operar sobre entidades no soportadas por la app."
+      },
+      {
+        "title": "lectura de base completa",
+        "description": "Obtiene la base unificada y garantiza llaves faltantes con listas vacías."
+      },
+      {
+        "title": "guardado de base completa",
+        "description": "Persiste de forma atómica la base unificada."
+      },
+      {
+        "title": "normalización de listas",
+        "description": "Convierte cualquier lista dinámica en lista de mapas tipados."
+      },
+      {
+        "title": "lectura tipada de lista",
+        "description": "Retorna la colección de una entidad desde la base unificada."
+      },
+      {
+        "title": "escritura tipada de lista",
+        "description": "Actualiza solo una entidad y persiste la base completa."
+      }
+    ]
+  },
+  {
+    "path": "lib/services/usuario_service.dart",
+    "sections": [
+      {
+        "title": "imports",
+        "description": "Se importan constantes de entidades, modelo de usuario y storage local JSON."
+      },
+      {
+        "title": "servicio de usuarios",
+        "description": "Encapsula lectura y escritura de usuarios en persistencia local JSON."
+      },
+      {
+        "title": "creación de usuario",
+        "description": "Inserta un usuario nuevo validando duplicados por id y correo."
+      },
+      {
+        "title": "actualización de usuario",
+        "description": "Reemplaza un usuario existente manteniendo consistencia de correo único."
+      },
+      {
+        "title": "consulta por id",
+        "description": "Retorna el usuario cuyo id coincida con el solicitado."
+      },
+      {
+        "title": "consulta por correo",
+        "description": "Retorna el usuario cuyo correo coincida de forma case-insensitive."
+      },
+      {
+        "title": "validación de credenciales",
+        "description": "Busca un usuario por correo y contraseña para iniciar sesión."
+      },
+      {
+        "title": "listado completo",
+        "description": "Carga todos los usuarios persistidos en la entidad local."
+      },
+      {
+        "title": "persistencia interna",
+        "description": "Guarda la lista completa de usuarios en el storage local."
+      }
+    ]
+  }
+]

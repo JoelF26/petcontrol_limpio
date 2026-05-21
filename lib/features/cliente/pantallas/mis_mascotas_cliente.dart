@@ -1,12 +1,15 @@
 // Sección: imports
 // Se importan modelos, servicios y formulario para conectar la vista con backend.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/services/auth_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/application/services/auth_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
 
 // Sección: pantalla de mascotas del cliente
 // Muestra todas las mascotas del usuario autenticado y permite registrar nuevas.
@@ -22,14 +25,15 @@ class MisMascotasCliente extends StatefulWidget {
 class _MisMascotasClienteState extends State<MisMascotasCliente> {
   // Sección: servicios de backend
   // Permiten resolver usuario autenticado y consultar la colección mascotas.
-  final AuthService _authService = AuthService();
-  final MascotaService _mascotaService = MascotaService();
+  final AuthService _authService = AppDependencies.authService;
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
 
   // Sección: estado principal de la vista
   // Guarda datos de sesión y listado de mascotas para render dinámico.
   bool _cargando = true;
   String _nombreCliente = 'Cliente';
   List<Mascota> _mascotas = const <Mascota>[];
+  StreamSubscription<List<Mascota>>? _mascotasSubscription;
 
   // Sección: inicialización
   // Carga datos del usuario y sus mascotas al abrir la pantalla.
@@ -70,6 +74,7 @@ class _MisMascotasClienteState extends State<MisMascotasCliente> {
         _mascotas = mascotas;
         _cargando = false;
       });
+      _suscribirMascotas(idUsuario);
     } catch (_) {
       if (!mounted) {
         return;
@@ -80,6 +85,30 @@ class _MisMascotasClienteState extends State<MisMascotasCliente> {
         _cargando = false;
       });
     }
+  }
+
+  void _suscribirMascotas(String idUsuario) {
+    _mascotasSubscription?.cancel();
+    _mascotasSubscription = _mascotaService.observarMascotas().listen((
+      mascotas,
+    ) {
+      if (!mounted) {
+        return;
+      }
+      final filtradas = mascotas
+          .where((mascota) => mascota.idUsuario == idUsuario)
+          .toList(growable: false);
+      setState(() {
+        _mascotas = filtradas;
+        _cargando = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _mascotasSubscription?.cancel();
+    super.dispose();
   }
 
   // Sección: id de usuario para consultas

@@ -2,8 +2,9 @@
 // Se importan Material, modelo Mascota y servicio para actualizar datos.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
 
 // Sección: helper de apertura de detalle
 // Muestra el popup centrado y retorna true cuando la mascota se actualiza.
@@ -11,6 +12,7 @@ Future<bool> mostrarDetalleMascotaCliente(
   BuildContext context,
   Mascota mascota,
 ) async {
+  // El listado/home recibe true solo si se guardó una edición.
   final actualizada = await showDialog<bool>(
     context: context,
     barrierDismissible: true,
@@ -51,7 +53,7 @@ class _DetalleMascotaClientePopupState
     extends State<_DetalleMascotaClientePopup> {
   // Sección: dependencias y formularios
   // Se preparan para validar y persistir los campos de la mascota.
-  final MascotaService _mascotaService = MascotaService();
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _especieController = TextEditingController();
@@ -87,6 +89,7 @@ class _DetalleMascotaClientePopupState
   // Sección: reset de datos del formulario
   // Restablece campos a la información original de la mascota.
   void _resetearControladores() {
+    // Se usa para inicializar y para descartar cambios al cancelar edición.
     _nombreController.text = widget.mascota.nombreVisible;
     _especieController.text = widget.mascota.especieVisible;
     _razaController.text = widget.mascota.raza.trim().isEmpty
@@ -166,6 +169,7 @@ class _DetalleMascotaClientePopupState
       return;
     }
 
+    // Los inputs son texto, pero la persistencia espera edad int y peso double.
     final edad = _parsearEdad(_edadController.text.trim());
     if (edad == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -206,6 +210,7 @@ class _DetalleMascotaClientePopupState
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Información de mascota actualizada.')),
       );
+      // true avisa a la pantalla contenedora que debe recalcular sus datos.
       _cerrar(context, true);
     } catch (_) {
       if (!mounted) {
@@ -223,6 +228,7 @@ class _DetalleMascotaClientePopupState
   // Sección: cierre seguro del popup
   // Evita hacer pop cuando no hay rutas apiladas.
   void _cerrar(BuildContext context, [bool? resultado]) {
+    // rootNavigator evita problemas si el popup contiene formularios anidados.
     final navigator = Navigator.of(context, rootNavigator: true);
     if (!navigator.canPop()) {
       return;

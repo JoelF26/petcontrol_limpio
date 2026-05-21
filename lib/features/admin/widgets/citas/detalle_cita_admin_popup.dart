@@ -2,13 +2,14 @@
 // Se importan Material, modelos de dominio y servicio para editar citas.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/detalle_admin/detalle_cita_admin_content.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
-import 'package:petcontrol_limpio/models/usuario.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
+import 'package:petcontrol_limpio/domain/entities/usuario.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
 
 // Seccion: helper de apertura
 // Muestra popup editable de cita admin y retorna true cuando se guardan cambios.
@@ -20,6 +21,7 @@ Future<bool> mostrarDetalleCitaAdmin(
   required Map<String, Usuario> usuariosPorId,
   required Map<String, PersonalMedico> medicosPorId,
 }) async {
+  // El resultado booleano permite a la pantalla recargar solo cuando hubo guardado.
   final actualizada = await showDialog<bool>(
     context: context,
     barrierDismissible: true,
@@ -75,12 +77,13 @@ class _DetalleCitaAdminPopup extends StatefulWidget {
 class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
   // Seccion: dependencias y estado base
   // Mantiene controladores y flags de UI para modo lectura/edicion.
-  final CitaService _citaService = CitaService();
+  final CitaService _citaService = AppDependencies.citaService;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _fechaHoraController = TextEditingController();
   final TextEditingController _motivoController = TextEditingController();
   final TextEditingController _descripcionController = TextEditingController();
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
 
   List<String> _estadosDisponibles = const <String>[];
   String? _idMascotaSeleccionada;
@@ -89,6 +92,7 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
   DateTime? _fechaHoraSeleccionada;
   bool _modoEdicion = false;
   bool _guardando = false;
+  bool _confirmando = false;
   bool _cargandoCatalogos = true;
 
   @override
@@ -109,6 +113,7 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
   // Seccion: restauracion de formulario
   // Reinicia los campos a los valores actuales de la cita.
   void _restaurarValoresOriginales() {
+    // Se usa tanto al abrir como al cancelar edición para descartar cambios temporales.
     _idMascotaSeleccionada = widget.cita.idMascota.trim().isEmpty
         ? null
         : widget.cita.idMascota;
@@ -134,6 +139,7 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
 
     setState(() {
       _estadosDisponibles = estados;
+      // Tras cargar catálogo, se revalida el estado porque antes no había opciones.
       _estadoSeleccionado = _normalizarEstado(widget.cita.estadoVisible);
       _cargandoCatalogos = false;
     });
@@ -178,6 +184,7 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
   }
 
   String get _duenoVisible {
+    // Al cambiar mascota, también cambia el dueño visible de la cita.
     final idUsuario = _mascotaSeleccionada?.idUsuario.trim().isNotEmpty == true
         ? _mascotaSeleccionada!.idUsuario
         : widget.cita.idUsuario;
@@ -203,6 +210,13 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
     return null;
   }
 
+  bool get _citaConfirmada {
+    final estado = (_estadoSeleccionado ?? widget.cita.estadoVisible)
+        .trim()
+        .toLowerCase();
+    return estado.contains('confirm');
+  }
+
   // Seccion: selector de fecha y hora
   // Permite actualizar programacion de la cita con calendarios nativos.
   Future<void> _seleccionarFechaHora() async {
@@ -210,6 +224,7 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
     final hoy = DateTime(ahora.year, ahora.month, ahora.day);
     final inicial = _fechaHoraSeleccionada ?? ahora;
 
+    // Fecha y hora se eligen por separado para construir el DateTime final.
     final fecha = await showDatePicker(
       context: context,
       initialDate: inicial.isBefore(hoy) ? hoy : inicial,
@@ -275,6 +290,7 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
       return;
     }
 
+    // La mascota seleccionada define dueño, nombre y especie persistidos en la cita.
     final mascota = _mascotaSeleccionada;
     if (mascota == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -308,6 +324,7 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Informacion de la cita actualizada.')),
       );
+      // true avisa a la pantalla de agenda que debe recargar sus datos.
       _cerrar(context, true);
     } on StateError catch (error) {
       if (!mounted) {
@@ -332,9 +349,45 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
     }
   }
 
+  // Seccion: confirmacion directa
+  // Actualiza solo el estado de la cita desde el detalle admin.
+  Future<void> _confirmarCita() async {
+    if (_confirmando || _citaConfirmada) {
+      return;
+    }
+
+    setState(() {
+      _confirmando = true;
+    });
+
+    try {
+      await _citaService.confirmarCitaAdmin(cita: widget.cita);
+
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Cita confirmada.')));
+      _cerrar(context, true);
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No se pudo confirmar la cita.')),
+      );
+      setState(() {
+        _confirmando = false;
+      });
+    }
+  }
+
   // Seccion: cierre seguro
   // Evita pop invalido y devuelve resultado opcional al llamador.
   void _cerrar(BuildContext context, [bool? resultado]) {
+    // rootNavigator cierra el dialogo aunque la acción venga desde un widget interno.
     final navigator = Navigator.of(context, rootNavigator: true);
     if (!navigator.canPop()) {
       return;
@@ -399,11 +452,14 @@ class _DetalleCitaAdminPopupState extends State<_DetalleCitaAdminPopup> {
       estadoSeleccionado: _estadoSeleccionado,
       modoEdicion: _modoEdicion,
       guardando: _guardando,
+      confirmando: _confirmando,
       cargandoCatalogos: _cargandoCatalogos,
+      citaConfirmada: _citaConfirmada,
       validarRequerido: _validarRequerido,
       onCerrar: () => _cerrar(context),
       onSeleccionarFechaHora: _seleccionarFechaHora,
       onActivarEdicion: _activarEdicion,
+      onConfirmarCita: _confirmarCita,
       onCancelarEdicion: _cancelarEdicion,
       onGuardarCambios: _guardarCambios,
       onMascotaChanged: (value) {

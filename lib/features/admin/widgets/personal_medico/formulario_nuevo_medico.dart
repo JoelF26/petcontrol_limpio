@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/features/admin/models/personal_medico_view_data.dart';
 import 'package:petcontrol_limpio/features/admin/utils/correo_medico_helper.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
 
 // Seccion: formulario de nuevo medico
 // Dialogo visual para capturar datos y emitir input validado.
@@ -26,7 +27,8 @@ class _FormularioNuevoMedicoState extends State<FormularioNuevoMedico> {
   final _telefono = TextEditingController();
   final _documento = TextEditingController();
   final _otraEspecialidad = TextEditingController();
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
 
   // Seccion: estado local del formulario
   // Controla valores seleccionados y visibilidad de campos condicionales.
@@ -67,6 +69,7 @@ class _FormularioNuevoMedicoState extends State<FormularioNuevoMedico> {
       _especialidades = catalogos.especialidades;
       _jornadas = catalogos.jornadas;
       _estados = catalogos.estados;
+      // Usa la primera opción como valor inicial para evitar dropdowns sin selección.
       _especialidad = catalogos.especialidades.first;
       _jornada = catalogos.jornadas.first;
       _estado = catalogos.estados.first;
@@ -131,6 +134,7 @@ class _FormularioNuevoMedicoState extends State<FormularioNuevoMedico> {
   }
 
   String get _correoPreview {
+    // Vista previa solamente: la creación real puede pedir alias si este correo ya existe.
     return CorreoMedicoHelper.correoDesdeNombre(_nombre.text.trim());
   }
 
@@ -145,6 +149,7 @@ class _FormularioNuevoMedicoState extends State<FormularioNuevoMedico> {
       return;
     }
 
+    // "Otro" reemplaza el valor del catálogo por el texto ingresado manualmente.
     final especialidadFinal = _especialidad == _opcionOtraEspecialidad
         ? _otraEspecialidad.text.trim()
         : _especialidad!;

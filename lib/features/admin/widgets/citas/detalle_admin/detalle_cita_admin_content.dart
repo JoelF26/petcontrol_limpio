@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
 
 class DetalleCitaAdminContent extends StatelessWidget {
   const DetalleCitaAdminContent({
@@ -23,11 +23,14 @@ class DetalleCitaAdminContent extends StatelessWidget {
     required this.estadoSeleccionado,
     required this.modoEdicion,
     required this.guardando,
+    required this.confirmando,
     required this.cargandoCatalogos,
+    required this.citaConfirmada,
     required this.validarRequerido,
     required this.onCerrar,
     required this.onSeleccionarFechaHora,
     required this.onActivarEdicion,
+    required this.onConfirmarCita,
     required this.onCancelarEdicion,
     required this.onGuardarCambios,
     required this.onMascotaChanged,
@@ -52,11 +55,14 @@ class DetalleCitaAdminContent extends StatelessWidget {
   final String? estadoSeleccionado;
   final bool modoEdicion;
   final bool guardando;
+  final bool confirmando;
   final bool cargandoCatalogos;
+  final bool citaConfirmada;
   final String? Function(String?) validarRequerido;
   final VoidCallback onCerrar;
   final VoidCallback onSeleccionarFechaHora;
   final VoidCallback onActivarEdicion;
+  final VoidCallback onConfirmarCita;
   final VoidCallback onCancelarEdicion;
   final VoidCallback onGuardarCambios;
   final ValueChanged<String?> onMascotaChanged;
@@ -458,28 +464,74 @@ class DetalleCitaAdminContent extends StatelessWidget {
                 // Seccion: acciones inferiores
                 // Muestra boton de editar o acciones de cancelar/guardar.
                 if (!modoEdicion)
-                  SizedBox(
-                    width: double.infinity,
-                    // Botón: habilita la edición de la cita desde admin.
-                    child: ElevatedButton(
-                      onPressed: cargandoCatalogos ? null : onActivarEdicion,
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: AppColores.baseFF1E6246,
-                        foregroundColor: AppColores.blanco,
-                        minimumSize: const Size.fromHeight(44),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  Row(
+                    children: [
+                      Expanded(
+                        // Botón: habilita la edición de la cita desde admin.
+                        child: ElevatedButton(
+                          onPressed: cargandoCatalogos || confirmando
+                              ? null
+                              : onActivarEdicion,
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: AppColores.baseFF1E6246,
+                            foregroundColor: AppColores.blanco,
+                            minimumSize: const Size.fromHeight(44),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text(
+                            'Editar informacion',
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ),
-                      child: const Text(
-                        'Editar informacion',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
+                      const SizedBox(width: 10),
+                      Expanded(
+                        // Botón: confirma la cita desde el detalle admin.
+                        child: ElevatedButton(
+                          onPressed:
+                              cargandoCatalogos || confirmando || citaConfirmada
+                              ? null
+                              : onConfirmarCita,
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: AppColores.baseFF2D8A6C,
+                            foregroundColor: AppColores.blanco,
+                            minimumSize: const Size.fromHeight(44),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: confirmando
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: AppColores.blanco,
+                                  ),
+                                )
+                              : const Text(
+                                  'Confirmar cita',
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                         ),
                       ),
-                    ),
+                    ],
                   )
                 else
                   Row(

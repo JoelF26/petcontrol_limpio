@@ -1,0 +1,2105 @@
+[
+  {
+    "path": "lib/app.dart",
+    "line_count": 25,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/routes/app_router.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart",
+      "package:petcontrol_limpio/core/theme/tema_app.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PetControlApp"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/constants/entidades_locales.dart",
+    "line_count": 25,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "EntidadesLocales"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/constants/roles_usuario.dart",
+    "line_count": 10,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "RolesUsuario"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/routes/app_router.dart",
+    "line_count": 61,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart",
+      "package:petcontrol_limpio/features/admin/pantallas/historial_citas.dart",
+      "package:petcontrol_limpio/features/admin/pantallas/home_admin.dart",
+      "package:petcontrol_limpio/features/admin/pantallas/personal_medico.dart",
+      "package:petcontrol_limpio/features/admin/pantallas/vista_cita_admin.dart",
+      "package:petcontrol_limpio/features/admin/pantallas/vista_pacientes_admin.dart",
+      "package:petcontrol_limpio/features/autenticacion/pantallas/bienvenida_pantalla.dart",
+      "package:petcontrol_limpio/features/autenticacion/pantallas/login_pantalla.dart",
+      "package:petcontrol_limpio/features/autenticacion/pantallas/registro_pantalla.dart",
+      "package:petcontrol_limpio/features/cliente/pantallas/home_cliente.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "AppRouter"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/routes/rutas.dart",
+    "line_count": 23,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "Rutas"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/routes/url_strategy.dart",
+    "line_count": 10,
+    "imports": [
+      "package:petcontrol_limpio/core/routes/url_strategy_stub.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [
+      "configurarEstrategiaUrl"
+    ],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/routes/url_strategy_stub.dart",
+    "line_count": 3,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [
+      "configurarEstrategiaUrlImpl"
+    ],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/routes/url_strategy_web.dart",
+    "line_count": 9,
+    "imports": [
+      "package:flutter_web_plugins/url_strategy.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [
+      "configurarEstrategiaUrlImpl"
+    ],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/theme/app_colores.dart",
+    "line_count": 276,
+    "imports": [
+      "package:flutter/material.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "AppColores"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/theme/tema_app.dart",
+    "line_count": 79,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:google_fonts/google_fonts.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "TemaApp"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/widgets/boton_atras.dart",
+    "line_count": 58,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "BotonAtras"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 3,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/core/widgets/popup_detalle.dart",
+    "line_count": 184,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "DetalleCampo",
+      "ConfigPopupDetalle"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 1,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 1,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/models/correo_medico_exceptions.dart",
+    "line_count": 10,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "CorreoMedicoEnUsoException"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/models/historial_citas_view_data.dart",
+    "line_count": 55,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HistorialCitaVista"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/models/home_admin_view_data.dart",
+    "line_count": 60,
+    "imports": [
+      "package:flutter/material.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeAdminMetricaVista",
+      "HomeAdminProximaCitaVista",
+      "HomeAdminDashboardData"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/models/personal_medico_view_data.dart",
+    "line_count": 74,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "NuevoMedicoInput",
+      "MedicoVista"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/models/vista_cita_admin_view_data.dart",
+    "line_count": 73,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/models/personal_medico.dart",
+      "package:petcontrol_limpio/models/usuario.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "CitasAdminCargaData",
+      "CitaVistaAdmin",
+      "CitaEstadoEstilo"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/models/vista_pacientes_admin_view_data.dart",
+    "line_count": 21,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PacienteVistaAdmin"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/pantallas/historial_citas.dart",
+    "line_count": 433,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/widgets/popup_detalle.dart",
+      "package:petcontrol_limpio/features/admin/models/historial_citas_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart",
+      "package:petcontrol_limpio/features/admin/widgets/citas/historial_citas_content.dart",
+      "package:petcontrol_limpio/features/admin/widgets/citas/historial_citas_widgets.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/personal_medico_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HistorialMedicoAdmin",
+      "_HistorialMedicoAdminState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 2,
+    "await_count": 2,
+    "setstate_count": 5,
+    "provider_ref_calls": 0,
+    "navigator_calls": 3,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/pantallas/home_admin.dart",
+    "line_count": 233,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart",
+      "package:petcontrol_limpio/features/admin/models/home_admin_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart",
+      "package:petcontrol_limpio/features/admin/widgets/home/home_admin_content.dart",
+      "package:petcontrol_limpio/features/admin/widgets/home/home_admin_widgets.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeAdminPantalla",
+      "_HomeAdminPantallaState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 2,
+    "await_count": 3,
+    "setstate_count": 4,
+    "provider_ref_calls": 0,
+    "navigator_calls": 1,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/pantallas/personal_medico.dart",
+    "line_count": 381,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/widgets/popup_detalle.dart",
+      "package:petcontrol_limpio/features/admin/models/correo_medico_exceptions.dart",
+      "package:petcontrol_limpio/features/admin/models/personal_medico_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart",
+      "package:petcontrol_limpio/features/admin/widgets/personal_medico/personal_medico_content.dart",
+      "package:petcontrol_limpio/features/admin/widgets/personal_medico/popup_alias_correo_medico.dart",
+      "package:petcontrol_limpio/features/admin/widgets/personal_medico/personal_medico_widgets.dart",
+      "package:petcontrol_limpio/services/personal_medico_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PersonalMedicoAdmin",
+      "_PersonalMedicoAdminState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 3,
+    "await_count": 6,
+    "setstate_count": 4,
+    "provider_ref_calls": 0,
+    "navigator_calls": 3,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/pantallas/vista_cita_admin.dart",
+    "line_count": 374,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart",
+      "package:petcontrol_limpio/features/admin/widgets/citas/detalle_cita_admin_popup.dart",
+      "package:petcontrol_limpio/features/admin/widgets/citas/tarjeta_creacion_cita.dart",
+      "package:petcontrol_limpio/features/admin/widgets/citas/vista_cita_admin_content.dart",
+      "package:petcontrol_limpio/features/admin/widgets/citas/vista_cita_admin_widgets.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/models/personal_medico.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart",
+      "package:petcontrol_limpio/services/personal_medico_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "VistaCitaAdmin",
+      "_VistaCitaAdminState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 4,
+    "await_count": 6,
+    "setstate_count": 3,
+    "provider_ref_calls": 0,
+    "navigator_calls": 3,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/pantallas/vista_pacientes_admin.dart",
+    "line_count": 354,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/constants/roles_usuario.dart",
+      "package:petcontrol_limpio/features/admin/models/vista_pacientes_admin_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart",
+      "package:petcontrol_limpio/features/admin/widgets/pacientes/detalle_paciente_admin_popup.dart",
+      "package:petcontrol_limpio/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart",
+      "package:petcontrol_limpio/features/admin/widgets/pacientes/vista_pacientes_admin_content.dart",
+      "package:petcontrol_limpio/features/admin/widgets/pacientes/vista_pacientes_admin_widgets.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "VistaPacientesAdmin",
+      "_VistaPacientesAdminState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 4,
+    "await_count": 7,
+    "setstate_count": 4,
+    "provider_ref_calls": 0,
+    "navigator_calls": 3,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/utils/correo_medico_helper.dart",
+    "line_count": 107,
+    "imports": [],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "CorreoMedicoHelper"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/detalle_cita_admin_popup.dart",
+    "line_count": 857,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/models/personal_medico.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/cita_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "_DetalleCitaAdminPopup",
+      "_DetalleCitaAdminPopupState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 3,
+    "await_count": 4,
+    "setstate_count": 10,
+    "provider_ref_calls": 0,
+    "navigator_calls": 1,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/historial_citas_content.dart",
+    "line_count": 190,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/models/historial_citas_view_data.dart",
+      "package:petcontrol_limpio/models/personal_medico.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/personal_medico_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HistorialCitasFunciones"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 3,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/historial_citas_widgets.dart",
+    "line_count": 412,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/models/historial_citas_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HistorialFondo",
+      "HistorialEncabezado",
+      "_BotonEncabezadoIcono",
+      "HistorialResumen",
+      "_ItemResumen",
+      "HistorialChipFiltroActivo",
+      "HistorialTarjetaCita",
+      "HistorialEstadoVacio",
+      "HistorialCampoFiltro"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [
+      "decoracionFiltroHistorial"
+    ],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/tarjeta_creacion_cita.dart",
+    "line_count": 579,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "MascotaRegistradaMock",
+      "UsuarioRegistradoMock",
+      "MedicoRegistradoMock",
+      "CitaCreacionData",
+      "TarjetaCreacionCita",
+      "_TarjetaCreacionCitaState",
+      "_EtiquetaCampo"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [
+      "_formatearFechaHora"
+    ],
+    "async_count": 1,
+    "await_count": 2,
+    "setstate_count": 7,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/vista_cita_admin_content.dart",
+    "line_count": 252,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/constants/roles_usuario.dart",
+      "package:petcontrol_limpio/features/admin/models/vista_cita_admin_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/citas/tarjeta_creacion_cita.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/models/personal_medico.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart",
+      "package:petcontrol_limpio/services/personal_medico_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "VistaCitaAdminFunciones"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 4,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/vista_cita_admin_widgets.dart",
+    "line_count": 358,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/models/vista_cita_admin_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "VistaCitaAdminFondo",
+      "VistaCitaAdminEncabezado",
+      "_BotonEncabezadoIcono",
+      "VistaCitaAdminResumen",
+      "_TarjetaResumen",
+      "VistaCitaAdminSeccionAgenda",
+      "VistaCitaAdminTarjetaCita",
+      "VistaCitaAdminChipEstado"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/home/home_admin_content.dart",
+    "line_count": 224,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/constants/roles_usuario.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart",
+      "package:petcontrol_limpio/core/widgets/popup_detalle.dart",
+      "package:petcontrol_limpio/features/admin/models/home_admin_view_data.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/models/personal_medico.dart",
+      "package:petcontrol_limpio/services/auth_service.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart",
+      "package:petcontrol_limpio/services/personal_medico_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeAdminFunciones"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 2,
+    "await_count": 3,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 5,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/home/home_admin_widgets.dart",
+    "line_count": 612,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/models/home_admin_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeAdminCurvaClipper",
+      "HomeAdminHeader",
+      "HomeAdminMetricasRow",
+      "HomeAdminTarjetaMetrica",
+      "HomeAdminPanelSeccion",
+      "HomeAdminMenuPrincipalGrid",
+      "HomeAdminCardMenuPrincipal",
+      "HomeAdminProximaCitaLista",
+      "HomeAdminItemProximaCita",
+      "HomeAdminBottomNavbar"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/detalle_paciente_admin_popup.dart",
+    "line_count": 532,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/models/vista_pacientes_admin_view_data.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "_DetallePacienteAdminPopup",
+      "_DetallePacienteAdminPopupState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 2,
+    "await_count": 2,
+    "setstate_count": 4,
+    "provider_ref_calls": 0,
+    "navigator_calls": 1,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart",
+    "line_count": 353,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "UsuarioRegistroPaciente",
+      "PacienteCreacionData",
+      "TarjetaCreacionPaciente",
+      "_TarjetaCreacionPacienteState",
+      "_EtiquetaCampo"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 3,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/vista_pacientes_admin_content.dart",
+    "line_count": 132,
+    "imports": [
+      "package:petcontrol_limpio/features/admin/models/vista_pacientes_admin_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "VistaPacientesAdminFunciones"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 2,
+    "await_count": 3,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/vista_pacientes_admin_widgets.dart",
+    "line_count": 397,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/models/vista_pacientes_admin_view_data.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "VistaPacientesAdminFondo",
+      "VistaPacientesAdminEncabezado",
+      "_BotonEncabezadoIcono",
+      "VistaPacientesAdminResumen",
+      "_TarjetaResumen",
+      "VistaPacientesAdminBuscador",
+      "VistaPacientesAdminTarjeta",
+      "VistaPacientesAdminChipEspecie",
+      "VistaPacientesAdminChipDato"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/personal_medico_content.dart",
+    "line_count": 219,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:intl/intl.dart",
+      "package:petcontrol_limpio/core/constants/roles_usuario.dart",
+      "package:petcontrol_limpio/features/admin/models/correo_medico_exceptions.dart",
+      "package:petcontrol_limpio/features/admin/models/personal_medico_view_data.dart",
+      "package:petcontrol_limpio/features/admin/utils/correo_medico_helper.dart",
+      "package:petcontrol_limpio/models/personal_medico.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/personal_medico_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart",
+      "package:uuid/uuid.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PersonalMedicoFunciones"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 2,
+    "await_count": 6,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/personal_medico_widgets.dart",
+    "line_count": 760,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/models/personal_medico_view_data.dart",
+      "package:petcontrol_limpio/features/admin/utils/correo_medico_helper.dart",
+      "package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PersonalMedicoFondo",
+      "PersonalMedicoEncabezado",
+      "_BotonEncabezadoIcono",
+      "PersonalMedicoBuscador",
+      "PersonalMedicoResumenBox",
+      "PersonalMedicoTarjeta",
+      "PersonalMedicoChip",
+      "PersonalMedicoChipInfo",
+      "PersonalMedicoVacio",
+      "FormularioNuevoMedico",
+      "_FormularioNuevoMedicoState",
+      "_EtiquetaTexto"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 5,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/popup_alias_correo_medico.dart",
+    "line_count": 168,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/admin/utils/correo_medico_helper.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "_PopupAliasCorreoMedico",
+      "_PopupAliasCorreoMedicoState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 0,
+    "setstate_count": 3,
+    "provider_ref_calls": 0,
+    "navigator_calls": 2,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/admin/widgets/shared/admin_base_widgets.dart",
+    "line_count": 318,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "AdminFondoDecorativo",
+      "AdminBotonEncabezadoIcono",
+      "AdminTarjetaResumenCompacta",
+      "AdminEncabezadoBase",
+      "AdminTarjetaResumenBase",
+      "AdminEstadoVacioBase",
+      "_CirculoDecorativo"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/bienvenida_pantalla.dart",
+    "line_count": 156,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "BienvenidaPantalla",
+      "CurvaClipper"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 2,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/login_pantalla.dart",
+    "line_count": 228,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/widgets/boton_atras.dart",
+      "package:petcontrol_limpio/features/autenticacion/widgets/login/formulario_login.dart",
+      "package:petcontrol_limpio/features/autenticacion/widgets/shared/popup_configurar_contrasena_inicial.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/auth_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "LoginPantalla",
+      "_LoginPantallaState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 4,
+    "setstate_count": 2,
+    "provider_ref_calls": 0,
+    "navigator_calls": 2,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/registro_pantalla.dart",
+    "line_count": 187,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/core/widgets/boton_atras.dart",
+      "package:petcontrol_limpio/features/autenticacion/widgets/registro/formulario_registro.dart",
+      "package:petcontrol_limpio/services/auth_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "RegistroPantalla",
+      "_RegistroPantallaState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 1,
+    "setstate_count": 2,
+    "provider_ref_calls": 0,
+    "navigator_calls": 2,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/login/formulario_login.dart",
+    "line_count": 297,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "FormularioLogin",
+      "_FormularioLoginState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 1,
+    "setstate_count": 4,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/registro/formulario_registro.dart",
+    "line_count": 472,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "DatosFormularioRegistro",
+      "FormularioRegistro",
+      "_FormularioRegistroState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 1,
+    "setstate_count": 9,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/shared/popup_configurar_contrasena_inicial.dart",
+    "line_count": 243,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "_PopupConfigurarContrasenaInicial",
+      "_PopupConfigurarContrasenaInicialState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 0,
+    "setstate_count": 5,
+    "provider_ref_calls": 0,
+    "navigator_calls": 2,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/pantallas/home_cliente.dart",
+    "line_count": 536,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/routes/rutas.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_mascotas_registradas_card.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_menu_flotante.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_proximas_citas_card.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_resumen_card.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart",
+      "package:petcontrol_limpio/features/cliente/pantallas/mis_citas_cliente.dart",
+      "package:petcontrol_limpio/features/cliente/pantallas/mis_mascotas_cliente.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/citas/tarjeta_creacion_cita.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/services/auth_service.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeClientePantalla",
+      "_HomeClientePantallaState",
+      "_CurvaHomeClienteClipper"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 8,
+    "await_count": 16,
+    "setstate_count": 2,
+    "provider_ref_calls": 0,
+    "navigator_calls": 3,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/pantallas/mis_citas_cliente.dart",
+    "line_count": 796,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/citas/tarjeta_creacion_cita.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/services/auth_service.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "MisCitasCliente",
+      "_MisCitasClienteState",
+      "_FondoMisCitas",
+      "_GradienteFondoMisCitas",
+      "_CirculoDecorativo",
+      "_EncabezadoMisCitas",
+      "_BotonEncabezadoIcono",
+      "_ResumenCitasCliente",
+      "_TarjetaResumen",
+      "_PanelAgendaPersonal",
+      "_EstadoVacioCitas",
+      "_TarjetaAgendaCita",
+      "_ChipDato"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 3,
+    "await_count": 6,
+    "setstate_count": 3,
+    "provider_ref_calls": 0,
+    "navigator_calls": 1,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/pantallas/mis_mascotas_cliente.dart",
+    "line_count": 539,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/services/auth_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "MisMascotasCliente",
+      "_MisMascotasClienteState",
+      "_FondoMisMascotas",
+      "_GradienteFondoMisMascotas",
+      "_CirculoDecorativoMascotas",
+      "_EncabezadoMisMascotas",
+      "_BotonEncabezadoIcono",
+      "_PanelMisMascotas",
+      "_EstadoVacioMascotas",
+      "_TarjetaMascotaListado"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 3,
+    "await_count": 6,
+    "setstate_count": 3,
+    "provider_ref_calls": 0,
+    "navigator_calls": 1,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart",
+    "line_count": 1054,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "_DetalleCitaClientePopup",
+      "_DetalleCitaClientePopupState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 6,
+    "await_count": 8,
+    "setstate_count": 12,
+    "provider_ref_calls": 0,
+    "navigator_calls": 3,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/citas/tarjeta_creacion_cita.dart",
+    "line_count": 856,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/services/auth_service.dart",
+      "package:petcontrol_limpio/services/cita_service.dart",
+      "package:petcontrol_limpio/services/personal_medico_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "TarjetaCreacionCita",
+      "_TarjetaCreacionCitaState",
+      "_EtiquetaCampo",
+      "_MedicoItem"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 6,
+    "await_count": 12,
+    "setstate_count": 14,
+    "provider_ref_calls": 0,
+    "navigator_calls": 2,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_mascotas_registradas_card.dart",
+    "line_count": 157,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/shared/home_cliente_mensaje_vacio.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_panel_seccion.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeClienteMascotasRegistradasCard"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_menu_flotante.dart",
+    "line_count": 269,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeClienteMenuFlotante",
+      "_HomeClienteMenuFlotanteState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [
+      "AccionMenuHomeCliente"
+    ],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 6,
+    "await_count": 9,
+    "setstate_count": 2,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_panel_seccion.dart",
+    "line_count": 82,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeClientePanelSeccion"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_proximas_citas_card.dart",
+    "line_count": 207,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/shared/home_cliente_mensaje_vacio.dart",
+      "package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_panel_seccion.dart",
+      "package:petcontrol_limpio/models/cita.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeClienteProximasCitasCard"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_resumen_card.dart",
+    "line_count": 90,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeClienteResumenCard"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart",
+    "line_count": 514,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "_DetalleMascotaClientePopup",
+      "_DetalleMascotaClientePopupState"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 2,
+    "await_count": 2,
+    "setstate_count": 4,
+    "provider_ref_calls": 0,
+    "navigator_calls": 1,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart",
+    "line_count": 444,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart",
+      "package:petcontrol_limpio/services/auth_service.dart",
+      "package:petcontrol_limpio/services/mascota_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "TarjetaCreacionPaciente",
+      "_TarjetaCreacionPacienteState",
+      "_EtiquetaCampo"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 1,
+    "await_count": 3,
+    "setstate_count": 5,
+    "provider_ref_calls": 0,
+    "navigator_calls": 2,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/features/cliente/widgets/shared/home_cliente_mensaje_vacio.dart",
+    "line_count": 33,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/core/theme/app_colores.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HomeClienteMensajeVacio"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/main.dart",
+    "line_count": 21,
+    "imports": [
+      "package:flutter/material.dart",
+      "package:petcontrol_limpio/app.dart",
+      "package:petcontrol_limpio/core/routes/url_strategy.dart",
+      "package:petcontrol_limpio/services/storage/local_json_storage_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 2,
+    "await_count": 2,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/models/cita.dart",
+    "line_count": 400,
+    "imports": [
+      "dart:convert"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "Cita"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 4
+  },
+  {
+    "path": "lib/models/historial_clinico.dart",
+    "line_count": 127,
+    "imports": [
+      "dart:convert"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HistorialClinico"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 4
+  },
+  {
+    "path": "lib/models/mascota.dart",
+    "line_count": 278,
+    "imports": [
+      "dart:convert"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "Mascota"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 4
+  },
+  {
+    "path": "lib/models/personal_medico.dart",
+    "line_count": 181,
+    "imports": [
+      "dart:convert"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PersonalMedico"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 4
+  },
+  {
+    "path": "lib/models/preferencia_medico.dart",
+    "line_count": 103,
+    "imports": [
+      "dart:convert"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PreferenciaMedico"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 4
+  },
+  {
+    "path": "lib/models/usuario.dart",
+    "line_count": 127,
+    "imports": [
+      "dart:convert",
+      "package:petcontrol_limpio/core/constants/roles_usuario.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "Usuario"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 4
+  },
+  {
+    "path": "lib/services/auth/login_access_state.dart",
+    "line_count": 28,
+    "imports": [
+      "package:petcontrol_limpio/models/usuario.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "EstadoAccesoLogin"
+    ],
+    "enums": [
+      "TipoAccesoLogin"
+    ],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 0,
+    "await_count": 0,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/services/auth_service.dart",
+    "line_count": 208,
+    "imports": [
+      "package:intl/intl.dart",
+      "package:petcontrol_limpio/core/constants/roles_usuario.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/auth/login_access_state.dart",
+      "package:petcontrol_limpio/services/session_service.dart",
+      "package:petcontrol_limpio/services/usuario_service.dart",
+      "package:uuid/uuid.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "DatosRegistroCliente",
+      "AuthException",
+      "AuthService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 6,
+    "await_count": 11,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/services/cita_service.dart",
+    "line_count": 412,
+    "imports": [
+      "package:intl/intl.dart",
+      "package:petcontrol_limpio/core/constants/entidades_locales.dart",
+      "package:petcontrol_limpio/models/cita.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/services/storage/local_json_storage_service.dart",
+      "package:uuid/uuid.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "CitaService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 12,
+    "await_count": 19,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/services/historial_clinico_service.dart",
+    "line_count": 95,
+    "imports": [
+      "package:petcontrol_limpio/core/constants/entidades_locales.dart",
+      "package:petcontrol_limpio/models/historial_clinico.dart",
+      "package:petcontrol_limpio/services/storage/local_json_storage_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "HistorialClinicoService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 6,
+    "await_count": 9,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/services/mascota_service.dart",
+    "line_count": 134,
+    "imports": [
+      "package:intl/intl.dart",
+      "package:petcontrol_limpio/core/constants/entidades_locales.dart",
+      "package:petcontrol_limpio/models/mascota.dart",
+      "package:petcontrol_limpio/services/storage/local_json_storage_service.dart",
+      "package:uuid/uuid.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "MascotaService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 6,
+    "await_count": 8,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/services/personal_medico_service.dart",
+    "line_count": 104,
+    "imports": [
+      "package:petcontrol_limpio/core/constants/entidades_locales.dart",
+      "package:petcontrol_limpio/models/personal_medico.dart",
+      "package:petcontrol_limpio/services/storage/local_json_storage_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PersonalMedicoService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 7,
+    "await_count": 10,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/services/preferencia_medico_service.dart",
+    "line_count": 98,
+    "imports": [
+      "package:petcontrol_limpio/core/constants/entidades_locales.dart",
+      "package:petcontrol_limpio/models/preferencia_medico.dart",
+      "package:petcontrol_limpio/services/storage/local_json_storage_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "PreferenciaMedicoService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 6,
+    "await_count": 9,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/services/session_service.dart",
+    "line_count": 36,
+    "imports": [
+      "package:shared_preferences/shared_preferences.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "SessionService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 3,
+    "await_count": 5,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  },
+  {
+    "path": "lib/services/storage/local_json_storage_service.dart",
+    "line_count": 276,
+    "imports": [
+      "dart:convert",
+      "package:petcontrol_limpio/core/constants/entidades_locales.dart",
+      "package:petcontrol_limpio/core/constants/roles_usuario.dart",
+      "package:shared_preferences/shared_preferences.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "LocalJsonStorageService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 5,
+    "await_count": 10,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 4
+  },
+  {
+    "path": "lib/services/usuario_service.dart",
+    "line_count": 131,
+    "imports": [
+      "package:petcontrol_limpio/core/constants/entidades_locales.dart",
+      "package:petcontrol_limpio/models/usuario.dart",
+      "package:petcontrol_limpio/services/storage/local_json_storage_service.dart"
+    ],
+    "exports": [],
+    "parts": [],
+    "classes": [
+      "UsuarioService"
+    ],
+    "enums": [],
+    "mixins": [],
+    "typedefs": [],
+    "extensions": [],
+    "top_level_functions": [],
+    "async_count": 7,
+    "await_count": 9,
+    "setstate_count": 0,
+    "provider_ref_calls": 0,
+    "navigator_calls": 0,
+    "json_ops": 0
+  }
+]

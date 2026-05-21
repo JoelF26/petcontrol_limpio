@@ -48,7 +48,7 @@
       "cancelada",
       "reprogramada"
     ],
-    "estados_creacion_admin": ["proxima"]
+    "estados_creacion_admin": ["proxima", "confirmada"]
   },
   "mascotas": {
     "sexos": ["Hembra", "Macho"]

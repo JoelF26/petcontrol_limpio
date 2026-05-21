@@ -2,8 +2,9 @@
 // Se importan Material, modelo visual admin y servicio de mascotas para editar.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/features/admin/models/vista_pacientes_admin_view_data.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
 
 // Seccion: helper de apertura
 // Muestra la ficha admin centrada y retorna true cuando se actualiza el paciente.
@@ -11,6 +12,7 @@ Future<bool> mostrarDetallePacienteAdmin(
   BuildContext context,
   PacienteVistaAdmin paciente,
 ) async {
+  // El booleano permite al listado recargar únicamente si el paciente fue editado.
   final actualizado = await showDialog<bool>(
     context: context,
     barrierDismissible: true,
@@ -51,7 +53,7 @@ class _DetallePacienteAdminPopupState
     extends State<_DetallePacienteAdminPopup> {
   // Seccion: dependencias y controladores
   // Preparan validacion de campos y guardado contra JSON local.
-  final MascotaService _mascotaService = MascotaService();
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _especieController = TextEditingController();
@@ -83,6 +85,7 @@ class _DetallePacienteAdminPopupState
   // Seccion: carga inicial
   // Copia los valores del paciente a los controladores del formulario.
   void _resetearControladores() {
+    // Se usa al abrir y al cancelar para restaurar los datos originales del paciente.
     _nombreController.text = widget.paciente.nombre;
     _especieController.text = widget.paciente.especie;
     _razaController.text = widget.paciente.raza;
@@ -91,7 +94,7 @@ class _DetallePacienteAdminPopupState
   }
 
   // Seccion: validadores y parseo
-  // Garantizan datos minimos antes de guardar.
+  // Aceptan entradas como "5 anos" o "12,5 kg" y extraen el número útil.
   String? _validarRequerido(String? value) {
     if (value == null || value.trim().isEmpty) {
       return '';
@@ -136,6 +139,7 @@ class _DetallePacienteAdminPopupState
       return;
     }
 
+    // Los campos visuales son texto, pero MascotaService requiere tipos numéricos.
     final edad = _parsearEdad(_edadController.text.trim());
     if (edad == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -176,6 +180,7 @@ class _DetallePacienteAdminPopupState
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Paciente actualizado correctamente.')),
       );
+      // true indica a la vista admin que debe refrescar la tarjeta editada.
       _cerrar(context, true);
     } catch (_) {
       if (!mounted) {
@@ -193,6 +198,7 @@ class _DetallePacienteAdminPopupState
   // Seccion: cierre seguro
   // Evita pop cuando no hay ruta disponible.
   void _cerrar(BuildContext context, [bool? resultado]) {
+    // rootNavigator cierra el dialogo sin depender del contexto del campo/botón.
     final navigator = Navigator.of(context, rootNavigator: true);
     if (!navigator.canPop()) {
       return;

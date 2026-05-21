@@ -1,7 +1,10 @@
 // Sección: imports
 // Se importan rutas, paleta y widgets modulares del home de cliente.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_mascotas_registradas_card.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/home/home_cliente_menu_flotante.dart';
@@ -13,11 +16,11 @@ import 'package:petcontrol_limpio/features/cliente/pantallas/mis_citas_cliente.d
 import 'package:petcontrol_limpio/features/cliente/pantallas/mis_mascotas_cliente.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/citas/tarjeta_creacion_cita.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/services/auth_service.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/application/services/auth_service.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
 
 // Sección: pantalla principal del cliente
 // Presenta el dashboard visual del cliente sin datos mock ni acciones de creación.
@@ -40,15 +43,17 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
 
   // Sección: dependencias y estado del header
   // Mantiene los datos de sesión y conteos para mostrar resumen real del cliente.
-  final AuthService _authService = AuthService();
-  final MascotaService _mascotaService = MascotaService();
-  final CitaService _citaService = CitaService();
+  final AuthService _authService = AppDependencies.authService;
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
+  final CitaService _citaService = AppDependencies.citaService;
   String _nombreCliente = 'Cliente';
   String _inicialCliente = 'C';
   int _totalMascotas = 0;
   int _totalCitas = 0;
   List<Mascota> _mascotasRecientes = const <Mascota>[];
   List<Cita> _proximasCitas = const <Cita>[];
+  StreamSubscription<List<Mascota>>? _mascotasSubscription;
+  StreamSubscription<List<Cita>>? _citasSubscription;
 
   // Sección: ciclo de vida inicial
   // Dispara la carga del perfil al entrar al home.
@@ -71,6 +76,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
       var mascotasRecientes = const <Mascota>[];
       var proximasCitas = const <Cita>[];
       if (idUsuario.isNotEmpty) {
+        // Lanza ambas consultas antes de esperar para reducir el tiempo de carga del home.
         final mascotasFuture = _mascotaService.obtenerMascotasPorUsuario(
           idUsuario,
         );
@@ -88,6 +94,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
         return;
       }
 
+      // Ante fallos de lectura local, se muestra un home vacío pero navegable.
       setState(() {
         _nombreCliente = nombre;
         _inicialCliente = _resolverInicial(nombre);
@@ -96,6 +103,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
         _mascotasRecientes = mascotasRecientes;
         _proximasCitas = proximasCitas;
       });
+      _suscribirTiempoReal(idUsuario);
     } catch (_) {
       if (!mounted) {
         return;
@@ -109,6 +117,50 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
         _proximasCitas = const <Cita>[];
       });
     }
+  }
+
+  void _suscribirTiempoReal(String idUsuario) {
+    if (idUsuario.isEmpty) {
+      return;
+    }
+
+    _mascotasSubscription?.cancel();
+    _mascotasSubscription = _mascotaService.observarMascotas().listen((
+      mascotas,
+    ) {
+      if (!mounted) {
+        return;
+      }
+      final propias = mascotas
+          .where((mascota) => mascota.idUsuario == idUsuario)
+          .toList(growable: false);
+      setState(() {
+        _totalMascotas = propias.length;
+        _mascotasRecientes = propias.take(2).toList(growable: false);
+      });
+    });
+
+    _citasSubscription?.cancel();
+    _citasSubscription = _citaService.observarCitas().listen((citas) {
+      if (!mounted) {
+        return;
+      }
+      final propias = _citaService.filtrarCitasVisiblesPorUsuario(
+        citas,
+        idUsuario,
+      );
+      setState(() {
+        _totalCitas = propias.length;
+        _proximasCitas = propias.take(4).toList(growable: false);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _mascotasSubscription?.cancel();
+    _citasSubscription?.cancel();
+    super.dispose();
   }
 
   // Sección: resolución de id de usuario
@@ -146,6 +198,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
     if (!mounted) {
       return;
     }
+    // Limpia el historial para que el usuario no regrese al home con atrás.
     Navigator.pushNamedAndRemoveUntil(context, Rutas.bienvenida, (_) => false);
   }
 
@@ -186,6 +239,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
       return;
     }
     final actualizada = await mostrarDetalleMascotaCliente(context, mascota);
+    // El popup devuelve true solo cuando guardó cambios en la mascota.
     if (actualizada) {
       await _cargarDatosIniciales();
     }
@@ -198,6 +252,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
       return;
     }
     final actualizada = await mostrarDetalleCitaCliente(context, cita);
+    // Si hubo edición o cancelación, se recalculan totales y próximas citas.
     if (actualizada) {
       await _cargarDatosIniciales();
     }
@@ -247,6 +302,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
 
     // Sección: refresco del home tras crear mascota
     // Si se confirma creación, recarga totales y listado reciente de mascotas.
+    // El formulario cierra con true únicamente cuando la mascota fue persistida.
     if (creada == true) {
       await _cargarDatosIniciales();
     }
@@ -294,6 +350,7 @@ class _HomeClientePantallaState extends State<HomeClientePantalla> {
 
     // Sección: refresco del home tras crear cita
     // Si se confirma creación, vuelve a consultar resúmenes y tarjetas.
+    // El formulario cierra con true únicamente cuando la cita fue persistida.
     if (creada == true) {
       await _cargarDatosIniciales();
     }

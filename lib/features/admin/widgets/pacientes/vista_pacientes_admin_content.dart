@@ -2,10 +2,10 @@
 // Se importan modelos y servicios usados por la logica de pacientes admin.
 import 'package:petcontrol_limpio/features/admin/models/vista_pacientes_admin_view_data.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/models/usuario.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/usuario.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 
 // Seccion: funciones de funcionamiento
 // Centraliza carga, mapeo, filtros y registro de pacientes para la vista admin.
@@ -21,6 +21,7 @@ class VistaPacientesAdminFunciones {
     final mascotas = await mascotaService.obtenerMascotas();
     final usuarios = await usuarioService.obtenerUsuarios();
 
+    // Indexa usuarios una vez para resolver dueño sin buscar en la lista por cada mascota.
     final usuariosPorId = <String, Usuario>{
       for (final usuario in usuarios) usuario.idUsuario: usuario,
     };
@@ -42,6 +43,7 @@ class VistaPacientesAdminFunciones {
     Mascota mascota,
     Map<String, Usuario> usuariosPorId,
   ) {
+    // Si la mascota quedó huérfana de usuario, la tarjeta sigue renderizando con fallback.
     final dueno = usuariosPorId[mascota.idUsuario]?.nombreCompleto.trim() ?? '';
     final peso = mascota.pesoKg == null ? 0 : mascota.pesoKg!.round();
     final edad = mascota.edadAnios ?? 0;
@@ -88,7 +90,7 @@ class VistaPacientesAdminFunciones {
   }
 
   // Seccion: parseo numerico
-  // Convierte textos de formulario a edad y peso de forma segura.
+  // Acepta textos con unidades para no exigir entrada estrictamente numérica.
   static int? parsearEntero(String texto) {
     final coincidencia = RegExp(r'\d+').firstMatch(texto);
     return int.tryParse(coincidencia?.group(0) ?? '');
@@ -106,6 +108,7 @@ class VistaPacientesAdminFunciones {
     required PacienteCreacionData data,
     required MascotaService mascotaService,
   }) async {
+    // El formulario entrega texto; aquí se convierte al tipo que espera MascotaService.
     final edad = parsearEntero(data.edad);
     final peso = parsearDouble(data.peso);
     if (edad == null || peso == null) {

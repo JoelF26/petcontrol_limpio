@@ -1,0 +1,2786 @@
+[
+  {
+    "path": "lib/app.dart",
+    "classes": [
+      "PetControlApp"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 16,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/core/constants/entidades_locales.dart",
+    "classes": [
+      "EntidadesLocales"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/core/constants/roles_usuario.dart",
+    "classes": [
+      "RolesUsuario"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/core/routes/app_router.dart",
+    "classes": [
+      "AppRouter"
+    ],
+    "methods": [
+      {
+        "name": "generarRuta",
+        "line": 22,
+        "sig": "static Route<dynamic> generarRuta(RouteSettings settings) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/core/routes/rutas.dart",
+    "classes": [
+      "Rutas"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/core/routes/url_strategy.dart",
+    "classes": [],
+    "methods": [
+      {
+        "name": "configurarEstrategiaUrl",
+        "line": 8,
+        "sig": "void configurarEstrategiaUrl() {"
+      }
+    ]
+  },
+  {
+    "path": "lib/core/routes/url_strategy_stub.dart",
+    "classes": [],
+    "methods": []
+  },
+  {
+    "path": "lib/core/routes/url_strategy_web.dart",
+    "classes": [],
+    "methods": [
+      {
+        "name": "configurarEstrategiaUrlImpl",
+        "line": 7,
+        "sig": "void configurarEstrategiaUrlImpl() {"
+      }
+    ]
+  },
+  {
+    "path": "lib/core/theme/app_colores.dart",
+    "classes": [
+      "AppColores"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/core/theme/tema_app.dart",
+    "classes": [
+      "TemaApp"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/core/widgets/boton_atras.dart",
+    "classes": [
+      "BotonAtras"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 28,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_manejarRegreso",
+        "line": 43,
+        "sig": "void _manejarRegreso(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/core/widgets/popup_detalle.dart",
+    "classes": [
+      "DetalleCampo",
+      "ConfigPopupDetalle"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/features/admin/models/correo_medico_exceptions.dart",
+    "classes": [
+      "CorreoMedicoEnUsoException"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/features/admin/models/historial_citas_view_data.dart",
+    "classes": [
+      "HistorialCitaVista"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/features/admin/models/home_admin_view_data.dart",
+    "classes": [
+      "HomeAdminMetricaVista",
+      "HomeAdminProximaCitaVista",
+      "HomeAdminDashboardData"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/features/admin/models/personal_medico_view_data.dart",
+    "classes": [
+      "NuevoMedicoInput",
+      "MedicoVista"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/features/admin/models/vista_cita_admin_view_data.dart",
+    "classes": [
+      "CitasAdminCargaData",
+      "CitaVistaAdmin",
+      "CitaEstadoEstilo"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/features/admin/models/vista_pacientes_admin_view_data.dart",
+    "classes": [
+      "PacienteVistaAdmin"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/features/admin/pantallas/historial_citas.dart",
+    "classes": [
+      "HistorialMedicoAdmin",
+      "_HistorialMedicoAdminState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 39,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "_cargarHistorial",
+        "line": 46,
+        "sig": "Future<void> _cargarHistorial() async {"
+      },
+      {
+        "name": "_contarEstado",
+        "line": 96,
+        "sig": "int _contarEstado(String estado, List<HistorialCitaVista> historialFiltrado) {"
+      },
+      {
+        "name": "_abrirFiltroPopup",
+        "line": 102,
+        "sig": "Future<void> _abrirFiltroPopup() async {"
+      },
+      {
+        "name": "_abrirDetalleHistorial",
+        "line": 267,
+        "sig": "void _abrirDetalleHistorial(HistorialCitaVista cita) {"
+      },
+      {
+        "name": "build",
+        "line": 297,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/home_admin.dart",
+    "classes": [
+      "HomeAdminPantalla",
+      "_HomeAdminPantallaState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 47,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "_cargarDashboard",
+        "line": 54,
+        "sig": "Future<void> _cargarDashboard() async {"
+      },
+      {
+        "name": "_irModuloYRecargar",
+        "line": 93,
+        "sig": "Future<void> _irModuloYRecargar(String ruta) async {"
+      },
+      {
+        "name": "build",
+        "line": 104,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/personal_medico.dart",
+    "classes": [
+      "PersonalMedicoAdmin",
+      "_PersonalMedicoAdminState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 36,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 42,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_conteoEstado",
+        "line": 58,
+        "sig": "int _conteoEstado(String estado) {"
+      },
+      {
+        "name": "_cargarPersonalMedico",
+        "line": 64,
+        "sig": "Future<void> _cargarPersonalMedico() async {"
+      },
+      {
+        "name": "_verDetalle",
+        "line": 100,
+        "sig": "void _verDetalle(MedicoVista medico) {"
+      },
+      {
+        "name": "_abrirFormularioNuevoMedico",
+        "line": 125,
+        "sig": "Future<void> _abrirFormularioNuevoMedico() async {"
+      },
+      {
+        "name": "_registrarPersonalMedico",
+        "line": 176,
+        "sig": "Future<void> _registrarPersonalMedico(NuevoMedicoInput input) async {"
+      },
+      {
+        "name": "build",
+        "line": 241,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/vista_cita_admin.dart",
+    "classes": [
+      "VistaCitaAdmin",
+      "_VistaCitaAdminState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 44,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "_cargarDatos",
+        "line": 51,
+        "sig": "Future<void> _cargarDatos() async {"
+      },
+      {
+        "name": "_abrirRegistroCita",
+        "line": 103,
+        "sig": "Future<void> _abrirRegistroCita() async {"
+      },
+      {
+        "name": "build",
+        "line": 230,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/vista_pacientes_admin.dart",
+    "classes": [
+      "VistaPacientesAdmin",
+      "_VistaPacientesAdminState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 36,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 42,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_cargarPacientes",
+        "line": 49,
+        "sig": "Future<void> _cargarPacientes() async {"
+      },
+      {
+        "name": "_abrirRegistroPaciente",
+        "line": 96,
+        "sig": "Future<void> _abrirRegistroPaciente() async {"
+      },
+      {
+        "name": "_abrirDetallePacientePreview",
+        "line": 226,
+        "sig": "Future<void> _abrirDetallePacientePreview(PacienteVistaAdmin paciente) async {"
+      },
+      {
+        "name": "build",
+        "line": 237,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/utils/correo_medico_helper.dart",
+    "classes": [
+      "CorreoMedicoHelper"
+    ],
+    "methods": [
+      {
+        "name": "correoDesdeNombre",
+        "line": 10,
+        "sig": "static String correoDesdeNombre(String nombreCompleto) {"
+      },
+      {
+        "name": "correoDesdeAlias",
+        "line": 17,
+        "sig": "static String correoDesdeAlias(String alias) {"
+      },
+      {
+        "name": "normalizarAlias",
+        "line": 27,
+        "sig": "static String normalizarAlias(String valor) {"
+      },
+      {
+        "name": "_aliasDesdeNombre",
+        "line": 36,
+        "sig": "static String _aliasDesdeNombre(String nombreCompleto) {"
+      },
+      {
+        "name": "_quitarAcentos",
+        "line": 55,
+        "sig": "static String _quitarAcentos(String texto) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/detalle_cita_admin_popup.dart",
+    "classes": [
+      "_DetalleCitaAdminPopup",
+      "_DetalleCitaAdminPopupState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 98,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 104,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_restaurarValoresOriginales",
+        "line": 113,
+        "sig": "void _restaurarValoresOriginales() {"
+      },
+      {
+        "name": "_normalizarEstado",
+        "line": 131,
+        "sig": "String _normalizarEstado(String estadoRaw) {"
+      },
+      {
+        "name": "_validarRequerido",
+        "line": 186,
+        "sig": "String? _validarRequerido(String? value) {"
+      },
+      {
+        "name": "_seleccionarFechaHora",
+        "line": 195,
+        "sig": "Future<void> _seleccionarFechaHora() async {"
+      },
+      {
+        "name": "_activarEdicion",
+        "line": 236,
+        "sig": "void _activarEdicion() {"
+      },
+      {
+        "name": "_cancelarEdicion",
+        "line": 242,
+        "sig": "void _cancelarEdicion() {"
+      },
+      {
+        "name": "_guardarCambios",
+        "line": 251,
+        "sig": "Future<void> _guardarCambios() async {"
+      },
+      {
+        "name": "_cerrar",
+        "line": 324,
+        "sig": "void _cerrar(BuildContext context, [bool? resultado]) {"
+      },
+      {
+        "name": "_formatearFechaHoraVisible",
+        "line": 334,
+        "sig": "String _formatearFechaHoraVisible(DateTime? fechaHora) {"
+      },
+      {
+        "name": "_resolverFechaHoraInicial",
+        "line": 363,
+        "sig": "DateTime _resolverFechaHoraInicial(Cita cita) {"
+      },
+      {
+        "name": "_campoBase",
+        "line": 369,
+        "sig": "Widget _campoBase({required String etiqueta, required Widget child}) {"
+      },
+      {
+        "name": "build",
+        "line": 399,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/historial_citas_content.dart",
+    "classes": [
+      "HistorialCitasFunciones"
+    ],
+    "methods": [
+      {
+        "name": "diasParaRango",
+        "line": 66,
+        "sig": "static int? diasParaRango(String rango) {"
+      },
+      {
+        "name": "contarEstado",
+        "line": 117,
+        "sig": "static int contarEstado(List<HistorialCitaVista> citas, String estado) {"
+      },
+      {
+        "name": "formatearFecha",
+        "line": 123,
+        "sig": "static String formatearFecha(DateTime fecha) {"
+      },
+      {
+        "name": "colorFondoEstado",
+        "line": 148,
+        "sig": "static Color colorFondoEstado(String estado) {"
+      },
+      {
+        "name": "colorTextoEstado",
+        "line": 163,
+        "sig": "static Color colorTextoEstado(String estado) {"
+      },
+      {
+        "name": "iconoEstado",
+        "line": 178,
+        "sig": "static IconData iconoEstado(String estado) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/historial_citas_widgets.dart",
+    "classes": [
+      "HistorialFondo",
+      "HistorialEncabezado",
+      "_BotonEncabezadoIcono",
+      "HistorialResumen",
+      "_ItemResumen",
+      "HistorialChipFiltroActivo",
+      "HistorialTarjetaCita",
+      "HistorialEstadoVacio",
+      "HistorialCampoFiltro"
+    ],
+    "methods": [
+      {
+        "name": "decoracionFiltroHistorial",
+        "line": 10,
+        "sig": "InputDecoration decoracionFiltroHistorial() {"
+      },
+      {
+        "name": "build",
+        "line": 32,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 56,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 116,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 136,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 175,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 192,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 233,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 371,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 392,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/tarjeta_creacion_cita.dart",
+    "classes": [
+      "MascotaRegistradaMock",
+      "UsuarioRegistradoMock",
+      "MedicoRegistradoMock",
+      "CitaCreacionData",
+      "TarjetaCreacionCita",
+      "_TarjetaCreacionCitaState",
+      "_EtiquetaCampo"
+    ],
+    "methods": [
+      {
+        "name": "_formatearFechaHora",
+        "line": 25,
+        "sig": "String _formatearFechaHora(DateTime fechaHora) {"
+      },
+      {
+        "name": "_mascotaPorId",
+        "line": 176,
+        "sig": "MascotaRegistradaMock? _mascotaPorId(String id) {"
+      },
+      {
+        "name": "_usuarioPorId",
+        "line": 185,
+        "sig": "UsuarioRegistradoMock? _usuarioPorId(String id) {"
+      },
+      {
+        "name": "initState",
+        "line": 195,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 203,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_decoracionCampo",
+        "line": 211,
+        "sig": "InputDecoration _decoracionCampo(String hintText) {"
+      },
+      {
+        "name": "_validadorRequerido",
+        "line": 254,
+        "sig": "String? _validadorRequerido(String? value) {"
+      },
+      {
+        "name": "_seleccionarFechaHora",
+        "line": 261,
+        "sig": "Future<void> _seleccionarFechaHora() async {"
+      },
+      {
+        "name": "_onUsuarioChanged",
+        "line": 312,
+        "sig": "void _onUsuarioChanged(String? usuarioId) {"
+      },
+      {
+        "name": "_onMascotaChanged",
+        "line": 328,
+        "sig": "void _onMascotaChanged(String? mascotaId) {"
+      },
+      {
+        "name": "_registrar",
+        "line": 342,
+        "sig": "void _registrar() {"
+      },
+      {
+        "name": "build",
+        "line": 381,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 566,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/vista_cita_admin_content.dart",
+    "classes": [
+      "VistaCitaAdminFunciones"
+    ],
+    "methods": [
+      {
+        "name": "citasHoy",
+        "line": 56,
+        "sig": "static List<Cita> citasHoy(List<Cita> citas) {"
+      },
+      {
+        "name": "citasProximas",
+        "line": 71,
+        "sig": "static List<Cita> citasProximas(List<Cita> citas) {"
+      },
+      {
+        "name": "contarConfirmadas",
+        "line": 89,
+        "sig": "static int contarConfirmadas(List<Cita> citas) {"
+      },
+      {
+        "name": "buscarMascotaPorId",
+        "line": 157,
+        "sig": "static Mascota? buscarMascotaPorId(List<Mascota> mascotas, String idMascota) {"
+      },
+      {
+        "name": "buscarCitaPorId",
+        "line": 166,
+        "sig": "static Cita? buscarCitaPorId(List<Cita> citas, String idCita) {"
+      },
+      {
+        "name": "mapearCitaVista",
+        "line": 177,
+        "sig": "static CitaVistaAdmin mapearCitaVista(Cita cita) {"
+      },
+      {
+        "name": "resolverHora",
+        "line": 195,
+        "sig": "static String resolverHora(Cita cita) {"
+      },
+      {
+        "name": "estiloEstado",
+        "line": 211,
+        "sig": "static CitaEstadoEstilo estiloEstado(String estadoRaw) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/vista_cita_admin_widgets.dart",
+    "classes": [
+      "VistaCitaAdminFondo",
+      "VistaCitaAdminEncabezado",
+      "_BotonEncabezadoIcono",
+      "VistaCitaAdminResumen",
+      "_TarjetaResumen",
+      "VistaCitaAdminSeccionAgenda",
+      "VistaCitaAdminTarjetaCita",
+      "VistaCitaAdminChipEstado"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 14,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 33,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 70,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 90,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 129,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 155,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 220,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 340,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/home/home_admin_content.dart",
+    "classes": [
+      "HomeAdminFunciones"
+    ],
+    "methods": [
+      {
+        "name": "_resolverFechaHoraCorta",
+        "line": 137,
+        "sig": "static String _resolverFechaHoraCorta(Cita cita) {"
+      },
+      {
+        "name": "_dosDigitos",
+        "line": 158,
+        "sig": "static String _dosDigitos(int valor) {"
+      },
+      {
+        "name": "_resolverInicial",
+        "line": 162,
+        "sig": "static String _resolverInicial(String nombreCompleto) {"
+      },
+      {
+        "name": "cerrarSesionYSalir",
+        "line": 174,
+        "sig": "static Future<void> cerrarSesionYSalir(BuildContext context) async {"
+      },
+      {
+        "name": "irPacientes",
+        "line": 184,
+        "sig": "static void irPacientes(BuildContext context) {"
+      },
+      {
+        "name": "irCitas",
+        "line": 188,
+        "sig": "static void irCitas(BuildContext context) {"
+      },
+      {
+        "name": "irHistorial",
+        "line": 192,
+        "sig": "static void irHistorial(BuildContext context) {"
+      },
+      {
+        "name": "irPersonalMedico",
+        "line": 196,
+        "sig": "static void irPersonalMedico(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/home/home_admin_widgets.dart",
+    "classes": [
+      "HomeAdminCurvaClipper",
+      "HomeAdminHeader",
+      "HomeAdminMetricasRow",
+      "HomeAdminTarjetaMetrica",
+      "HomeAdminPanelSeccion",
+      "HomeAdminMenuPrincipalGrid",
+      "HomeAdminCardMenuPrincipal",
+      "HomeAdminProximaCitaLista",
+      "HomeAdminItemProximaCita",
+      "HomeAdminBottomNavbar"
+    ],
+    "methods": [
+      {
+        "name": "getClip",
+        "line": 12,
+        "sig": "Path getClip(Size size) {"
+      },
+      {
+        "name": "build",
+        "line": 52,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 119,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 160,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 233,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 300,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 360,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 439,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 476,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 558,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/detalle_paciente_admin_popup.dart",
+    "classes": [
+      "_DetallePacienteAdminPopup",
+      "_DetallePacienteAdminPopupState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 68,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 74,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_resetearControladores",
+        "line": 85,
+        "sig": "void _resetearControladores() {"
+      },
+      {
+        "name": "_validarRequerido",
+        "line": 95,
+        "sig": "String? _validarRequerido(String? value) {"
+      },
+      {
+        "name": "_parsearEdad",
+        "line": 102,
+        "sig": "int? _parsearEdad(String texto) {"
+      },
+      {
+        "name": "_parsearPeso",
+        "line": 107,
+        "sig": "double? _parsearPeso(String texto) {"
+      },
+      {
+        "name": "_activarEdicion",
+        "line": 115,
+        "sig": "void _activarEdicion() {"
+      },
+      {
+        "name": "_cancelarEdicion",
+        "line": 121,
+        "sig": "void _cancelarEdicion() {"
+      },
+      {
+        "name": "_guardarCambios",
+        "line": 130,
+        "sig": "Future<void> _guardarCambios() async {"
+      },
+      {
+        "name": "_cerrar",
+        "line": 195,
+        "sig": "void _cerrar(BuildContext context, [bool? resultado]) {"
+      },
+      {
+        "name": "build",
+        "line": 204,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_campoSoloLectura",
+        "line": 496,
+        "sig": "Widget _campoSoloLectura({required String etiqueta, required String valor}) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart",
+    "classes": [
+      "UsuarioRegistroPaciente",
+      "PacienteCreacionData",
+      "TarjetaCreacionPaciente",
+      "_TarjetaCreacionPacienteState",
+      "_EtiquetaCampo"
+    ],
+    "methods": [
+      {
+        "name": "dispose",
+        "line": 73,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_validadorRequerido",
+        "line": 127,
+        "sig": "String? _validadorRequerido(String? value) {"
+      },
+      {
+        "name": "_registrar",
+        "line": 136,
+        "sig": "void _registrar() {"
+      },
+      {
+        "name": "build",
+        "line": 160,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 340,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/vista_pacientes_admin_content.dart",
+    "classes": [
+      "VistaPacientesAdminFunciones"
+    ],
+    "methods": [
+      {
+        "name": "totalEspecies",
+        "line": 83,
+        "sig": "static int totalEspecies(List<PacienteVistaAdmin> pacientes) {"
+      },
+      {
+        "name": "parsearEntero",
+        "line": 92,
+        "sig": "static int? parsearEntero(String texto) {"
+      },
+      {
+        "name": "parsearDouble",
+        "line": 97,
+        "sig": "static double? parsearDouble(String texto) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/vista_pacientes_admin_widgets.dart",
+    "classes": [
+      "VistaPacientesAdminFondo",
+      "VistaPacientesAdminEncabezado",
+      "_BotonEncabezadoIcono",
+      "VistaPacientesAdminResumen",
+      "_TarjetaResumen",
+      "VistaPacientesAdminBuscador",
+      "VistaPacientesAdminTarjeta",
+      "VistaPacientesAdminChipEspecie",
+      "VistaPacientesAdminChipDato"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 14,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 33,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 70,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 88,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 124,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 146,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 205,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_iconoEspecie",
+        "line": 317,
+        "sig": "IconData _iconoEspecie(String especie) {"
+      },
+      {
+        "name": "build",
+        "line": 339,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 372,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/personal_medico_content.dart",
+    "classes": [
+      "PersonalMedicoFunciones"
+    ],
+    "methods": [
+      {
+        "name": "conteoEstado",
+        "line": 90,
+        "sig": "static int conteoEstado(List<MedicoVista> personal, String estado) {"
+      },
+      {
+        "name": "iniciales",
+        "line": 96,
+        "sig": "static String iniciales(String nombre) {"
+      },
+      {
+        "name": "estadoBg",
+        "line": 107,
+        "sig": "static Color estadoBg(String estado) {"
+      },
+      {
+        "name": "estadoText",
+        "line": 118,
+        "sig": "static Color estadoText(String estado) {"
+      },
+      {
+        "name": "fecha",
+        "line": 129,
+        "sig": "static String fecha(DateTime f) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/personal_medico_widgets.dart",
+    "classes": [
+      "PersonalMedicoFondo",
+      "PersonalMedicoEncabezado",
+      "_BotonEncabezadoIcono",
+      "PersonalMedicoBuscador",
+      "PersonalMedicoResumenBox",
+      "PersonalMedicoTarjeta",
+      "PersonalMedicoChip",
+      "PersonalMedicoChipInfo",
+      "PersonalMedicoVacio",
+      "FormularioNuevoMedico",
+      "_FormularioNuevoMedicoState",
+      "_EtiquetaTexto"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 15,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 39,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 97,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 115,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 176,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 204,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 323,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 356,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 393,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "initState",
+        "line": 433,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 441,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_decoracionCampo",
+        "line": 451,
+        "sig": "InputDecoration _decoracionCampo(String hint) {"
+      },
+      {
+        "name": "_validarOtraEspecialidad",
+        "line": 498,
+        "sig": "String? _validarOtraEspecialidad(String? v) {"
+      },
+      {
+        "name": "_guardar",
+        "line": 511,
+        "sig": "void _guardar() {"
+      },
+      {
+        "name": "build",
+        "line": 537,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 747,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/popup_alias_correo_medico.dart",
+    "classes": [
+      "_PopupAliasCorreoMedico",
+      "_PopupAliasCorreoMedicoState"
+    ],
+    "methods": [
+      {
+        "name": "dispose",
+        "line": 37,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_validarAlias",
+        "line": 44,
+        "sig": "String? _validarAlias(String valor) {"
+      },
+      {
+        "name": "_confirmarAlias",
+        "line": 54,
+        "sig": "void _confirmarAlias() {"
+      },
+      {
+        "name": "build",
+        "line": 69,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/shared/admin_base_widgets.dart",
+    "classes": [
+      "AdminFondoDecorativo",
+      "AdminBotonEncabezadoIcono",
+      "AdminTarjetaResumenCompacta",
+      "AdminEncabezadoBase",
+      "AdminTarjetaResumenBase",
+      "AdminEstadoVacioBase",
+      "_CirculoDecorativo"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 21,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 68,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 108,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 165,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 219,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 271,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 308,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/bienvenida_pantalla.dart",
+    "classes": [
+      "BienvenidaPantalla",
+      "CurvaClipper"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 10,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "getClip",
+        "line": 132,
+        "sig": "Path getClip(Size size) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/login_pantalla.dart",
+    "classes": [
+      "LoginPantalla",
+      "_LoginPantallaState"
+    ],
+    "methods": [
+      {
+        "name": "_navegarPorRol",
+        "line": 108,
+        "sig": "void _navegarPorRol(Usuario usuario) {"
+      },
+      {
+        "name": "_mostrarMensaje",
+        "line": 115,
+        "sig": "void _mostrarMensaje(String mensaje) {"
+      },
+      {
+        "name": "_irARegistro",
+        "line": 127,
+        "sig": "void _irARegistro() {"
+      },
+      {
+        "name": "build",
+        "line": 134,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/registro_pantalla.dart",
+    "classes": [
+      "RegistroPantalla",
+      "_RegistroPantallaState"
+    ],
+    "methods": [
+      {
+        "name": "_registrar",
+        "line": 29,
+        "sig": "Future<void> _registrar(DatosFormularioRegistro datos) async {"
+      },
+      {
+        "name": "_irALogin",
+        "line": 74,
+        "sig": "void _irALogin() {"
+      },
+      {
+        "name": "_mostrarMensaje",
+        "line": 80,
+        "sig": "void _mostrarMensaje(String mensaje) {"
+      },
+      {
+        "name": "build",
+        "line": 93,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/login/formulario_login.dart",
+    "classes": [
+      "FormularioLogin",
+      "_FormularioLoginState"
+    ],
+    "methods": [
+      {
+        "name": "dispose",
+        "line": 45,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_iniciarSesion",
+        "line": 53,
+        "sig": "Future<void> _iniciarSesion() async {"
+      },
+      {
+        "name": "_validarCorreo",
+        "line": 74,
+        "sig": "String? _validarCorreo(String value) {"
+      },
+      {
+        "name": "_validarContrasena",
+        "line": 89,
+        "sig": "String? _validarContrasena(String value) {"
+      },
+      {
+        "name": "_decoracionCampo",
+        "line": 101,
+        "sig": "InputDecoration _decoracionCampo({required String hint, Widget? suffixIcon}) {"
+      },
+      {
+        "name": "_etiqueta",
+        "line": 120,
+        "sig": "Widget _etiqueta(String texto) {"
+      },
+      {
+        "name": "_mensajeError",
+        "line": 136,
+        "sig": "Widget _mensajeError(String? mensaje) {"
+      },
+      {
+        "name": "build",
+        "line": 158,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/registro/formulario_registro.dart",
+    "classes": [
+      "DatosFormularioRegistro",
+      "FormularioRegistro",
+      "_FormularioRegistroState"
+    ],
+    "methods": [
+      {
+        "name": "dispose",
+        "line": 71,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_registrarse",
+        "line": 83,
+        "sig": "Future<void> _registrarse() async {"
+      },
+      {
+        "name": "_validarNombres",
+        "line": 135,
+        "sig": "String? _validarNombres(String value) {"
+      },
+      {
+        "name": "_validarNumeroDocumento",
+        "line": 148,
+        "sig": "String? _validarNumeroDocumento(String value) {"
+      },
+      {
+        "name": "_validarTelefono",
+        "line": 162,
+        "sig": "String? _validarTelefono(String value) {"
+      },
+      {
+        "name": "_validarCorreo",
+        "line": 176,
+        "sig": "String? _validarCorreo(String value) {"
+      },
+      {
+        "name": "_validarContrasena",
+        "line": 190,
+        "sig": "String? _validarContrasena(String value) {"
+      },
+      {
+        "name": "_validarConfirmacion",
+        "line": 202,
+        "sig": "String? _validarConfirmacion(String confirmacion, String contrasena) {"
+      },
+      {
+        "name": "_decoracionCampo",
+        "line": 214,
+        "sig": "InputDecoration _decoracionCampo({Widget? suffixIcon}) {"
+      },
+      {
+        "name": "_etiqueta",
+        "line": 232,
+        "sig": "Widget _etiqueta(String texto) {"
+      },
+      {
+        "name": "_campoConSombra",
+        "line": 248,
+        "sig": "Widget _campoConSombra({required Widget child}) {"
+      },
+      {
+        "name": "build",
+        "line": 288,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/shared/popup_configurar_contrasena_inicial.dart",
+    "classes": [
+      "_PopupConfigurarContrasenaInicial",
+      "_PopupConfigurarContrasenaInicialState"
+    ],
+    "methods": [
+      {
+        "name": "dispose",
+        "line": 41,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_validarContrasena",
+        "line": 49,
+        "sig": "String? _validarContrasena(String value) {"
+      },
+      {
+        "name": "_validarConfirmacion",
+        "line": 60,
+        "sig": "String? _validarConfirmacion(String value) {"
+      },
+      {
+        "name": "_confirmar",
+        "line": 73,
+        "sig": "void _confirmar() {"
+      },
+      {
+        "name": "_decoracionCampo",
+        "line": 89,
+        "sig": "InputDecoration _decoracionCampo({required String hint, Widget? suffixIcon}) {"
+      },
+      {
+        "name": "build",
+        "line": 117,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/home_cliente.dart",
+    "classes": [
+      "HomeClientePantalla",
+      "_HomeClientePantallaState",
+      "_CurvaHomeClienteClipper"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 56,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "_cargarDatosIniciales",
+        "line": 63,
+        "sig": "Future<void> _cargarDatosIniciales() async {"
+      },
+      {
+        "name": "_resolverIdUsuario",
+        "line": 116,
+        "sig": "String _resolverIdUsuario(String? idPerfil) {"
+      },
+      {
+        "name": "_resolverNombreVisible",
+        "line": 122,
+        "sig": "String _resolverNombreVisible(String? nombrePerfil) {"
+      },
+      {
+        "name": "_resolverInicial",
+        "line": 132,
+        "sig": "String _resolverInicial(String nombre) {"
+      },
+      {
+        "name": "_irABienvenida",
+        "line": 142,
+        "sig": "Future<void> _irABienvenida() async {"
+      },
+      {
+        "name": "_irAMisCitas",
+        "line": 154,
+        "sig": "Future<void> _irAMisCitas() async {"
+      },
+      {
+        "name": "_irAMisMascotas",
+        "line": 169,
+        "sig": "Future<void> _irAMisMascotas() async {"
+      },
+      {
+        "name": "_abrirDetalleMascota",
+        "line": 184,
+        "sig": "Future<void> _abrirDetalleMascota(Mascota mascota) async {"
+      },
+      {
+        "name": "_abrirDetalleCita",
+        "line": 196,
+        "sig": "Future<void> _abrirDetalleCita(Cita cita) async {"
+      },
+      {
+        "name": "_accionRegistrarMascota",
+        "line": 208,
+        "sig": "Future<void> _accionRegistrarMascota() async {"
+      },
+      {
+        "name": "_accionCrearCita",
+        "line": 255,
+        "sig": "Future<void> _accionCrearCita() async {"
+      },
+      {
+        "name": "build",
+        "line": 305,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_header",
+        "line": 447,
+        "sig": "Widget _header(BuildContext context) {"
+      },
+      {
+        "name": "getClip",
+        "line": 510,
+        "sig": "Path getClip(Size size) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/mis_citas_cliente.dart",
+    "classes": [
+      "MisCitasCliente",
+      "_MisCitasClienteState",
+      "_FondoMisCitas",
+      "_GradienteFondoMisCitas",
+      "_CirculoDecorativo",
+      "_EncabezadoMisCitas",
+      "_BotonEncabezadoIcono",
+      "_ResumenCitasCliente",
+      "_TarjetaResumen",
+      "_PanelAgendaPersonal",
+      "_EstadoVacioCitas",
+      "_TarjetaAgendaCita",
+      "_ChipDato"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 40,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "_cargarDatos",
+        "line": 47,
+        "sig": "Future<void> _cargarDatos() async {"
+      },
+      {
+        "name": "_resolverIdUsuario",
+        "line": 97,
+        "sig": "String _resolverIdUsuario(String? idPerfil) {"
+      },
+      {
+        "name": "_resolverNombreVisible",
+        "line": 103,
+        "sig": "String _resolverNombreVisible(String? nombrePerfil) {"
+      },
+      {
+        "name": "_abrirCreacionCita",
+        "line": 122,
+        "sig": "Future<void> _abrirCreacionCita() async {"
+      },
+      {
+        "name": "_abrirDetalleCita",
+        "line": 154,
+        "sig": "Future<void> _abrirDetalleCita(Cita cita) async {"
+      },
+      {
+        "name": "build",
+        "line": 167,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 222,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 255,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 285,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 305,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 343,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 382,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 421,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 479,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 542,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 572,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_fechaTextoCorta",
+        "line": 696,
+        "sig": "String _fechaTextoCorta(Cita cita) {"
+      },
+      {
+        "name": "_horaTextoCorta",
+        "line": 749,
+        "sig": "String _horaTextoCorta(Cita cita) {"
+      },
+      {
+        "name": "build",
+        "line": 778,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/mis_mascotas_cliente.dart",
+    "classes": [
+      "MisMascotasCliente",
+      "_MisMascotasClienteState",
+      "_FondoMisMascotas",
+      "_GradienteFondoMisMascotas",
+      "_CirculoDecorativoMascotas",
+      "_EncabezadoMisMascotas",
+      "_BotonEncabezadoIcono",
+      "_PanelMisMascotas",
+      "_EstadoVacioMascotas",
+      "_TarjetaMascotaListado"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 37,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "_cargarDatos",
+        "line": 44,
+        "sig": "Future<void> _cargarDatos() async {"
+      },
+      {
+        "name": "_resolverIdUsuario",
+        "line": 87,
+        "sig": "String _resolverIdUsuario(String? idPerfil) {"
+      },
+      {
+        "name": "_resolverNombreVisible",
+        "line": 93,
+        "sig": "String _resolverNombreVisible(String? nombrePerfil) {"
+      },
+      {
+        "name": "_abrirRegistroMascota",
+        "line": 103,
+        "sig": "Future<void> _abrirRegistroMascota() async {"
+      },
+      {
+        "name": "_abrirDetalleMascota",
+        "line": 135,
+        "sig": "Future<void> _abrirDetalleMascota(Mascota mascota) async {"
+      },
+      {
+        "name": "build",
+        "line": 156,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 205,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 238,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 271,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 291,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 328,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 369,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 434,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 464,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart",
+    "classes": [
+      "_DetalleCitaClientePopup",
+      "_DetalleCitaClientePopupState"
+    ],
+    "methods": [
+      {
+        "name": "mostrarDetalleCitaCliente",
+        "line": 12,
+        "sig": "Future<bool> mostrarDetalleCitaCliente(BuildContext context, Cita cita) async {"
+      },
+      {
+        "name": "initState",
+        "line": 75,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 85,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_resetearControladores",
+        "line": 96,
+        "sig": "void _resetearControladores() {"
+      },
+      {
+        "name": "_cargarMascotas",
+        "line": 117,
+        "sig": "Future<void> _cargarMascotas() async {"
+      },
+      {
+        "name": "_buscarMascotaPorId",
+        "line": 176,
+        "sig": "Mascota? _buscarMascotaPorId(String? idMascota) {"
+      },
+      {
+        "name": "_resolverFechaHoraInicial",
+        "line": 203,
+        "sig": "DateTime? _resolverFechaHoraInicial(Cita cita) {"
+      },
+      {
+        "name": "_activarEdicion",
+        "line": 233,
+        "sig": "void _activarEdicion() {"
+      },
+      {
+        "name": "_cancelarEdicion",
+        "line": 239,
+        "sig": "void _cancelarEdicion() {"
+      },
+      {
+        "name": "_validarRequerido",
+        "line": 248,
+        "sig": "String? _validarRequerido(String? value) {"
+      },
+      {
+        "name": "_seleccionarFechaHora",
+        "line": 257,
+        "sig": "Future<void> _seleccionarFechaHora() async {"
+      },
+      {
+        "name": "_aplicarTemaAzulSelector",
+        "line": 299,
+        "sig": "Widget _aplicarTemaAzulSelector(BuildContext context, Widget? child) {"
+      },
+      {
+        "name": "_guardarCambios",
+        "line": 322,
+        "sig": "Future<void> _guardarCambios() async {"
+      },
+      {
+        "name": "_confirmarCancelacion",
+        "line": 384,
+        "sig": "Future<bool> _confirmarCancelacion() async {"
+      },
+      {
+        "name": "_cancelarCita",
+        "line": 417,
+        "sig": "Future<void> _cancelarCita() async {"
+      },
+      {
+        "name": "_cerrar",
+        "line": 512,
+        "sig": "void _cerrar(BuildContext context, [bool? resultado]) {"
+      },
+      {
+        "name": "build",
+        "line": 523,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_campoMascotaSeleccion",
+        "line": 761,
+        "sig": "Widget _campoMascotaSeleccion() {"
+      },
+      {
+        "name": "_campoEspecieSoloLectura",
+        "line": 879,
+        "sig": "Widget _campoEspecieSoloLectura() {"
+      },
+      {
+        "name": "_campoFechaHora",
+        "line": 991,
+        "sig": "Widget _campoFechaHora() {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/citas/tarjeta_creacion_cita.dart",
+    "classes": [
+      "TarjetaCreacionCita",
+      "_TarjetaCreacionCitaState",
+      "_EtiquetaCampo",
+      "_MedicoItem"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 74,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 82,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_cargarDatosFormulario",
+        "line": 90,
+        "sig": "Future<void> _cargarDatosFormulario() async {"
+      },
+      {
+        "name": "_actualizarDisponibilidadMedicos",
+        "line": 141,
+        "sig": "Future<void> _actualizarDisponibilidadMedicos(DateTime fechaHora) async {"
+      },
+      {
+        "name": "_onMedicoChanged",
+        "line": 186,
+        "sig": "Future<void> _onMedicoChanged(String? value) async {"
+      },
+      {
+        "name": "_obtenerMedicosDisponibles",
+        "line": 231,
+        "sig": "Future<List<_MedicoItem>> _obtenerMedicosDisponibles() async {"
+      },
+      {
+        "name": "_resolverIdUsuario",
+        "line": 253,
+        "sig": "String _resolverIdUsuario(String? idPerfil) {"
+      },
+      {
+        "name": "_buscarMascotaPorId",
+        "line": 259,
+        "sig": "Mascota? _buscarMascotaPorId(String idMascota) {"
+      },
+      {
+        "name": "_decoracionCampo",
+        "line": 270,
+        "sig": "InputDecoration _decoracionCampo(String hintText) {"
+      },
+      {
+        "name": "_validadorRequerido",
+        "line": 315,
+        "sig": "String? _validadorRequerido(String? value) {"
+      },
+      {
+        "name": "_seleccionarFechaHora",
+        "line": 324,
+        "sig": "Future<void> _seleccionarFechaHora() async {"
+      },
+      {
+        "name": "_aplicarTemaAzulSelector",
+        "line": 402,
+        "sig": "Widget _aplicarTemaAzulSelector(BuildContext context, Widget? child) {"
+      },
+      {
+        "name": "_registrarCita",
+        "line": 458,
+        "sig": "Future<void> _registrarCita() async {"
+      },
+      {
+        "name": "_cerrar",
+        "line": 533,
+        "sig": "void _cerrar() {"
+      },
+      {
+        "name": "_cerrarDialogoSeguro",
+        "line": 540,
+        "sig": "void _cerrarDialogoSeguro([bool? resultado]) {"
+      },
+      {
+        "name": "build",
+        "line": 551,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_formatearFechaHoraVisible",
+        "line": 787,
+        "sig": "String _formatearFechaHoraVisible(DateTime fechaHora) {"
+      },
+      {
+        "name": "build",
+        "line": 819,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_mascotas_registradas_card.dart",
+    "classes": [
+      "HomeClienteMascotasRegistradasCard"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 29,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_contenido",
+        "line": 40,
+        "sig": "Widget _contenido() {"
+      },
+      {
+        "name": "_tarjetaMascota",
+        "line": 59,
+        "sig": "Widget _tarjetaMascota(Mascota mascota) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_menu_flotante.dart",
+    "classes": [
+      "HomeClienteMenuFlotante",
+      "_HomeClienteMenuFlotanteState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 39,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 55,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_alternar",
+        "line": 62,
+        "sig": "Future<void> _alternar() async {"
+      },
+      {
+        "name": "_abrir",
+        "line": 70,
+        "sig": "Future<void> _abrir() async {"
+      },
+      {
+        "name": "_cerrar",
+        "line": 80,
+        "sig": "Future<void> _cerrar() async {"
+      },
+      {
+        "name": "_onRegistrarMascota",
+        "line": 95,
+        "sig": "Future<void> _onRegistrarMascota() async {"
+      },
+      {
+        "name": "_onCrearCita",
+        "line": 114,
+        "sig": "Future<void> _onCrearCita() async {"
+      },
+      {
+        "name": "build",
+        "line": 134,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_panelAcciones",
+        "line": 197,
+        "sig": "Widget _panelAcciones() {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_panel_seccion.dart",
+    "classes": [
+      "HomeClientePanelSeccion"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 23,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_proximas_citas_card.dart",
+    "classes": [
+      "HomeClienteProximasCitasCard"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 29,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "_contenido",
+        "line": 40,
+        "sig": "Widget _contenido() {"
+      },
+      {
+        "name": "_tarjetaCita",
+        "line": 59,
+        "sig": "Widget _tarjetaCita(Cita cita) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_resumen_card.dart",
+    "classes": [
+      "HomeClienteResumenCard"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 23,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart",
+    "classes": [
+      "_DetalleMascotaClientePopup",
+      "_DetalleMascotaClientePopupState"
+    ],
+    "methods": [
+      {
+        "name": "initState",
+        "line": 70,
+        "sig": "void initState() {"
+      },
+      {
+        "name": "dispose",
+        "line": 78,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_resetearControladores",
+        "line": 89,
+        "sig": "void _resetearControladores() {"
+      },
+      {
+        "name": "_pesoEditableInicial",
+        "line": 101,
+        "sig": "String _pesoEditableInicial(double? peso) {"
+      },
+      {
+        "name": "_validarRequerido",
+        "line": 113,
+        "sig": "String? _validarRequerido(String? value) {"
+      },
+      {
+        "name": "_parsearEdad",
+        "line": 122,
+        "sig": "int? _parsearEdad(String texto) {"
+      },
+      {
+        "name": "_parsearPeso",
+        "line": 132,
+        "sig": "double? _parsearPeso(String texto) {"
+      },
+      {
+        "name": "_activarEdicion",
+        "line": 143,
+        "sig": "void _activarEdicion() {"
+      },
+      {
+        "name": "_cancelarEdicion",
+        "line": 151,
+        "sig": "void _cancelarEdicion() {"
+      },
+      {
+        "name": "_guardarCambios",
+        "line": 160,
+        "sig": "Future<void> _guardarCambios() async {"
+      },
+      {
+        "name": "_cerrar",
+        "line": 225,
+        "sig": "void _cerrar(BuildContext context, [bool? resultado]) {"
+      },
+      {
+        "name": "build",
+        "line": 236,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart",
+    "classes": [
+      "TarjetaCreacionPaciente",
+      "_TarjetaCreacionPacienteState",
+      "_EtiquetaCampo"
+    ],
+    "methods": [
+      {
+        "name": "dispose",
+        "line": 50,
+        "sig": "void dispose() {"
+      },
+      {
+        "name": "_validadorRequerido",
+        "line": 104,
+        "sig": "String? _validadorRequerido(String? value) {"
+      },
+      {
+        "name": "_resolverIdUsuario",
+        "line": 113,
+        "sig": "String _resolverIdUsuario(String? idPerfil) {"
+      },
+      {
+        "name": "_parsearEdad",
+        "line": 119,
+        "sig": "int? _parsearEdad(String texto) {"
+      },
+      {
+        "name": "_parsearPeso",
+        "line": 129,
+        "sig": "double? _parsearPeso(String texto) {"
+      },
+      {
+        "name": "_cerrar",
+        "line": 140,
+        "sig": "void _cerrar() {"
+      },
+      {
+        "name": "_cerrarDialogoSeguro",
+        "line": 147,
+        "sig": "void _cerrarDialogoSeguro([bool? resultado]) {"
+      },
+      {
+        "name": "_registrarMascota",
+        "line": 157,
+        "sig": "Future<void> _registrarMascota() async {"
+      },
+      {
+        "name": "build",
+        "line": 243,
+        "sig": "Widget build(BuildContext context) {"
+      },
+      {
+        "name": "build",
+        "line": 431,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/shared/home_cliente_mensaje_vacio.dart",
+    "classes": [
+      "HomeClienteMensajeVacio"
+    ],
+    "methods": [
+      {
+        "name": "build",
+        "line": 14,
+        "sig": "Widget build(BuildContext context) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/main.dart",
+    "classes": [],
+    "methods": [
+      {
+        "name": "main",
+        "line": 10,
+        "sig": "Future<void> main() async {"
+      },
+      {
+        "name": "_inicializarPersistenciaLocal",
+        "line": 19,
+        "sig": "Future<void> _inicializarPersistenciaLocal() async {"
+      }
+    ]
+  },
+  {
+    "path": "lib/models/cita.dart",
+    "classes": [
+      "Cita"
+    ],
+    "methods": [
+      {
+        "name": "toMap",
+        "line": 111,
+        "sig": "Map<String, dynamic> toMap() {"
+      },
+      {
+        "name": "toJson",
+        "line": 132,
+        "sig": "String toJson() {"
+      },
+      {
+        "name": "_combinarFechaHora",
+        "line": 286,
+        "sig": "static DateTime? _combinarFechaHora(String fecha, String hora) {"
+      },
+      {
+        "name": "_normalizarFechaAFormatoIso",
+        "line": 309,
+        "sig": "static String? _normalizarFechaAFormatoIso(String fecha) {"
+      },
+      {
+        "name": "_isoDate",
+        "line": 333,
+        "sig": "static String _isoDate(DateTime fecha) {"
+      },
+      {
+        "name": "_normalizarHora24",
+        "line": 340,
+        "sig": "static String? _normalizarHora24(String hora) {"
+      },
+      {
+        "name": "_formatearFechaHora",
+        "line": 366,
+        "sig": "static String _formatearFechaHora(DateTime fechaHora) {"
+      },
+      {
+        "name": "_capitalizar",
+        "line": 390,
+        "sig": "static String _capitalizar(String texto) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/models/historial_clinico.dart",
+    "classes": [
+      "HistorialClinico"
+    ],
+    "methods": [
+      {
+        "name": "toMap",
+        "line": 34,
+        "sig": "Map<String, dynamic> toMap() {"
+      },
+      {
+        "name": "toJson",
+        "line": 51,
+        "sig": "String toJson() {"
+      }
+    ]
+  },
+  {
+    "path": "lib/models/mascota.dart",
+    "classes": [
+      "Mascota"
+    ],
+    "methods": [
+      {
+        "name": "toMap",
+        "line": 79,
+        "sig": "Map<String, dynamic> toMap() {"
+      },
+      {
+        "name": "toJson",
+        "line": 96,
+        "sig": "String toJson() {"
+      },
+      {
+        "name": "_capitalizar",
+        "line": 268,
+        "sig": "static String _capitalizar(String texto) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/models/personal_medico.dart",
+    "classes": [
+      "PersonalMedico"
+    ],
+    "methods": [
+      {
+        "name": "toMap",
+        "line": 60,
+        "sig": "Map<String, dynamic> toMap() {"
+      },
+      {
+        "name": "toJson",
+        "line": 78,
+        "sig": "String toJson() {"
+      }
+    ]
+  },
+  {
+    "path": "lib/models/preferencia_medico.dart",
+    "classes": [
+      "PreferenciaMedico"
+    ],
+    "methods": [
+      {
+        "name": "toMap",
+        "line": 26,
+        "sig": "Map<String, dynamic> toMap() {"
+      },
+      {
+        "name": "toJson",
+        "line": 39,
+        "sig": "String toJson() {"
+      }
+    ]
+  },
+  {
+    "path": "lib/models/usuario.dart",
+    "classes": [
+      "Usuario"
+    ],
+    "methods": [
+      {
+        "name": "toMap",
+        "line": 38,
+        "sig": "Map<String, dynamic> toMap() {"
+      },
+      {
+        "name": "toJson",
+        "line": 54,
+        "sig": "String toJson() {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/auth/login_access_state.dart",
+    "classes": [
+      "EstadoAccesoLogin"
+    ],
+    "methods": []
+  },
+  {
+    "path": "lib/services/auth_service.dart",
+    "classes": [
+      "DatosRegistroCliente",
+      "AuthException",
+      "AuthService"
+    ],
+    "methods": [
+      {
+        "name": "registrarCliente",
+        "line": 63,
+        "sig": "Future<Usuario> registrarCliente(DatosRegistroCliente datos) async {"
+      },
+      {
+        "name": "evaluarAccesoPorCorreo",
+        "line": 128,
+        "sig": "Future<EstadoAccesoLogin> evaluarAccesoPorCorreo(String correo) async {"
+      },
+      {
+        "name": "obtenerUsuarioActual",
+        "line": 195,
+        "sig": "Future<Usuario?> obtenerUsuarioActual() async {"
+      },
+      {
+        "name": "cerrarSesion",
+        "line": 205,
+        "sig": "Future<void> cerrarSesion() async {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/cita_service.dart",
+    "classes": [
+      "CitaService"
+    ],
+    "methods": [
+      {
+        "name": "obtenerCitas",
+        "line": 24,
+        "sig": "Future<List<Cita>> obtenerCitas() async {"
+      },
+      {
+        "name": "contarPendientesEnLista",
+        "line": 151,
+        "sig": "int contarPendientesEnLista(List<Cita> citas) {"
+      },
+      {
+        "name": "contarCitasPendientesPorUsuario",
+        "line": 157,
+        "sig": "Future<int> contarCitasPendientesPorUsuario(String idUsuario) async {"
+      },
+      {
+        "name": "_guardarCitas",
+        "line": 388,
+        "sig": "Future<void> _guardarCitas(List<Cita> citas) async {"
+      },
+      {
+        "name": "_esEstadoCancelada",
+        "line": 397,
+        "sig": "bool _esEstadoCancelada(String estadoRaw) {"
+      },
+      {
+        "name": "_esMismoMinuto",
+        "line": 404,
+        "sig": "bool _esMismoMinuto(DateTime a, DateTime b) {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/historial_clinico_service.dart",
+    "classes": [
+      "HistorialClinicoService"
+    ],
+    "methods": [
+      {
+        "name": "HistorialClinicoService",
+        "line": 10,
+        "sig": "HistorialClinicoService({LocalJsonStorageService? storageService})"
+      },
+      {
+        "name": "obtenerHistoriales",
+        "line": 17,
+        "sig": "Future<List<HistorialClinico>> obtenerHistoriales() async {"
+      },
+      {
+        "name": "crearHistorial",
+        "line": 42,
+        "sig": "Future<void> crearHistorial(HistorialClinico historial) async {"
+      },
+      {
+        "name": "actualizarHistorial",
+        "line": 57,
+        "sig": "Future<void> actualizarHistorial(HistorialClinico historial) async {"
+      },
+      {
+        "name": "eliminarHistorial",
+        "line": 73,
+        "sig": "Future<void> eliminarHistorial(String idHistorial) async {"
+      },
+      {
+        "name": "_guardarHistoriales",
+        "line": 88,
+        "sig": "Future<void> _guardarHistoriales(List<HistorialClinico> historiales) async {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/mascota_service.dart",
+    "classes": [
+      "MascotaService"
+    ],
+    "methods": [
+      {
+        "name": "obtenerMascotas",
+        "line": 23,
+        "sig": "Future<List<Mascota>> obtenerMascotas() async {"
+      },
+      {
+        "name": "obtenerMascotasPorUsuario",
+        "line": 30,
+        "sig": "Future<List<Mascota>> obtenerMascotasPorUsuario(String idUsuario) async {"
+      },
+      {
+        "name": "contarMascotasPorUsuario",
+        "line": 48,
+        "sig": "Future<int> contarMascotasPorUsuario(String idUsuario) async {"
+      },
+      {
+        "name": "_guardarMascotas",
+        "line": 127,
+        "sig": "Future<void> _guardarMascotas(List<Mascota> mascotas) async {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/personal_medico_service.dart",
+    "classes": [
+      "PersonalMedicoService"
+    ],
+    "methods": [
+      {
+        "name": "PersonalMedicoService",
+        "line": 10,
+        "sig": "PersonalMedicoService({LocalJsonStorageService? storageService})"
+      },
+      {
+        "name": "obtenerPersonalMedico",
+        "line": 17,
+        "sig": "Future<List<PersonalMedico>> obtenerPersonalMedico() async {"
+      },
+      {
+        "name": "obtenerMedicosActivos",
+        "line": 26,
+        "sig": "Future<List<PersonalMedico>> obtenerMedicosActivos() async {"
+      },
+      {
+        "name": "obtenerMedicoPorId",
+        "line": 38,
+        "sig": "Future<PersonalMedico?> obtenerMedicoPorId(String idMedico) async {"
+      },
+      {
+        "name": "crearMedico",
+        "line": 55,
+        "sig": "Future<void> crearMedico(PersonalMedico medico) async {"
+      },
+      {
+        "name": "actualizarMedico",
+        "line": 68,
+        "sig": "Future<void> actualizarMedico(PersonalMedico medico) async {"
+      },
+      {
+        "name": "eliminarMedico",
+        "line": 82,
+        "sig": "Future<void> eliminarMedico(String idMedico) async {"
+      },
+      {
+        "name": "_guardarMedicos",
+        "line": 97,
+        "sig": "Future<void> _guardarMedicos(List<PersonalMedico> medicos) async {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/preferencia_medico_service.dart",
+    "classes": [
+      "PreferenciaMedicoService"
+    ],
+    "methods": [
+      {
+        "name": "PreferenciaMedicoService",
+        "line": 10,
+        "sig": "PreferenciaMedicoService({LocalJsonStorageService? storageService})"
+      },
+      {
+        "name": "obtenerPreferencias",
+        "line": 17,
+        "sig": "Future<List<PreferenciaMedico>> obtenerPreferencias() async {"
+      },
+      {
+        "name": "crearPreferencia",
+        "line": 42,
+        "sig": "Future<void> crearPreferencia(PreferenciaMedico preferencia) async {"
+      },
+      {
+        "name": "actualizarPreferencia",
+        "line": 57,
+        "sig": "Future<void> actualizarPreferencia(PreferenciaMedico preferencia) async {"
+      },
+      {
+        "name": "eliminarPreferencia",
+        "line": 73,
+        "sig": "Future<void> eliminarPreferencia(String idPreferencia) async {"
+      },
+      {
+        "name": "_guardarPreferencias",
+        "line": 88,
+        "sig": "Future<void> _guardarPreferencias(List<PreferenciaMedico> preferencias) async {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/session_service.dart",
+    "classes": [
+      "SessionService"
+    ],
+    "methods": [
+      {
+        "name": "guardarSesion",
+        "line": 14,
+        "sig": "Future<void> guardarSesion(String idUsuario) async {"
+      },
+      {
+        "name": "obtenerIdUsuarioSesion",
+        "line": 21,
+        "sig": "Future<String?> obtenerIdUsuarioSesion() async {"
+      },
+      {
+        "name": "limpiarSesion",
+        "line": 32,
+        "sig": "Future<void> limpiarSesion() async {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/storage/local_json_storage_service.dart",
+    "classes": [
+      "LocalJsonStorageService"
+    ],
+    "methods": [
+      {
+        "name": "LocalJsonStorageService",
+        "line": 19,
+        "sig": "factory LocalJsonStorageService() {"
+      },
+      {
+        "name": "inicializar",
+        "line": 66,
+        "sig": "Future<void> inicializar() {"
+      },
+      {
+        "name": "_crearBaseInicialVacia",
+        "line": 83,
+        "sig": "Map<String, dynamic> _crearBaseInicialVacia() {"
+      },
+      {
+        "name": "_asegurarUsuariosBase",
+        "line": 93,
+        "sig": "bool _asegurarUsuariosBase(Map<String, dynamic> base) {"
+      },
+      {
+        "name": "_ejecutarInicializacion",
+        "line": 151,
+        "sig": "Future<void> _ejecutarInicializacion() async {"
+      },
+      {
+        "name": "_validarEntidad",
+        "line": 188,
+        "sig": "void _validarEntidad(String entidad) {"
+      },
+      {
+        "name": "_leerBase",
+        "line": 196,
+        "sig": "Future<Map<String, dynamic>> _leerBase() async {"
+      },
+      {
+        "name": "_guardarBase",
+        "line": 232,
+        "sig": "Future<void> _guardarBase(Map<String, dynamic> base) async {"
+      },
+      {
+        "name": "_normalizarLista",
+        "line": 239,
+        "sig": "List<Map<String, dynamic>> _normalizarLista(dynamic valorEntidad) {"
+      },
+      {
+        "name": "leerLista",
+        "line": 259,
+        "sig": "Future<List<Map<String, dynamic>>> leerLista(String entidad) async {"
+      }
+    ]
+  },
+  {
+    "path": "lib/services/usuario_service.dart",
+    "classes": [
+      "UsuarioService"
+    ],
+    "methods": [
+      {
+        "name": "UsuarioService",
+        "line": 10,
+        "sig": "UsuarioService({LocalJsonStorageService? storageService})"
+      },
+      {
+        "name": "crearUsuario",
+        "line": 17,
+        "sig": "Future<void> crearUsuario(Usuario usuario) async {"
+      },
+      {
+        "name": "actualizarUsuario",
+        "line": 39,
+        "sig": "Future<void> actualizarUsuario(Usuario usuario) async {"
+      },
+      {
+        "name": "obtenerUsuarioPorId",
+        "line": 63,
+        "sig": "Future<Usuario?> obtenerUsuarioPorId(String idUsuario) async {"
+      },
+      {
+        "name": "obtenerUsuarioPorCorreo",
+        "line": 80,
+        "sig": "Future<Usuario?> obtenerUsuarioPorCorreo(String correo) async {"
+      },
+      {
+        "name": "obtenerUsuarios",
+        "line": 115,
+        "sig": "Future<List<Usuario>> obtenerUsuarios() async {"
+      },
+      {
+        "name": "_guardarUsuarios",
+        "line": 124,
+        "sig": "Future<void> _guardarUsuarios(List<Usuario> usuarios) async {"
+      }
+    ]
+  }
+]

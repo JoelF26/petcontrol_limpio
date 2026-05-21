@@ -1,10 +1,10 @@
 // Seccion: modelo de datos cargados
 // Agrupa la data necesaria para renderizar la vista de citas admin.
 import 'package:flutter/material.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
-import 'package:petcontrol_limpio/models/usuario.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
+import 'package:petcontrol_limpio/domain/entities/usuario.dart';
 
 class CitasAdminCargaData {
   const CitasAdminCargaData({

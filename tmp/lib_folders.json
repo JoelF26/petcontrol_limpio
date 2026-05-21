@@ -1,0 +1,130 @@
+{
+  "lib": [
+    "lib/app.dart",
+    "lib/main.dart"
+  ],
+  "lib/core/constants": [
+    "lib/core/constants/entidades_locales.dart",
+    "lib/core/constants/roles_usuario.dart"
+  ],
+  "lib/core/routes": [
+    "lib/core/routes/app_router.dart",
+    "lib/core/routes/rutas.dart",
+    "lib/core/routes/url_strategy.dart",
+    "lib/core/routes/url_strategy_stub.dart",
+    "lib/core/routes/url_strategy_web.dart"
+  ],
+  "lib/core/theme": [
+    "lib/core/theme/app_colores.dart",
+    "lib/core/theme/tema_app.dart"
+  ],
+  "lib/core/widgets": [
+    "lib/core/widgets/boton_atras.dart",
+    "lib/core/widgets/popup_detalle.dart"
+  ],
+  "lib/features/admin/models": [
+    "lib/features/admin/models/correo_medico_exceptions.dart",
+    "lib/features/admin/models/historial_citas_view_data.dart",
+    "lib/features/admin/models/home_admin_view_data.dart",
+    "lib/features/admin/models/personal_medico_view_data.dart",
+    "lib/features/admin/models/vista_cita_admin_view_data.dart",
+    "lib/features/admin/models/vista_pacientes_admin_view_data.dart"
+  ],
+  "lib/features/admin/pantallas": [
+    "lib/features/admin/pantallas/historial_citas.dart",
+    "lib/features/admin/pantallas/home_admin.dart",
+    "lib/features/admin/pantallas/personal_medico.dart",
+    "lib/features/admin/pantallas/vista_cita_admin.dart",
+    "lib/features/admin/pantallas/vista_pacientes_admin.dart"
+  ],
+  "lib/features/admin/utils": [
+    "lib/features/admin/utils/correo_medico_helper.dart"
+  ],
+  "lib/features/admin/widgets/citas": [
+    "lib/features/admin/widgets/citas/detalle_cita_admin_popup.dart",
+    "lib/features/admin/widgets/citas/historial_citas_content.dart",
+    "lib/features/admin/widgets/citas/historial_citas_widgets.dart",
+    "lib/features/admin/widgets/citas/tarjeta_creacion_cita.dart",
+    "lib/features/admin/widgets/citas/vista_cita_admin_content.dart",
+    "lib/features/admin/widgets/citas/vista_cita_admin_widgets.dart"
+  ],
+  "lib/features/admin/widgets/home": [
+    "lib/features/admin/widgets/home/home_admin_content.dart",
+    "lib/features/admin/widgets/home/home_admin_widgets.dart"
+  ],
+  "lib/features/admin/widgets/pacientes": [
+    "lib/features/admin/widgets/pacientes/detalle_paciente_admin_popup.dart",
+    "lib/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart",
+    "lib/features/admin/widgets/pacientes/vista_pacientes_admin_content.dart",
+    "lib/features/admin/widgets/pacientes/vista_pacientes_admin_widgets.dart"
+  ],
+  "lib/features/admin/widgets/personal_medico": [
+    "lib/features/admin/widgets/personal_medico/personal_medico_content.dart",
+    "lib/features/admin/widgets/personal_medico/personal_medico_widgets.dart",
+    "lib/features/admin/widgets/personal_medico/popup_alias_correo_medico.dart"
+  ],
+  "lib/features/admin/widgets/shared": [
+    "lib/features/admin/widgets/shared/admin_base_widgets.dart"
+  ],
+  "lib/features/autenticacion/pantallas": [
+    "lib/features/autenticacion/pantallas/bienvenida_pantalla.dart",
+    "lib/features/autenticacion/pantallas/login_pantalla.dart",
+    "lib/features/autenticacion/pantallas/registro_pantalla.dart"
+  ],
+  "lib/features/autenticacion/widgets/login": [
+    "lib/features/autenticacion/widgets/login/formulario_login.dart"
+  ],
+  "lib/features/autenticacion/widgets/registro": [
+    "lib/features/autenticacion/widgets/registro/formulario_registro.dart"
+  ],
+  "lib/features/autenticacion/widgets/shared": [
+    "lib/features/autenticacion/widgets/shared/popup_configurar_contrasena_inicial.dart"
+  ],
+  "lib/features/cliente/pantallas": [
+    "lib/features/cliente/pantallas/home_cliente.dart",
+    "lib/features/cliente/pantallas/mis_citas_cliente.dart",
+    "lib/features/cliente/pantallas/mis_mascotas_cliente.dart"
+  ],
+  "lib/features/cliente/widgets/citas": [
+    "lib/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart",
+    "lib/features/cliente/widgets/citas/tarjeta_creacion_cita.dart"
+  ],
+  "lib/features/cliente/widgets/home": [
+    "lib/features/cliente/widgets/home/home_cliente_mascotas_registradas_card.dart",
+    "lib/features/cliente/widgets/home/home_cliente_menu_flotante.dart",
+    "lib/features/cliente/widgets/home/home_cliente_panel_seccion.dart",
+    "lib/features/cliente/widgets/home/home_cliente_proximas_citas_card.dart",
+    "lib/features/cliente/widgets/home/home_cliente_resumen_card.dart"
+  ],
+  "lib/features/cliente/widgets/mascotas": [
+    "lib/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart",
+    "lib/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart"
+  ],
+  "lib/features/cliente/widgets/shared": [
+    "lib/features/cliente/widgets/shared/home_cliente_mensaje_vacio.dart"
+  ],
+  "lib/models": [
+    "lib/models/cita.dart",
+    "lib/models/historial_clinico.dart",
+    "lib/models/mascota.dart",
+    "lib/models/personal_medico.dart",
+    "lib/models/preferencia_medico.dart",
+    "lib/models/usuario.dart"
+  ],
+  "lib/services/auth": [
+    "lib/services/auth/login_access_state.dart"
+  ],
+  "lib/services": [
+    "lib/services/auth_service.dart",
+    "lib/services/cita_service.dart",
+    "lib/services/historial_clinico_service.dart",
+    "lib/services/mascota_service.dart",
+    "lib/services/personal_medico_service.dart",
+    "lib/services/preferencia_medico_service.dart",
+    "lib/services/session_service.dart",
+    "lib/services/usuario_service.dart"
+  ],
+  "lib/services/storage": [
+    "lib/services/storage/local_json_storage_service.dart"
+  ]
+}

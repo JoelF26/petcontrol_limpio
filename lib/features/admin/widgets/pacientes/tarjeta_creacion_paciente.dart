@@ -2,7 +2,8 @@
 // Se importa Material para construir formulario y controles de seleccion.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
 
 // Seccion: modelo de usuario para formulario
 // Define los usuarios disponibles en el selector obligatorio del popup.
@@ -66,7 +67,8 @@ class _TarjetaCreacionPacienteState extends State<TarjetaCreacionPaciente> {
   final _razaController = TextEditingController();
   final _edadController = TextEditingController();
   final _pesoController = TextEditingController();
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
 
   bool _cargandoCatalogos = true;
   List<String> _opcionesSexo = const <String>[];

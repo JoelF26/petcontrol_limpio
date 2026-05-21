@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/features/admin/models/historial_citas_view_data.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
-import 'package:petcontrol_limpio/models/usuario.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
+import 'package:petcontrol_limpio/domain/entities/usuario.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 
 // Seccion: funciones de funcionamiento de historial
 // Centraliza carga, filtros y utilidades para que la pantalla quede enfocada en IU.
@@ -25,6 +25,7 @@ class HistorialCitasFunciones {
     final usuarios = await usuarioService.obtenerUsuarios();
     final medicos = await personalMedicoService.obtenerPersonalMedico();
 
+    // Las citas guardan ids; estos mapas resuelven nombres legibles para el historial.
     final usuariosPorId = <String, Usuario>{
       for (final usuario in usuarios) usuario.idUsuario: usuario,
     };
@@ -35,6 +36,7 @@ class HistorialCitasFunciones {
     final historial =
         citas
             .map((cita) {
+              // Si falta fecha_hora, fechaOrden entrega un valor usable para ordenar.
               final fechaBase = cita.fechaHora ?? cita.fechaOrden;
               final dueno =
                   usuariosPorId[cita.idUsuario]?.nombreCompleto.trim() ??
@@ -87,6 +89,7 @@ class HistorialCitasFunciones {
     required String especieTodas,
   }) {
     final ahora = DateTime.now();
+    // El filtro por rango compara contra el inicio del día para resultados predecibles.
     final hoy = DateTime(ahora.year, ahora.month, ahora.day);
     final diasFiltro = diasParaRango(fechaSeleccionada);
 
@@ -98,6 +101,7 @@ class HistorialCitasFunciones {
           final coincideEspecie =
               especieSeleccionada == especieTodas ||
               cita.especie == especieSeleccionada;
+          // Sin rango configurado, el filtro de fecha queda abierto.
           final coincideFecha = diasFiltro == null
               ? true
               : !cita.fechaHora.isBefore(

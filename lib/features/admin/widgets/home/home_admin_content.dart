@@ -2,17 +2,18 @@
 // Se importan rutas, popup, roles, modelos y servicios para el home admin dinamico.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
+import 'package:petcontrol_limpio/domain/constants/roles_usuario.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
 import 'package:petcontrol_limpio/core/widgets/popup_detalle.dart';
 import 'package:petcontrol_limpio/features/admin/models/home_admin_view_data.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
-import 'package:petcontrol_limpio/services/auth_service.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
+import 'package:petcontrol_limpio/application/services/auth_service.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
 
 // Seccion: funciones de home admin
 // Agrupa carga dinamica, logout, navegacion y popup de detalle.
@@ -27,10 +28,11 @@ class HomeAdminFunciones {
     CitaService? citaService,
     PersonalMedicoService? personalMedicoService,
   }) async {
-    final auth = authService ?? AuthService();
-    final mascotasSrv = mascotaService ?? MascotaService();
-    final citasSrv = citaService ?? CitaService();
-    final personalSrv = personalMedicoService ?? PersonalMedicoService();
+    final auth = authService ?? AppDependencies.authService;
+    final mascotasSrv = mascotaService ?? AppDependencies.mascotaService;
+    final citasSrv = citaService ?? AppDependencies.citaService;
+    final personalSrv =
+        personalMedicoService ?? AppDependencies.personalMedicoService;
 
     final usuarioActual = await auth.obtenerUsuarioActual();
     if (usuarioActual == null) {
@@ -41,6 +43,7 @@ class HomeAdminFunciones {
       throw StateError('El usuario actual no tiene rol admin.');
     }
 
+    // Las métricas son independientes, así que se consultan en paralelo.
     final resultados = await Future.wait<dynamic>(<Future<dynamic>>[
       mascotasSrv.obtenerMascotas(),
       citasSrv.obtenerCitas(),
@@ -69,11 +72,12 @@ class HomeAdminFunciones {
       ),
     ];
 
+    // Sirve para resolver el nombre del profesional en las próximas citas.
     final medicosPorId = <String, PersonalMedico>{
       for (final medico in personal) medico.idMedico: medico,
     };
     final proximasCitas = _construirProximasCitas(
-      citas: citas,
+      citas: citasSrv.filtrarCitasActivas(citas),
       medicosPorId: medicosPorId,
     );
 
@@ -98,6 +102,7 @@ class HomeAdminFunciones {
     final ordenadas = citas.toList(growable: false)
       ..sort((a, b) => a.fechaOrden.compareTo(b.fechaOrden));
 
+    // Solo muestra citas futuras; las pasadas quedan para historial.
     final futuras = ordenadas
         .where((cita) {
           final fecha = cita.fechaHora;
@@ -108,14 +113,13 @@ class HomeAdminFunciones {
         })
         .toList(growable: false);
 
-    final fuente = futuras.isNotEmpty ? futuras : ordenadas;
-    if (fuente.isEmpty) {
+    if (futuras.isEmpty) {
       return const <HomeAdminProximaCitaVista>[];
     }
 
     // Seccion: limite visual de proximas citas
     // Restringe el bloque del home admin a un maximo de 2 elementos.
-    return fuente
+    return futuras
         .take(2)
         .map((cita) {
           final profesional =
@@ -135,6 +139,7 @@ class HomeAdminFunciones {
   // Seccion: formato breve de fecha
   // Genera texto compacto para el subtitulo de la proxima cita.
   static String _resolverFechaHoraCorta(Cita cita) {
+    // Si el registro no tiene DateTime parseado, delega al texto visible del modelo.
     final fechaHora = cita.fechaHora;
     if (fechaHora == null) {
       return cita.fechaHoraVisible;
@@ -172,10 +177,11 @@ class HomeAdminFunciones {
   // Seccion: logout
   // Cierra sesion y redirige a bienvenida limpiando stack.
   static Future<void> cerrarSesionYSalir(BuildContext context) async {
-    await AuthService().cerrarSesion();
+    await AppDependencies.authService.cerrarSesion();
     if (!context.mounted) {
       return;
     }
+    // Limpia el stack para impedir volver al panel con el botón atrás.
     Navigator.pushNamedAndRemoveUntil(context, Rutas.bienvenida, (_) => false);
   }
 

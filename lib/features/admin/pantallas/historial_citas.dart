@@ -1,16 +1,19 @@
 // Seccion: imports
 // Se importan servicios, funciones de negocio y widgets visuales de historial.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/core/widgets/popup_detalle.dart';
 import 'package:petcontrol_limpio/features/admin/models/historial_citas_view_data.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/historial_citas_content.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/historial_citas_widgets.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 
 // Seccion: pantalla historial admin
 // Define la IU principal del modulo de historial de citas.
@@ -24,10 +27,12 @@ class HistorialMedicoAdmin extends StatefulWidget {
 class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
   // Seccion: dependencias y estado local
   // Manejan carga de datos y valores seleccionados de filtros.
-  final CitaService _citaService = CitaService();
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
-  final UsuarioService _usuarioService = UsuarioService();
-  final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
+  final CitaService _citaService = AppDependencies.citaService;
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
+  final UsuarioService _usuarioService = AppDependencies.usuarioService;
+  final PersonalMedicoService _personalMedicoService =
+      AppDependencies.personalMedicoService;
 
   final List<HistorialCitaVista> _historialCitas = <HistorialCitaVista>[];
   bool _cargando = true;
@@ -39,6 +44,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
   String _estadoSeleccionado = '';
   String _especieSeleccionada = '';
   String _fechaSeleccionada = '';
+  final List<StreamSubscription<dynamic>> _suscripciones = [];
 
   String get _estadoTodosHistorial => _estadosFiltroHistorial.first;
   String get _especieTodasHistorial => _especiesFiltroHistorial.first;
@@ -48,17 +54,29 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
   void initState() {
     super.initState();
     _cargarHistorial();
+    _suscribirTiempoReal();
+  }
+
+  @override
+  void dispose() {
+    for (final suscripcion in _suscripciones) {
+      suscripcion.cancel();
+    }
+    super.dispose();
   }
 
   // Seccion: carga de historial
-  // Obtiene registros desde servicios y actualiza estado visual.
-  Future<void> _cargarHistorial() async {
-    setState(() {
-      _cargando = true;
-      _errorCarga = null;
-    });
+  // Carga citas enriquecidas y catálogos de filtros en una sola espera.
+  Future<void> _cargarHistorial({bool mostrarCarga = true}) async {
+    if (mostrarCarga) {
+      setState(() {
+        _cargando = true;
+        _errorCarga = null;
+      });
+    }
 
     try {
+      // Evita renderizar filtros vacíos mientras todavía llegan las citas.
       final resultados = await Future.wait<dynamic>([
         HistorialCitasFunciones.cargarHistorial(
           citaService: _citaService,
@@ -81,6 +99,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
         _estadosFiltroHistorial = filtros.estados;
         _especiesFiltroHistorial = filtros.especies;
         _fechasFiltroHistorial = filtros.fechas;
+        // Conserva filtros activos si siguen existiendo; si no, vuelve al primer valor.
         _estadoSeleccionado = filtros.estados.contains(_estadoSeleccionado)
             ? _estadoSeleccionado
             : filtros.estados.first;
@@ -102,6 +121,19 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
         _cargando = false;
       });
     }
+  }
+
+  void _suscribirTiempoReal() {
+    void recargar(_) {
+      if (mounted) {
+        _cargarHistorial(mostrarCarga: false);
+      }
+    }
+
+    _suscripciones
+      ..add(_citaService.observarCitas().listen(recargar))
+      ..add(_usuarioService.observarUsuarios().listen(recargar))
+      ..add(_personalMedicoService.observarPersonalMedico().listen(recargar));
   }
 
   // Seccion: historial filtrado
@@ -138,6 +170,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
       return;
     }
 
+    // Los valores temporales permiten cancelar el modal sin alterar los filtros actuales.
     var estadoTemp = _estadoSeleccionado;
     var especieTemp = _especieSeleccionada;
     var fechaTemp = _fechaSeleccionada;
@@ -150,6 +183,7 @@ class _HistorialMedicoAdminState extends State<HistorialMedicoAdmin> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
+        // StatefulBuilder limita los setState internos al modal mientras se eligen filtros.
         return StatefulBuilder(
           builder: (context, setModalState) {
             return Padding(

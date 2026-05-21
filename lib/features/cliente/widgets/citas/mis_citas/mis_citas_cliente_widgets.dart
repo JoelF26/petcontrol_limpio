@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
 
 // Sección: fondo visual superior
 // Conserva degradado y círculos decorativos de la vista.

@@ -2,12 +2,13 @@
 // Se importan rutas, paleta, formulario y servicio de autenticación.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/routes/rutas.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/core/widgets/boton_atras.dart';
 import 'package:petcontrol_limpio/features/autenticacion/widgets/login/formulario_login.dart';
 import 'package:petcontrol_limpio/features/autenticacion/widgets/shared/popup_configurar_contrasena_inicial.dart';
-import 'package:petcontrol_limpio/models/usuario.dart';
-import 'package:petcontrol_limpio/services/auth_service.dart';
+import 'package:petcontrol_limpio/domain/entities/usuario.dart';
+import 'package:petcontrol_limpio/application/services/auth_service.dart';
 
 // Sección: pantalla de login
 // Mantiene el diseño visual original y centraliza la lógica de autenticación.
@@ -23,7 +24,7 @@ class LoginPantalla extends StatefulWidget {
 class _LoginPantallaState extends State<LoginPantalla> {
   // Sección: dependencias y estado local
   // Servicio de auth y bandera para bloquear acciones durante la petición.
-  final AuthService _authService = AuthService();
+  final AuthService _authService = AppDependencies.authService;
   bool _cargando = false;
 
   // Sección: acción principal de login
@@ -41,6 +42,7 @@ class _LoginPantallaState extends State<LoginPantalla> {
     });
 
     try {
+      // Primero identifica el flujo correcto: clave existente o configuración inicial.
       final estadoAcceso = await _authService.evaluarAccesoPorCorreo(correo);
 
       if (!mounted) {
@@ -53,6 +55,7 @@ class _LoginPantallaState extends State<LoginPantalla> {
       }
 
       if (estadoAcceso.requiereContrasenaInicial) {
+        // Personal médico creado por admin entra aquí porque nace sin contraseña.
         final nuevaContrasena = await mostrarPopupConfigurarContrasenaInicial(
           context,
           correo: correo.trim().toLowerCase(),
@@ -80,6 +83,7 @@ class _LoginPantallaState extends State<LoginPantalla> {
         return;
       }
 
+      // Solo después del pre-chequeo se valida contraseña para evitar mensajes ambiguos.
       final usuario = await _authService.iniciarSesion(
         correo: correo,
         contrasena: contrasena,
@@ -107,6 +111,7 @@ class _LoginPantallaState extends State<LoginPantalla> {
   // Redirige al panel correspondiente del usuario autenticado.
   void _navegarPorRol(Usuario usuario) {
     final ruta = usuario.esAdmin ? Rutas.homeAdmin : Rutas.homeCliente;
+    // Limpia pantallas de auth para que atrás no vuelva al login ya autenticado.
     Navigator.pushNamedAndRemoveUntil(context, ruta, (_) => false);
   }
 

@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1066844169526",
+    "project_id": "vetcontrol-fb44b",
+    "storage_bucket": "vetcontrol-fb44b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066844169526:android:18c1ee231c8f7d4c3f7f97",
+        "android_client_info": {
+          "package_name": "com.example.petcontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066844169526-tigfoqed8a0vnm5nc4tt7gnve4fdul8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5aagSxLAn--yc0hbQOjqGyttUiz1Gx8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066844169526-tigfoqed8a0vnm5nc4tt7gnve4fdul8p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066844169526-l5auhgenpmpb25jqg2ok6ve5l160ckgu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.petcontrolLimpio"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066844169526:android:c67d404728885c093f7f97",
+        "android_client_info": {
+          "package_name": "com.example.petcontrol_limpio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066844169526-tigfoqed8a0vnm5nc4tt7gnve4fdul8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5aagSxLAn--yc0hbQOjqGyttUiz1Gx8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066844169526-tigfoqed8a0vnm5nc4tt7gnve4fdul8p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066844169526-l5auhgenpmpb25jqg2ok6ve5l160ckgu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.petcontrolLimpio"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

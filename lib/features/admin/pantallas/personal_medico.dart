@@ -1,7 +1,10 @@
 // Seccion: imports
 // Se importan servicios, funciones y widgets para la vista de personal medico.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/core/widgets/popup_detalle.dart';
 import 'package:petcontrol_limpio/features/admin/models/correo_medico_exceptions.dart';
 import 'package:petcontrol_limpio/features/admin/models/personal_medico_view_data.dart';
@@ -9,8 +12,8 @@ import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widge
 import 'package:petcontrol_limpio/features/admin/widgets/personal_medico/personal_medico_content.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/personal_medico/popup_alias_correo_medico.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/personal_medico/personal_medico_widgets.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 
 // Seccion: pantalla personal medico
 // Presenta la IU del modulo y coordina eventos de carga y registro.
@@ -25,21 +28,27 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
   // Seccion: dependencias y estado local
   // Manejan busqueda, servicios y estado de carga.
   final TextEditingController _busquedaCtrl = TextEditingController();
-  final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
-  final UsuarioService _usuarioService = UsuarioService();
+  final PersonalMedicoService _personalMedicoService =
+      AppDependencies.personalMedicoService;
+  final UsuarioService _usuarioService = AppDependencies.usuarioService;
 
   final List<MedicoVista> _personal = <MedicoVista>[];
   bool _cargando = true;
   String? _errorCarga;
+  final List<StreamSubscription<dynamic>> _suscripciones = [];
 
   @override
   void initState() {
     super.initState();
     _cargarPersonalMedico();
+    _suscribirTiempoReal();
   }
 
   @override
   void dispose() {
+    for (final suscripcion in _suscripciones) {
+      suscripcion.cancel();
+    }
     _busquedaCtrl.dispose();
     super.dispose();
   }
@@ -60,12 +69,14 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
   }
 
   // Seccion: carga de backend
-  // Consulta datos desde servicios y actualiza estado visual.
-  Future<void> _cargarPersonalMedico() async {
-    setState(() {
-      _cargando = true;
-      _errorCarga = null;
-    });
+  // Reconstruye la lista visual uniendo médicos con usuarios administrativos.
+  Future<void> _cargarPersonalMedico({bool mostrarCarga = true}) async {
+    if (mostrarCarga) {
+      setState(() {
+        _cargando = true;
+        _errorCarga = null;
+      });
+    }
 
     try {
       final lista = await PersonalMedicoFunciones.cargarPersonalMedico(
@@ -93,6 +104,18 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
         _cargando = false;
       });
     }
+  }
+
+  void _suscribirTiempoReal() {
+    void recargar(_) {
+      if (mounted) {
+        _cargarPersonalMedico(mostrarCarga: false);
+      }
+    }
+
+    _suscripciones
+      ..add(_personalMedicoService.observarPersonalMedico().listen(recargar))
+      ..add(_usuarioService.observarUsuarios().listen(recargar));
   }
 
   // Seccion: popup detalle
@@ -123,6 +146,7 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
   // Seccion: apertura de formulario
   // Lanza el dialogo para capturar datos de nuevo medico.
   Future<void> _abrirFormularioNuevoMedico() async {
+    // El dialogo retorna datos solo si el formulario fue guardado correctamente.
     final input = await showGeneralDialog<NuevoMedicoInput>(
       context: context,
       barrierLabel: 'nuevo_medico',
@@ -176,6 +200,7 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
   Future<void> _registrarPersonalMedico(NuevoMedicoInput input) async {
     String? aliasCorreo;
 
+    // Reintenta solo cuando el correo generado choca y el usuario propone un alias.
     while (true) {
       try {
         await PersonalMedicoFunciones.registrarPersonalMedico(
@@ -191,6 +216,7 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
           return;
         }
 
+        // Pide un alias sin perder el formulario original ya validado.
         final aliasSeleccionado = await mostrarPopupAliasCorreoMedico(
           context,
           correoEnUso: error.correoEnUso,
@@ -224,6 +250,7 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
       }
     }
 
+    // Después de registrar, recarga desde servicios para mostrar usuario y médico sincronizados.
     await _cargarPersonalMedico();
 
     if (!mounted) {
@@ -231,7 +258,9 @@ class _PersonalMedicoAdminState extends State<PersonalMedicoAdmin> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Personal medico registrado con rol admin.')),
+      const SnackBar(
+        content: Text('Personal medico registrado con rol admin.'),
+      ),
     );
   }
 

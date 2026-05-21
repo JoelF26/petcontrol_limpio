@@ -2,7 +2,8 @@
 // Se importa material para construir el formulario visual de creación de citas admin.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
 
 // Sección: formato de fecha y hora
 // Convierte DateTime a texto legible para mostrar en el formulario.
@@ -123,7 +124,8 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   final _formKey = GlobalKey<FormState>();
   final _fechaHoraController = TextEditingController();
   final _descripcionController = TextEditingController();
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
 
   String? _mascotaSeleccionadaId;
   String? _usuarioSeleccionadoId;

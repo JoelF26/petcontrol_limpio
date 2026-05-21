@@ -2,17 +2,17 @@
 // Se importan modelos, servicios y helpers de formulario para logica de citas admin.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
+import 'package:petcontrol_limpio/domain/constants/roles_usuario.dart';
 import 'package:petcontrol_limpio/features/admin/models/vista_cita_admin_view_data.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/tarjeta_creacion_cita.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
-import 'package:petcontrol_limpio/models/usuario.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
+import 'package:petcontrol_limpio/domain/entities/usuario.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 
 // Seccion: funciones de funcionamiento
 // Centraliza carga, mapeos, filtros y estilos para la vista de citas admin.
@@ -27,7 +27,10 @@ class VistaCitaAdminFunciones {
     required UsuarioService usuarioService,
     required PersonalMedicoService personalMedicoService,
   }) async {
-    final citas = await citaService.obtenerCitas();
+    // Carga cada entidad completa porque la agenda necesita cruzar varias relaciones.
+    final citas = citaService.filtrarCitasActivas(
+      await citaService.obtenerCitas(),
+    );
     final mascotas = await mascotaService.obtenerMascotas();
     final usuarios = await usuarioService.obtenerUsuarios();
     final medicos = await personalMedicoService.obtenerPersonalMedico();
@@ -35,6 +38,7 @@ class VistaCitaAdminFunciones {
     final citasOrdenadas = citas.toList(growable: false)
       ..sort((a, b) => a.fechaOrden.compareTo(b.fechaOrden));
 
+    // Los mapas por id evitan búsquedas repetidas al abrir detalles o construir formularios.
     final usuariosPorId = <String, Usuario>{
       for (final usuario in usuarios) usuario.idUsuario: usuario,
     };
@@ -55,6 +59,7 @@ class VistaCitaAdminFunciones {
   // Separa citas en hoy y proximas para mantener la estructura visual.
   static List<Cita> citasHoy(List<Cita> citas) {
     final ahora = DateTime.now();
+    // Usa límites de día local para incluir desde 00:00 hasta antes de mañana.
     final inicioDia = DateTime(ahora.year, ahora.month, ahora.day);
     final finDia = inicioDia.add(const Duration(days: 1));
     return citas
@@ -70,6 +75,7 @@ class VistaCitaAdminFunciones {
 
   static List<Cita> citasProximas(List<Cita> citas) {
     final ahora = DateTime.now();
+    // "Próximas" excluye las de hoy porque ya se muestran en su propio bloque.
     final finDia = DateTime(
       ahora.year,
       ahora.month,
@@ -97,6 +103,7 @@ class VistaCitaAdminFunciones {
   static List<UsuarioRegistradoMock> construirUsuariosFormulario(
     Map<String, Usuario> usuariosPorId,
   ) {
+    // Admin no agenda como dueño de mascota; por eso se excluyen usuarios admin.
     final usuariosCliente =
         usuariosPorId.values
             .where((usuario) => usuario.rol != RolesUsuario.admin)
@@ -175,6 +182,7 @@ class VistaCitaAdminFunciones {
   // Seccion: mapeo de visualizacion
   // Convierte una cita de dominio al modelo usado por tarjetas.
   static CitaVistaAdmin mapearCitaVista(Cita cita) {
+    // La tarjeta solo recibe datos listos para pintar, incluida paleta por estado.
     final estilo = estiloEstado(cita.estadoVisible);
     return CitaVistaAdmin(
       idCita: cita.idCita,
@@ -200,6 +208,7 @@ class VistaCitaAdminFunciones {
       return '$hora:$minuto';
     }
     final horaTexto = cita.horaTexto.trim();
+    // Fallback para registros antiguos que no tienen fechaHora parseable.
     if (horaTexto.isEmpty) {
       return '--:--';
     }
@@ -209,6 +218,7 @@ class VistaCitaAdminFunciones {
   // Seccion: estilo por estado
   // Define paleta visual e icono segun estado textual.
   static CitaEstadoEstilo estiloEstado(String estadoRaw) {
+    // Se usan contains para tolerar variantes como "confirmado" o "cancelada".
     final estado = estadoRaw.toLowerCase();
     if (estado.contains('cancel')) {
       return const CitaEstadoEstilo(

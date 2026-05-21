@@ -2,14 +2,15 @@
 // Se importan utilidades visuales y servicios de dominio del proyecto.
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/citas/creacion/formulario_creacion_cita_content.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/citas/creacion/medico_cita_item.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/services/auth_service.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/application/services/auth_service.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
 
 // Sección: tarjeta de creación de cita
 // Renderiza el formulario popup para registrar citas del cliente en JSON local.
@@ -34,11 +35,13 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
 
   // Sección: servicios backend
   // Encapsulan acceso a sesión, mascotas, médicos y persistencia de citas.
-  final AuthService _authService = AuthService();
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
-  final MascotaService _mascotaService = MascotaService();
-  final CitaService _citaService = CitaService();
-  final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
+  final AuthService _authService = AppDependencies.authService;
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
+  final CitaService _citaService = AppDependencies.citaService;
+  final PersonalMedicoService _personalMedicoService =
+      AppDependencies.personalMedicoService;
 
   // Sección: estado de carga y guardado
   // Controla loaders del popup para evitar acciones duplicadas.
@@ -98,6 +101,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
         return;
       }
 
+      // Se preparan las tres consultas antes de esperarlas para cargar el formulario completo.
       final mascotasFuture = _mascotaService.obtenerMascotasPorUsuario(
         idUsuario,
       );
@@ -141,6 +145,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   // Sección: filtrado dinámico de médicos por horario
   // Si ya hay fecha/hora, sólo deja visibles los médicos libres en ese minuto.
   Future<void> _actualizarDisponibilidadMedicos(DateTime fechaHora) async {
+    // Token evita que una respuesta vieja sobrescriba una selección más reciente.
     final token = ++_tokenConsultaDisponibilidad;
     final idsMedicos = _todosMedicos
         .map((medico) => medico.id.trim())
@@ -162,6 +167,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
         .where((medico) => idsDisponiblesSet.contains(medico.id))
         .toList(growable: false);
 
+    // Si el médico seleccionado dejó de estar libre, se limpia para forzar nueva elección.
     final idMedicoActual = (_idMedicoSeleccionado ?? '').trim();
     final medicoSigueDisponible =
         idMedicoActual.isEmpty || idsDisponiblesSet.contains(idMedicoActual);
@@ -203,6 +209,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
       return;
     }
 
+    // Valida inmediatamente si ya hay fecha elegida para dar feedback temprano.
     final disponible = await _citaService.estaMedicoDisponibleEnHorario(
       idMedico: idMedico,
       fechaHora: fechaHora,
@@ -232,6 +239,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   // Sección: consulta de personal médico
   // Lee personal médico activo y normaliza id/nombre para el dropdown.
   Future<List<MedicoCitaItem>> _obtenerMedicosDisponibles() async {
+    // El cliente solo puede elegir personal activo y con datos mínimos visibles.
     final medicosActivos = await _personalMedicoService.obtenerMedicosActivos();
     final medicos = medicosActivos
         .map(
@@ -276,6 +284,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
     final inicial =
         _fechaHoraSeleccionada ?? ahora.add(const Duration(hours: 1));
 
+    // Se elige fecha primero y luego hora para construir un único DateTime.
     final fecha = await showDatePicker(
       context: context,
       initialDate: inicial.isBefore(hoy) ? hoy : inicial,
@@ -318,6 +327,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
       return;
     }
 
+    // Si ya había médico seleccionado, se revalida antes de aceptar la nueva hora.
     final idMedicoSeleccionado = (_idMedicoSeleccionado ?? '').trim();
     if (idMedicoSeleccionado.isNotEmpty) {
       final medicoDisponible = await _citaService.estaMedicoDisponibleEnHorario(
@@ -430,6 +440,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
       return;
     }
 
+    // Usa la mascota completa para copiar nombre/especie actuales al registro de cita.
     final mascota = _buscarMascotaPorId(idMascota);
     if (mascota == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -455,6 +466,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
       if (!mounted) {
         return;
       }
+      // Notifica a contenedores que no dependen del resultado del Navigator.
       widget.onCitaCreada?.call();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Cita creada correctamente.')),
@@ -493,6 +505,7 @@ class _TarjetaCreacionCitaState extends State<TarjetaCreacionCita> {
   // Sección: cierre seguro del diálogo
   // Evita hacer pop cuando ya no hay rutas disponibles en el Navigator.
   void _cerrarDialogoSeguro([bool? resultado]) {
+    // rootNavigator permite cerrar el dialogo aunque haya widgets internos con su contexto.
     final navigator = Navigator.of(context, rootNavigator: true);
     if (!navigator.canPop()) {
       return;

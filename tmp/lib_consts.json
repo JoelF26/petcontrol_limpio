@@ -1,0 +1,558 @@
+[
+  {
+    "path": "lib/app.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/core/constants/entidades_locales.dart",
+    "consts": [
+      "usuarios",
+      "mascotas",
+      "citas",
+      "personalMedico",
+      "preferenciaMedico",
+      "historialClinico",
+      "todas"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/core/constants/roles_usuario.dart",
+    "consts": [
+      "cliente",
+      "admin"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/core/routes/app_router.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/core/routes/rutas.dart",
+    "consts": [
+      "bienvenida",
+      "login",
+      "registro",
+      "homeCliente",
+      "homeAdmin",
+      "adminPacientes",
+      "adminCitas",
+      "adminHistorialCitas",
+      "adminPersonalMedico"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/core/routes/url_strategy.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/core/routes/url_strategy_stub.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/core/routes/url_strategy_web.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/core/theme/app_colores.dart",
+    "consts": [
+      "base00000000",
+      "base1A183325",
+      "base1FFFFFFF",
+      "base220E1C2F",
+      "base220E2A17",
+      "base22FFFFFF",
+      "base260D1A2A",
+      "base2FFFFFFF",
+      "base330E1C2F",
+      "base40000000",
+      "base44FFFFFF",
+      "base54FFFFFF",
+      "base55FFFFFF",
+      "base61000000",
+      "base88FFFFFF",
+      "base8A000000",
+      "baseD9E6F1FF",
+      "baseDBF4FFF7",
+      "baseFF000000",
+      "baseFF0E8D63",
+      "baseFF0F3457",
+      "baseFF112F4F",
+      "baseFF143B2A",
+      "baseFF143B5F",
+      "baseFF153743",
+      "baseFF153A5F",
+      "baseFF1A6549",
+      "baseFF1A6C90",
+      "baseFF1A95F7",
+      "baseFF1B664A"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/core/theme/tema_app.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/core/widgets/boton_atras.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/core/widgets/popup_detalle.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/models/correo_medico_exceptions.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/models/historial_citas_view_data.dart",
+    "consts": [
+      "estadoTodosHistorial",
+      "especieTodasHistorial",
+      "fechaTodoHistorial",
+      "estadosFiltroHistorial",
+      "especiesFiltroHistorial",
+      "fechasFiltroHistorial"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/models/home_admin_view_data.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/models/personal_medico_view_data.dart",
+    "consts": [
+      "especialidadesMedicas",
+      "jornadasMedicas",
+      "estadosMedico"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/models/vista_cita_admin_view_data.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/models/vista_pacientes_admin_view_data.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/pantallas/historial_citas.dart",
+    "consts": [],
+    "finals": [
+      "_citaService",
+      "_usuarioService",
+      "_personalMedicoService",
+      "_historialCitas"
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/home_admin.dart",
+    "consts": [
+      "_metricasVacias"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/pantallas/personal_medico.dart",
+    "consts": [],
+    "finals": [
+      "_busquedaCtrl",
+      "_personalMedicoService",
+      "_usuarioService",
+      "_personal"
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/vista_cita_admin.dart",
+    "consts": [],
+    "finals": [
+      "_citaService",
+      "_mascotaService",
+      "_usuarioService",
+      "_personalMedicoService"
+    ]
+  },
+  {
+    "path": "lib/features/admin/pantallas/vista_pacientes_admin.dart",
+    "consts": [],
+    "finals": [
+      "_mascotaService",
+      "_usuarioService",
+      "_busquedaCtrl"
+    ]
+  },
+  {
+    "path": "lib/features/admin/utils/correo_medico_helper.dart",
+    "consts": [
+      "dominioMedico"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/detalle_cita_admin_popup.dart",
+    "consts": [
+      "_estadosDisponibles"
+    ],
+    "finals": [
+      "_citaService",
+      "_formKey",
+      "_fechaHoraController",
+      "_motivoController",
+      "_descripcionController"
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/historial_citas_content.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/historial_citas_widgets.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/tarjeta_creacion_cita.dart",
+    "consts": [
+      "_motivosCitaAdminPorDefecto"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/vista_cita_admin_content.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/citas/vista_cita_admin_widgets.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/home/home_admin_content.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/home/home_admin_widgets.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/detalle_paciente_admin_popup.dart",
+    "consts": [],
+    "finals": [
+      "_mascotaService",
+      "_formKey",
+      "_nombreController",
+      "_especieController",
+      "_razaController",
+      "_edadController",
+      "_pesoController"
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/vista_pacientes_admin_content.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/pacientes/vista_pacientes_admin_widgets.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/personal_medico_content.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/personal_medico_widgets.dart",
+    "consts": [
+      "_opcionOtraEspecialidad"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/features/admin/widgets/personal_medico/popup_alias_correo_medico.dart",
+    "consts": [],
+    "finals": [
+      "_aliasCtrl"
+    ]
+  },
+  {
+    "path": "lib/features/admin/widgets/shared/admin_base_widgets.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/bienvenida_pantalla.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/login_pantalla.dart",
+    "consts": [],
+    "finals": [
+      "_authService"
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/pantallas/registro_pantalla.dart",
+    "consts": [],
+    "finals": [
+      "_authService"
+    ]
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/login/formulario_login.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/registro/formulario_registro.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/autenticacion/widgets/shared/popup_configurar_contrasena_inicial.dart",
+    "consts": [],
+    "finals": [
+      "_contrasenaCtrl",
+      "_confirmacionCtrl"
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/home_cliente.dart",
+    "consts": [
+      "_subtituloHome",
+      "_superposicionResumenes",
+      "_superposicionPaneles"
+    ],
+    "finals": [
+      "_authService",
+      "_mascotaService",
+      "_citaService"
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/mis_citas_cliente.dart",
+    "consts": [],
+    "finals": [
+      "_authService",
+      "_citaService",
+      "_mascotaService"
+    ]
+  },
+  {
+    "path": "lib/features/cliente/pantallas/mis_mascotas_cliente.dart",
+    "consts": [],
+    "finals": [
+      "_authService",
+      "_mascotaService"
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart",
+    "consts": [],
+    "finals": [
+      "_citaService",
+      "_mascotaService",
+      "_formKey",
+      "_nombreMascotaController",
+      "_especieController",
+      "_fechaHoraController",
+      "_motivoController",
+      "_descripcionController"
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/citas/tarjeta_creacion_cita.dart",
+    "consts": [
+      "_motivosDisponibles"
+    ],
+    "finals": [
+      "_formKey",
+      "_fechaHoraController",
+      "_descripcionController",
+      "_authService",
+      "_mascotaService",
+      "_citaService",
+      "_personalMedicoService"
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_mascotas_registradas_card.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_menu_flotante.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_panel_seccion.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_proximas_citas_card.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/cliente/widgets/home/home_cliente_resumen_card.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/features/cliente/widgets/mascotas/detalle_mascota_cliente_popup.dart",
+    "consts": [],
+    "finals": [
+      "_mascotaService",
+      "_formKey",
+      "_nombreController",
+      "_especieController",
+      "_razaController",
+      "_edadController",
+      "_pesoController"
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/mascotas/tarjeta_creacion_paciente.dart",
+    "consts": [],
+    "finals": [
+      "_formKey",
+      "_nombreController",
+      "_especieController",
+      "_razaController",
+      "_edadController",
+      "_pesoController",
+      "_authService",
+      "_mascotaService"
+    ]
+  },
+  {
+    "path": "lib/features/cliente/widgets/shared/home_cliente_mensaje_vacio.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/main.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/models/cita.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/models/historial_clinico.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/models/mascota.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/models/personal_medico.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/models/preferencia_medico.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/models/usuario.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/services/auth/login_access_state.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/services/auth_service.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/services/cita_service.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/services/historial_clinico_service.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/services/mascota_service.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/services/personal_medico_service.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/services/preferencia_medico_service.dart",
+    "consts": [],
+    "finals": []
+  },
+  {
+    "path": "lib/services/session_service.dart",
+    "consts": [
+      "_llaveUsuarioSesion"
+    ],
+    "finals": []
+  },
+  {
+    "path": "lib/services/storage/local_json_storage_service.dart",
+    "consts": [
+      "_llaveBase",
+      "_usuariosBase"
+    ],
+    "finals": [
+      "_instanciaCompartida",
+      "base",
+      "usuariosRaw",
+      "usuarios"
+    ]
+  },
+  {
+    "path": "lib/services/usuario_service.dart",
+    "consts": [],
+    "finals": []
+  }
+]

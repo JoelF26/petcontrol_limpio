@@ -1,16 +1,19 @@
 // Seccion: imports
 // Se importan servicios, funciones y widgets de apoyo para la vista de pacientes admin.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
-import 'package:petcontrol_limpio/core/constants/roles_usuario.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
+import 'package:petcontrol_limpio/domain/constants/roles_usuario.dart';
 import 'package:petcontrol_limpio/features/admin/models/vista_pacientes_admin_view_data.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/pacientes/detalle_paciente_admin_popup.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/pacientes/tarjeta_creacion_paciente.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/pacientes/vista_pacientes_admin_content.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/pacientes/vista_pacientes_admin_widgets.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 
 // Seccion: pantalla de pacientes admin
 // Muestra mascotas registradas y permite crear nuevas desde el modulo admin.
@@ -24,33 +27,40 @@ class VistaPacientesAdmin extends StatefulWidget {
 class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
   // Seccion: dependencias y estado local
   // Manejan carga de datos, busqueda y persistencia desde formulario.
-  final MascotaService _mascotaService = MascotaService();
-  final UsuarioService _usuarioService = UsuarioService();
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
+  final UsuarioService _usuarioService = AppDependencies.usuarioService;
   final TextEditingController _busquedaCtrl = TextEditingController();
 
   bool _cargando = true;
   String? _errorCarga;
   List<PacienteVistaAdmin> _pacientes = const <PacienteVistaAdmin>[];
+  final List<StreamSubscription<dynamic>> _suscripciones = [];
 
   @override
   void initState() {
     super.initState();
     _cargarPacientes();
+    _suscribirTiempoReal();
   }
 
   @override
   void dispose() {
+    for (final suscripcion in _suscripciones) {
+      suscripcion.cancel();
+    }
     _busquedaCtrl.dispose();
     super.dispose();
   }
 
   // Seccion: carga de backend
-  // Recupera pacientes y actualiza estado visual.
-  Future<void> _cargarPacientes() async {
-    setState(() {
-      _cargando = true;
-      _errorCarga = null;
-    });
+  // Combina mascotas con usuarios para mostrar dueño, especie y métricas del listado.
+  Future<void> _cargarPacientes({bool mostrarCarga = true}) async {
+    if (mostrarCarga) {
+      setState(() {
+        _cargando = true;
+        _errorCarga = null;
+      });
+    }
 
     try {
       final pacientes = await VistaPacientesAdminFunciones.cargarPacientes(
@@ -78,6 +88,18 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
     }
   }
 
+  void _suscribirTiempoReal() {
+    void recargar(_) {
+      if (mounted) {
+        _cargarPacientes(mostrarCarga: false);
+      }
+    }
+
+    _suscripciones
+      ..add(_mascotaService.observarMascotas().listen(recargar))
+      ..add(_usuarioService.observarUsuarios().listen(recargar));
+  }
+
   // Seccion: filtros y metricas
   // Derivan lista visible y resumen de especies.
   List<PacienteVistaAdmin> get _pacientesFiltrados {
@@ -99,11 +121,13 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
       return;
     }
 
+    // Solo los usuarios finales pueden figurar como dueños de mascotas nuevas.
     final usuariosFinales = usuarios.where((usuario) {
       final rol = usuario.rol.trim().toLowerCase();
       return rol == RolesUsuario.cliente || rol == 'usuario';
     });
 
+    // El formulario recibe una lista compacta y ordenada para el selector de dueño.
     final usuariosRegistrados =
         usuariosFinales
             .map(
@@ -131,6 +155,7 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
       return;
     }
 
+    // El dialogo no registra por sí solo: entrega los datos al callback de esta pantalla.
     await showGeneralDialog<void>(
       context: context,
       barrierLabel: 'registro_paciente',
@@ -189,6 +214,7 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
       if (!mounted) {
         return;
       }
+      // Se usa el navigator raíz para cerrar el popup aunque el callback venga del formulario.
       final navigator = Navigator.of(context, rootNavigator: true);
       if (navigator.canPop()) {
         navigator.pop();
@@ -196,6 +222,7 @@ class _VistaPacientesAdminState extends State<VistaPacientesAdmin> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Paciente registrado correctamente.')),
       );
+      // Recarga para que la nueva mascota aparezca sin depender de mutar la lista a mano.
       await _cargarPacientes();
     } on FormatException catch (error) {
       if (!mounted) {

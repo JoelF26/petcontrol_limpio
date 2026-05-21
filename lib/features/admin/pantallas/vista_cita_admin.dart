@@ -1,22 +1,25 @@
 // Seccion: imports
 // Se importan servicios, funciones y widgets reutilizables de citas admin.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/features/admin/models/vista_cita_admin_view_data.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/shared/admin_base_widgets.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/detalle_cita_admin_popup.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/tarjeta_creacion_cita.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/vista_cita_admin_content.dart';
 import 'package:petcontrol_limpio/features/admin/widgets/citas/vista_cita_admin_widgets.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
-import 'package:petcontrol_limpio/models/personal_medico.dart';
-import 'package:petcontrol_limpio/models/usuario.dart';
-import 'package:petcontrol_limpio/services/catalogos_json_service.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
-import 'package:petcontrol_limpio/services/personal_medico_service.dart';
-import 'package:petcontrol_limpio/services/usuario_service.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/personal_medico.dart';
+import 'package:petcontrol_limpio/domain/entities/usuario.dart';
+import 'package:petcontrol_limpio/application/services/catalogos_json_service.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
+import 'package:petcontrol_limpio/application/services/personal_medico_service.dart';
+import 'package:petcontrol_limpio/application/services/usuario_service.dart';
 
 // Seccion: pantalla de citas admin
 // Muestra agenda completa y permite registrar citas nuevas.
@@ -30,11 +33,13 @@ class VistaCitaAdmin extends StatefulWidget {
 class _VistaCitaAdminState extends State<VistaCitaAdmin> {
   // Seccion: dependencias y estado local
   // Mantiene cache de datos y estado de carga para la pantalla.
-  final CitaService _citaService = CitaService();
-  final CatalogosJsonService _catalogosService = CatalogosJsonService();
-  final MascotaService _mascotaService = MascotaService();
-  final UsuarioService _usuarioService = UsuarioService();
-  final PersonalMedicoService _personalMedicoService = PersonalMedicoService();
+  final CitaService _citaService = AppDependencies.citaService;
+  final CatalogosJsonService _catalogosService =
+      AppDependencies.catalogosJsonService;
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
+  final UsuarioService _usuarioService = AppDependencies.usuarioService;
+  final PersonalMedicoService _personalMedicoService =
+      AppDependencies.personalMedicoService;
 
   bool _cargando = true;
   String? _errorCarga;
@@ -43,22 +48,27 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
   List<String> _estadosCreacionCitaAdmin = const <String>[];
   Map<String, Usuario> _usuariosPorId = const <String, Usuario>{};
   Map<String, PersonalMedico> _medicosPorId = const <String, PersonalMedico>{};
+  final List<StreamSubscription<dynamic>> _suscripciones = [];
 
   @override
   void initState() {
     super.initState();
     _cargarDatos();
+    _suscribirTiempoReal();
   }
 
   // Seccion: carga de datos
-  // Recupera toda la informacion necesaria para renderizar agenda admin.
-  Future<void> _cargarDatos() async {
-    setState(() {
-      _cargando = true;
-      _errorCarga = null;
-    });
+  // Trae agenda, mascotas, usuarios, médicos y catálogos en paralelo.
+  Future<void> _cargarDatos({bool mostrarCarga = true}) async {
+    if (mostrarCarga) {
+      setState(() {
+        _cargando = true;
+        _errorCarga = null;
+      });
+    }
 
     try {
+      // Future.wait mantiene la pantalla en un único estado de carga hasta tener todo.
       final resultados = await Future.wait<dynamic>([
         VistaCitaAdminFunciones.cargarDatos(
           citaService: _citaService,
@@ -101,6 +111,28 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
     }
   }
 
+  void _suscribirTiempoReal() {
+    void recargar(_) {
+      if (mounted) {
+        _cargarDatos(mostrarCarga: false);
+      }
+    }
+
+    _suscripciones
+      ..add(_citaService.observarCitas().listen(recargar))
+      ..add(_mascotaService.observarMascotas().listen(recargar))
+      ..add(_usuarioService.observarUsuarios().listen(recargar))
+      ..add(_personalMedicoService.observarPersonalMedico().listen(recargar));
+  }
+
+  @override
+  void dispose() {
+    for (final suscripcion in _suscripciones) {
+      suscripcion.cancel();
+    }
+    super.dispose();
+  }
+
   // Seccion: bloques de agenda
   // Obtiene listas para hoy y proximas segun fecha de cita.
   List<Cita> get _citasHoy => VistaCitaAdminFunciones.citasHoy(_citas);
@@ -111,6 +143,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
   // Seccion: registro de cita
   // Abre el formulario admin e inyecta usuarios/mascotas reales.
   Future<void> _abrirRegistroCita() async {
+    // Convierte mapas/cache internos en DTOs pequeños que entiende el formulario.
     final usuariosFormulario =
         VistaCitaAdminFunciones.construirUsuariosFormulario(_usuariosPorId);
     final mascotasFormulario =
@@ -118,6 +151,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
     final medicosFormulario =
         VistaCitaAdminFunciones.construirMedicosFormulario(_medicosPorId);
 
+    // El formulario queda desacoplado de servicios; solo devuelve CitaCreacionData.
     await showGeneralDialog<void>(
       context: context,
       barrierLabel: 'registro_cita',
@@ -170,6 +204,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
   Future<void> _registrarCitaDesdeDialogo({
     required CitaCreacionData data,
   }) async {
+    // Se valida contra la lista cargada para evitar crear citas con mascotas inexistentes.
     final mascotaSeleccionada = VistaCitaAdminFunciones.buscarMascotaPorId(
       _mascotas,
       data.idMascota,
@@ -183,18 +218,20 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
     }
 
     try {
-      await _citaService.crearCitaCliente(
+      await _citaService.crearCitaAdmin(
         idUsuario: data.idUsuario,
         mascota: mascotaSeleccionada,
         motivo: data.motivo,
         descripcion: data.descripcion,
         fechaHora: data.fechaHora,
         idMedico: data.idMedico,
+        estado: data.estado,
       );
 
       if (!mounted) {
         return;
       }
+      // Cierra el dialogo activo antes de refrescar la agenda de fondo.
       final navigator = Navigator.of(context, rootNavigator: true);
       if (navigator.canPop()) {
         navigator.pop();
@@ -202,13 +239,21 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Cita registrada correctamente.')),
       );
+      // Refresca todas las relaciones porque una cita impacta resúmenes y bloques.
       await _cargarDatos();
-    } catch (_) {
+    } on StateError catch (error) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message)));
+    } catch (error) {
       if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No se pudo registrar la cita.')),
+        SnackBar(content: Text('No se pudo registrar la cita: $error')),
       );
     }
   }
@@ -231,6 +276,7 @@ class _VistaCitaAdminState extends State<VistaCitaAdmin> {
     if (!mounted || !actualizada) {
       return;
     }
+    // Si el popup guardó cambios, se recalculan bloques "hoy" y "próximas".
     await _cargarDatos();
   }
 

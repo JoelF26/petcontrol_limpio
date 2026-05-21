@@ -1,14 +1,17 @@
 // Sección: imports
 // Se importan modelos, servicios y tarjeta de creación para conectar la vista con backend.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
+import 'package:petcontrol_limpio/core/di/app_dependencies.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/citas/detalle_cita_cliente_popup.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/citas/tarjeta_creacion_cita.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/citas/mis_citas/mis_citas_cliente_widgets.dart';
-import 'package:petcontrol_limpio/models/cita.dart';
-import 'package:petcontrol_limpio/services/auth_service.dart';
-import 'package:petcontrol_limpio/services/cita_service.dart';
-import 'package:petcontrol_limpio/services/mascota_service.dart';
+import 'package:petcontrol_limpio/domain/entities/cita.dart';
+import 'package:petcontrol_limpio/application/services/auth_service.dart';
+import 'package:petcontrol_limpio/application/services/cita_service.dart';
+import 'package:petcontrol_limpio/application/services/mascota_service.dart';
 
 // Sección: pantalla de citas del cliente
 // Muestra todas las citas del usuario autenticado y permite registrar nuevas.
@@ -24,9 +27,9 @@ class MisCitasCliente extends StatefulWidget {
 class _MisCitasClienteState extends State<MisCitasCliente> {
   // Sección: servicios de backend
   // Se reutilizan para obtener usuario actual, citas y conteo de mascotas.
-  final AuthService _authService = AuthService();
-  final CitaService _citaService = CitaService();
-  final MascotaService _mascotaService = MascotaService();
+  final AuthService _authService = AppDependencies.authService;
+  final CitaService _citaService = AppDependencies.citaService;
+  final MascotaService _mascotaService = AppDependencies.mascotaService;
 
   // Sección: estado principal de la vista
   // Guarda datos del usuario y resultados para renderizar UI dinámica.
@@ -34,6 +37,7 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
   String _nombreCliente = 'Cliente';
   int _totalMascotas = 0;
   List<Cita> _citas = const <Cita>[];
+  StreamSubscription<List<Cita>>? _citasSubscription;
 
   // Sección: inicialización de pantalla
   // Carga datos del usuario y su agenda al abrir la vista.
@@ -64,6 +68,7 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
         return;
       }
 
+      // Citas y conteo de mascotas no dependen entre sí, por eso se consultan juntas.
       final resultados = await Future.wait<dynamic>([
         _citaService.obtenerCitasPorUsuario(idUsuario),
         _mascotaService.contarMascotasPorUsuario(idUsuario),
@@ -74,12 +79,14 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
       if (!mounted) {
         return;
       }
+      // Si falla la lectura local, la vista queda vacía y sin bloquear navegación.
       setState(() {
         _nombreCliente = nombre;
         _totalMascotas = totalMascotas;
         _citas = citas;
         _cargando = false;
       });
+      _suscribirCitas(idUsuario);
     } catch (_) {
       if (!mounted) {
         return;
@@ -91,6 +98,29 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
         _cargando = false;
       });
     }
+  }
+
+  void _suscribirCitas(String idUsuario) {
+    _citasSubscription?.cancel();
+    _citasSubscription = _citaService.observarCitas().listen((citas) {
+      if (!mounted) {
+        return;
+      }
+      final filtradas = _citaService.filtrarCitasVisiblesPorUsuario(
+        citas,
+        idUsuario,
+      );
+      setState(() {
+        _citas = filtradas;
+        _cargando = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _citasSubscription?.cancel();
+    super.dispose();
   }
 
   // Sección: id de usuario para consultas
@@ -145,6 +175,7 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
       },
     );
 
+    // El popup retorna true solo cuando CitaService terminó de guardar.
     if (creada == true) {
       await _cargarDatos();
     }
@@ -157,6 +188,7 @@ class _MisCitasClienteState extends State<MisCitasCliente> {
       return;
     }
     final actualizada = await mostrarDetalleCitaCliente(context, cita);
+    // Recarga porque el detalle puede editar, cancelar o reprogramar la cita.
     if (actualizada) {
       await _cargarDatos();
     }

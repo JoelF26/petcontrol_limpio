@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcontrol_limpio/core/theme/app_colores.dart';
 import 'package:petcontrol_limpio/features/cliente/widgets/citas/creacion/medico_cita_item.dart';
-import 'package:petcontrol_limpio/models/mascota.dart';
+import 'package:petcontrol_limpio/domain/entities/mascota.dart';
 
 class FormularioCreacionCitaContent extends StatelessWidget {
   const FormularioCreacionCitaContent({
